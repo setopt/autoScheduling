@@ -10,8 +10,8 @@ namespace SchedulingConsole
     {
         static void Main(string[] args)
         {
-            for(int i=0;i<5;i++)
-                Console.WriteLine("Хоп хэй халалэй");
+            for(int i=0;i<10;i++)
+                Console.WriteLine("Plfhjdf");
 
             Console.ReadKey();
         }
