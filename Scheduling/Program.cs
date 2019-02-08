@@ -11,7 +11,7 @@ namespace Scheduling
         static void Main(string[] args)
         {
             Console.WriteLine("fdgdfg");
-            Console.WriteLine();
+            Console.ReadKey();
         }
     }
 }
