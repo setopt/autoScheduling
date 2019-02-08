@@ -10,8 +10,7 @@ namespace Schedul
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello lalala");
-            Console.ReadKey();
+            Console.WriteLine("Hello ");
         }
     }
 }
