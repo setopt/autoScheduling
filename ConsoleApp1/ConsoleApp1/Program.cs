@@ -4,13 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Schedul
+namespace ConsoleApp1
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello world");
+            
+            int a;
+            a = 5;
+            Console.WriteLine("" ,a, Math.Pow(a, 2));
+            Console.ReadLine();
         }
+        
     }
 }
