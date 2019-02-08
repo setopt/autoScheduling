@@ -10,7 +10,8 @@ namespace Scheduling
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("fdgdfg hello lflg");
+            Console.WriteLine("fdgdfg");
+            Console.ReadKey();
         }
     }
 }
