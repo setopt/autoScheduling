@@ -55,4 +55,11 @@ namespace SchedulingService
 
         //Name,Surname,Patronymic,Login,Password,Role
     }
+
+    public class Room
+    {
+        public int ID_Room;
+        public string Number;
+        public int Roominess;
+    }
 }
