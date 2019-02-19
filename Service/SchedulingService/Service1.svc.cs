@@ -13,7 +13,7 @@ namespace SchedulingService
     public class Service1 : IService1
     {
         readonly string connectionString = @"Data Source= ";
-
+        //class User
         public List<User> SelectUser()
         {
             string sql= "SELECT ID_User as [ID]," +
@@ -41,6 +41,8 @@ namespace SchedulingService
         {
             string sql = "DELETE FROM [User] WHERE [User].ID_User = @id";
         }
+
+        //class Group
     }
 
     public class User
@@ -62,4 +64,6 @@ namespace SchedulingService
         public string Number;
         public int Roominess;
     }
+
+
 }
