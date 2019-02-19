@@ -1,0 +1,7 @@
+C:\Users\Наталья\Documents\GitHub\autoScheduling\Service\SchedulingService\bin\SchedulingService.dll.config
+C:\Users\Наталья\Documents\GitHub\autoScheduling\Service\SchedulingService\bin\SchedulingService.dll
+C:\Users\Наталья\Documents\GitHub\autoScheduling\Service\SchedulingService\bin\SchedulingService.pdb
+C:\Users\Наталья\Documents\GitHub\autoScheduling\Service\SchedulingService\obj\Debug\SchedulingService.csprojAssemblyReference.cache
+C:\Users\Наталья\Documents\GitHub\autoScheduling\Service\SchedulingService\obj\Debug\SchedulingService.csproj.CoreCompileInputs.cache
+C:\Users\Наталья\Documents\GitHub\autoScheduling\Service\SchedulingService\obj\Debug\SchedulingService.dll
+C:\Users\Наталья\Documents\GitHub\autoScheduling\Service\SchedulingService\obj\Debug\SchedulingService.pdb

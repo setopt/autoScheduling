@@ -68,6 +68,32 @@ namespace SchedulingService
         {
             string sql = "DELETE FROM [Room] WHERE [Room].ID_Room = @id";
         }
+
+        //ClassSubject
+        public List<Subject> SelectSubject()
+        {
+            string sql = "SELECT ID_Subject as [ID]," +
+                            "Name as [Предмет]," +
+                        "FROM [Subject]";
+            return null;
+        }
+
+
+        public void AddSubject(Subject subject)
+        {
+            string sql = "INSERT INTO [Subject](Name) VALUES ('w')";
+        }
+
+        public void UpdateSubject(Subject subject)
+        {
+            string sql = "UPDATE [Subject] SET Name = '' WHERE [Subject].ID_Subject = 2;";
+        }
+
+        public void DeleteSubject(int id)
+        {
+            string sql = "DELETE FROM [Subject] WHERE [Subject].ID_Subject = @id";
+        }
+
     }
 
     public class User
@@ -88,6 +114,12 @@ namespace SchedulingService
         public int ID_Room;
         public string Number;
         public int Roominess;
+    }
+
+    public class Subject
+    {
+        public int ID_Subject;
+        public string Name;
     }
 
 
