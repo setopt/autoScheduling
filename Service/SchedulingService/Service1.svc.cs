@@ -51,6 +51,22 @@ namespace SchedulingService
                         "FROM [Group]";
             return null;
         }
+
+        public void AddGroup(Group group)
+        {
+            string sql = "INSERT INTO [Group](Name, Number) VALUES ('w','w')";
+        }
+
+        public void UpdateGroup(Group group)
+        {
+            string sql = "UPDATE [Group] SET Name = '', Number = '' WHERE [Group].ID_Group = 2;";
+        }
+
+        public void DeleteGroup(int id)
+        {
+            string sql = "DELETE FROM [Group] WHERE [Group].ID_Group = @id";
+        }
+
         //class Room
         public List<Room> SelectRoom()
         {
