@@ -88,8 +88,6 @@ namespace SchedulingService
         public int ID_Room;
         public string Number;
         public int Roominess;
-
-        public string CAR;
     }
 
 
