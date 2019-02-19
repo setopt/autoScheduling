@@ -43,7 +43,14 @@ namespace SchedulingService
         }
 
         //class Group
-
+        public List<Group> SelectGroup()
+        {
+            string sql = "SELECT ID_Group as [ID]," +
+                            "Name as [Название группы]," +
+                            "Number as [Номер группы]," +
+                        "FROM [Group]";
+            return null;
+        }
         //class Room
         public List<Room> SelectRoom()
         {
@@ -90,5 +97,11 @@ namespace SchedulingService
         public int Roominess;
     }
 
-
+    public class Group
+    {
+        public int ID_Group;
+        public string Name;
+        public int Number;
+    }
+   
 }
