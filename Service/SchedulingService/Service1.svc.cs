@@ -43,6 +43,16 @@ namespace SchedulingService
         }
 
         //class Group
+
+        //class Room
+        public List<Room> SelectRoom()
+        {
+            string sql = "SELECT ID_Room as [ID]," +
+                            "Number as [Аудитория]," +
+                            "Roominess as [Вместимость]," +
+                        "FROM [Room]";
+            return null;
+        }
     }
 
     public class User
