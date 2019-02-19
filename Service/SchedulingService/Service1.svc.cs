@@ -53,6 +53,21 @@ namespace SchedulingService
                         "FROM [Room]";
             return null;
         }
+
+        public void AddRoom(Room room)
+        {
+            string sql = "INSERT INTO [Room](Number, Roominess) VALUES ('w','w')";
+        }
+
+        public void UpdateRoom(Room room)
+        {
+            string sql = "UPDATE [Room] SET Number = '',Roominess= '' WHERE [Room].ID_Room = 2;";
+        }
+
+        public void DeleteRoom(int id)
+        {
+            string sql = "DELETE FROM [Room] WHERE [Room].ID_Room = @id";
+        }
     }
 
     public class User
