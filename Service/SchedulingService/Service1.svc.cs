@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -12,7 +13,7 @@ namespace SchedulingService
     // ПРИМЕЧАНИЕ. Чтобы запустить клиент проверки WCF для тестирования службы, выберите элементы Service1.svc или Service1.svc.cs в обозревателе решений и начните отладку.
     public class Service1 : IService1
     {
-        readonly string connectionString = @"Data Source= ";
+        readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\tokin\Documents\GitHub\autoScheduling\Service\SchedulingService\App_Data\db_schedule.mdf;Integrated Security=True";
         //class User
         public List<User> SelectUser()
         {
@@ -24,23 +25,188 @@ namespace SchedulingService
                             "Password as [Пароль]," +
                             "Role as [Роль]" +
                         "FROM [User]";
-            return null;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+                
+
+                var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    List<User> Users = new List<User>();
+
+                    while (reader.Read())
+                    {
+                        User user = new User
+                        {
+                            ID_User = reader.GetInt32(0),
+                            Name = reader.GetString(1),
+                            Surname = reader.GetString(1),
+                            Patronymic = reader.GetString(1),
+                            Login = reader.GetString(1),
+                            Password = reader.GetString(1),
+                            Role = reader.GetString(1),
+                        };
+
+                        Users.Add(user);
+                    }
+                    return Users;
+                }
+                else
+                {
+                    return null;//Name,Surname,Patronymic,Login,Password,Role
+                }
+
+            }
         }
 
         public void AddUser(User user)
         {
-            string sql = "INSERT INTO [User](Name,Surname,Patronymic,Login,Password,Role) VALUES ('w','w','w','w','w','w')";
+            string sql = "INSERT INTO [User](Name,Surname,Patronymic,Login,Password,Role) VALUES (@Name,@Surname,@Patronymic,@Login,@Password,@Role)";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                
+
+                SqlParameter NameParam = new SqlParameter
+                {
+                    ParameterName = "@Name",
+                    Value = user.Name
+                };
+                command.Parameters.Add(NameParam);
+
+
+                SqlParameter SurnameParam = new SqlParameter
+                {
+                    ParameterName = "@Surname",
+                    Value = user.Surname
+                };
+                command.Parameters.Add(SurnameParam);
+
+                SqlParameter PatronymicParam = new SqlParameter
+                {
+                    ParameterName = "@Patronymic",
+                    Value = user.Patronymic
+                };
+                command.Parameters.Add(PatronymicParam);
+
+                SqlParameter LoginParam = new SqlParameter
+                {
+                    ParameterName = "@Login",
+                    Value = user.Login
+                };
+                command.Parameters.Add(LoginParam);
+
+                SqlParameter PasswordParam = new SqlParameter
+                {
+                    ParameterName = "@Password",
+                    Value = user.Password
+                };
+                command.Parameters.Add(PasswordParam);
+
+                SqlParameter RoleParam = new SqlParameter
+                {
+                    ParameterName = "@Role",
+                    Value = user.Role
+                };
+                command.Parameters.Add(RoleParam);
+
+                var result = command.ExecuteScalar();
+                connection.Close();
+            }
         }
 
         public void UpdateUser(User user)
         {
-            string sql = "UPDATE [User] SET Name = '',Surname= '',Patronymic= '',Login= '',Password= '',Role= '' WHERE [User].ID_User = 2;";
+            string sql = "UPDATE [User] SET Name = @Name,Surname = @Surname,Patronymic= @Patronymic, Login= @Login, Password= @Password,Role= @Role WHERE [User].ID_User = @ID;";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                SqlParameter IDParam = new SqlParameter
+                {
+                    ParameterName = "@ID",
+                    Value = user.ID_User
+                };
+                command.Parameters.Add(IDParam);
+
+                SqlParameter NameParam = new SqlParameter
+                {
+                    ParameterName = "@Name",
+                    Value = user.Name
+                };
+                command.Parameters.Add(NameParam);
+
+
+                SqlParameter SurnameParam = new SqlParameter
+                {
+                    ParameterName = "@Surname",
+                    Value = user.Surname
+                };
+                command.Parameters.Add(SurnameParam);
+
+                SqlParameter PatronymicParam = new SqlParameter
+                {
+                    ParameterName = "@Patronymic",
+                    Value = user.Patronymic
+                };
+                command.Parameters.Add(PatronymicParam);
+
+                SqlParameter LoginParam = new SqlParameter
+                {
+                    ParameterName = "@Login",
+                    Value = user.Login
+                };
+                command.Parameters.Add(LoginParam);
+
+                SqlParameter PasswordParam = new SqlParameter
+                {
+                    ParameterName = "@Password",
+                    Value = user.Password
+                };
+                command.Parameters.Add(PasswordParam);
+
+                SqlParameter RoleParam = new SqlParameter
+                {
+                    ParameterName = "@Role",
+                    Value = user.Role
+                };
+                command.Parameters.Add(RoleParam);
+
+                var result = command.ExecuteScalar();
+                connection.Close();
+            }
         }
 
         public void DeleteUser(int id)
         {
-            string sql = "DELETE FROM [User] WHERE [User].ID_User = @id";
+            string sql = "DELETE FROM [User] WHERE [User].ID_User = @ID";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                SqlParameter IDParam = new SqlParameter
+                {
+                    ParameterName = "@ID",
+                    Value = id
+                };
+                command.Parameters.Add(IDParam);
+
+                
+
+                var result = command.ExecuteScalar();
+                connection.Close();
+            }
+
         }
+
+
 
         //class Group
         public List<Group> SelectGroup()
@@ -103,7 +269,7 @@ namespace SchedulingService
         public string Password;
         public string Role;
 
-        //Name,Surname,Patronymic,Login,Password,Role
+        
     }
 
     public class Room
@@ -118,6 +284,15 @@ namespace SchedulingService
         public int ID_Group;
         public string Name;
         public int Number;
+    }
+
+    public class Order
+    {
+        public int ID_Order;
+        public int User_ID;
+        public int Subject_ID;
+        public int Group_ID;
+        public int NumberLessons;
     }
    
 }
