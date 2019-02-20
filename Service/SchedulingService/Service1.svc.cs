@@ -80,7 +80,6 @@ namespace SchedulingService
                 };
                 command.Parameters.Add(NameParam);
 
-
                 SqlParameter SurnameParam = new SqlParameter
                 {
                     ParameterName = "@Surname",
@@ -326,8 +325,31 @@ namespace SchedulingService
 
         public void AddRoom(Room room)
         {
-            string sql = "INSERT INTO [Room](Number, Roominess) VALUES ('w','w')";
+            string sql = "INSERT INTO [Room](Number, Roominess) VALUES (@Number,@Roominess)";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                SqlParameter NameParam = new SqlParameter
+                {
+                    ParameterName = "@Number",
+                    Value = room.Number
+                };
+                command.Parameters.Add(NameParam);
+
+                SqlParameter SurnameParam = new SqlParameter
+                {
+                    ParameterName = "@Roominess",
+                    Value = room.Roominess
+                };
+                command.Parameters.Add(SurnameParam);
+
+                var result = command.ExecuteScalar();
+                connection.Close();
+            }
         }
+    }
 
         public void UpdateRoom(Room room)
         {
