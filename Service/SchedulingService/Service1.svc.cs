@@ -295,7 +295,40 @@ namespace SchedulingService
                             "Number as [Аудитория]," +
                             "Roominess as [Вместимость]," +
                         "FROM [Room]";
-            return null;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    List<Room> Rooms = new List<Room>();
+
+                    while (reader.Read())
+                    {
+                        Room room = new Room
+                        {
+                            ID_Room = reader.GetInt32(0),
+                            Number = reader.GetString(1),
+                            Roominess = reader.GetInt32(1),
+                        };
+
+                        Rooms.Add(room);
+                    }
+                    connection.Close();
+
+                    return Rooms;
+
+                }
+                else
+                {
+                    connection.Close();
+                    return null;
+                }
+            }
         }
 
         public void AddRoom(Room room)
@@ -323,8 +356,6 @@ namespace SchedulingService
         public string Login;
         public string Password;
         public string Role;
-
-        
     }
 
     public class Room
