@@ -331,29 +331,57 @@ namespace SchedulingService
                 connection.Open();
                 SqlCommand command = new SqlCommand(sql, connection);
 
-                SqlParameter NameParam = new SqlParameter
+                SqlParameter NumberParam = new SqlParameter
                 {
                     ParameterName = "@Number",
                     Value = room.Number
                 };
-                command.Parameters.Add(NameParam);
+                command.Parameters.Add(NumberParam);
 
-                SqlParameter SurnameParam = new SqlParameter
+                SqlParameter RoominessParam = new SqlParameter
                 {
                     ParameterName = "@Roominess",
                     Value = room.Roominess
                 };
-                command.Parameters.Add(SurnameParam);
+                command.Parameters.Add(RoominessParam);
 
                 var result = command.ExecuteScalar();
                 connection.Close();
             }
         }
-    }
-
+    
         public void UpdateRoom(Room room)
         {
             string sql = "UPDATE [Room] SET Number = '',Roominess= '' WHERE [Room].ID_Room = 2;";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                SqlParameter IDParam = new SqlParameter
+                {
+                    ParameterName = "@ID",
+                    Value = room.ID_User
+                };
+                command.Parameters.Add(IDParam);
+
+                SqlParameter NumberParam = new SqlParameter
+                {
+                    ParameterName = "@Number",
+                    Value = room.Number
+                };
+                command.Parameters.Add(NumberParam);
+
+                SqlParameter RoominessParam = new SqlParameter
+                {
+                    ParameterName = "@Roominess",
+                    Value = room.Roominess
+                };
+                command.Parameters.Add(RoominessParam);
+
+                var result = command.ExecuteScalar();
+                connection.Close();
+            }
         }
 
         public void DeleteRoom(int id)
