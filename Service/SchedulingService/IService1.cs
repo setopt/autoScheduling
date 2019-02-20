@@ -22,7 +22,10 @@ namespace SchedulingService
 
         [OperationContract]
         void DeleteUser(int id);
-        
+
+        [OperationContract]
+        User FindByIDUser(int id);
+
     }
 
 

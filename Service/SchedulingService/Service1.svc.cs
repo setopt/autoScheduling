@@ -14,6 +14,7 @@ namespace SchedulingService
     public class Service1 : IService1
     {
         readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\tokin\Documents\GitHub\autoScheduling\Service\SchedulingService\App_Data\db_schedule.mdf;Integrated Security=True";
+        
         //class User
         public List<User> SelectUser()
         {
@@ -32,6 +33,7 @@ namespace SchedulingService
                 
 
                 var reader = command.ExecuteReader();
+                
 
                 if (reader.HasRows)
                 {
@@ -52,12 +54,18 @@ namespace SchedulingService
 
                         Users.Add(user);
                     }
+                    connection.Close();
+
                     return Users;
+
                 }
                 else
                 {
+                    connection.Close();
                     return null;//Name,Surname,Patronymic,Login,Password,Role
                 }
+
+               
 
             }
         }
@@ -198,7 +206,7 @@ namespace SchedulingService
                 };
                 command.Parameters.Add(IDParam);
 
-                
+
 
                 var result = command.ExecuteScalar();
                 connection.Close();
@@ -206,7 +214,54 @@ namespace SchedulingService
 
         }
 
+        public User FindByIDUser(int id)
+        {
+            string sql = "SELECT * From [User] WHERE ID_User =@ID";
 
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                SqlParameter IDParam = new SqlParameter
+                {
+                    ParameterName = "@ID",
+                    Value = id
+                };
+                command.Parameters.Add(IDParam);
+
+                var reader = command.ExecuteReader();
+
+
+                if (reader.HasRows)
+                {
+                    User user = new User();
+                    while (reader.Read())
+                    {
+                       
+                            user.ID_User = reader.GetInt32(0);
+                            user.Name = reader.GetString(1);
+                            user.Surname = reader.GetString(1);
+                            user.Patronymic = reader.GetString(1);
+                            user.Login = reader.GetString(1);
+                            user.Password = reader.GetString(1);
+                            user.Role = reader.GetString(1);
+                        
+                    }
+                    connection.Close();
+
+                    return user;
+
+                }
+                else
+                {
+                    connection.Close();
+                    return null;//Name,Surname,Patronymic,Login,Password,Role
+
+                }
+            }
+        }
+        
 
         //class Group
         public List<Group> SelectGroup()
