@@ -30,10 +30,8 @@ namespace SchedulingService
             {
                 connection.Open();
                 SqlCommand command = new SqlCommand(sql, connection);
-                
 
-                var reader = command.ExecuteReader();
-                
+                var reader = command.ExecuteReader();            
 
                 if (reader.HasRows)
                 {
@@ -64,9 +62,6 @@ namespace SchedulingService
                     connection.Close();
                     return null;//Name,Surname,Patronymic,Login,Password,Role
                 }
-
-               
-
             }
         }
 
@@ -77,8 +72,6 @@ namespace SchedulingService
             {
                 connection.Open();
                 SqlCommand command = new SqlCommand(sql, connection);
-
-                
 
                 SqlParameter NameParam = new SqlParameter
                 {
