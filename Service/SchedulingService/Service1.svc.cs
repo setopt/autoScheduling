@@ -198,12 +198,9 @@ namespace SchedulingService
                 };
                 command.Parameters.Add(IDParam);
 
-
-
                 var result = command.ExecuteScalar();
                 connection.Close();
             }
-
         }
 
         public User FindByIDUser(int id)
@@ -280,6 +277,7 @@ namespace SchedulingService
             string sql = "DELETE FROM [Group] WHERE [Group].ID_Group = @id";
         }
 
+
         //class Room
         public List<Room> SelectRoom()
         {
@@ -352,7 +350,7 @@ namespace SchedulingService
     
         public void UpdateRoom(Room room)
         {
-            string sql = "UPDATE [Room] SET Number = '',Roominess= '' WHERE [Room].ID_Room = 2;";
+            string sql = "UPDATE [Room] SET Number = '',Roominess= '' WHERE [Room].ID_Room = @ID;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -361,7 +359,7 @@ namespace SchedulingService
                 SqlParameter IDParam = new SqlParameter
                 {
                     ParameterName = "@ID",
-                    Value = room.ID_User
+                    Value = room.ID_Room
                 };
                 command.Parameters.Add(IDParam);
 
@@ -386,7 +384,22 @@ namespace SchedulingService
 
         public void DeleteRoom(int id)
         {
-            string sql = "DELETE FROM [Room] WHERE [Room].ID_Room = @id";
+            string sql = "DELETE FROM [Room] WHERE [Room].ID_Room = @ID";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                SqlParameter IDParam = new SqlParameter
+                {
+                    ParameterName = "@ID",
+                    Value = id
+                };
+                command.Parameters.Add(IDParam);
+
+                var result = command.ExecuteScalar();
+                connection.Close();
+            }
         }
     }
 
