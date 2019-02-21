@@ -226,16 +226,14 @@ namespace SchedulingService
                 {
                     User user = new User();
                     while (reader.Read())
-                    {
-                       
-                            user.ID_User = reader.GetInt32(0);
-                            user.Name = reader.GetString(1);
-                            user.Surname = reader.GetString(1);
-                            user.Patronymic = reader.GetString(1);
-                            user.Login = reader.GetString(1);
-                            user.Password = reader.GetString(1);
-                            user.Role = reader.GetString(1);
-                        
+                    {                     
+                        user.ID_User = reader.GetInt32(0);
+                        user.Name = reader.GetString(1);
+                        user.Surname = reader.GetString(1);
+                        user.Patronymic = reader.GetString(1);
+                        user.Login = reader.GetString(1);
+                        user.Password = reader.GetString(1);
+                        user.Role = reader.GetString(1);                      
                     }
                     connection.Close();
 
@@ -246,7 +244,6 @@ namespace SchedulingService
                 {
                     connection.Close();
                     return null;//Name,Surname,Patronymic,Login,Password,Role
-
                 }
             }
         }
@@ -402,6 +399,45 @@ namespace SchedulingService
             }
         }
 
+        public Room FindByIDRoom(int id)
+        {
+            string sql = "SELECT * From [Room] WHERE ID_Room =@ID";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                SqlParameter IDParam = new SqlParameter
+                {
+                    ParameterName = "@ID",
+                    Value = id
+                };
+                command.Parameters.Add(IDParam);
+
+                var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    Room room = new Room();
+                    while (reader.Read())
+                    {
+                        room.ID_Room = reader.GetInt32(0);
+                        room.Number = reader.GetString(1);
+                        room.Roominess = reader.GetInt32(1);
+                    }
+                    connection.Close();
+
+                    return room;
+                }
+                else
+                {
+                    connection.Close();
+                    return null;
+                }
+            }
+        }
+
         //class Couple
         public List<Couple> SelectCouple()
         {
@@ -525,6 +561,46 @@ namespace SchedulingService
                 connection.Close();
             }
         }
+
+        public Couple FindByIDCouple(int id)
+        {
+            string sql = "SELECT * From [Couple] WHERE ID_Couple =@ID";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                SqlParameter IDParam = new SqlParameter
+                {
+                    ParameterName = "@ID",
+                    Value = id
+                };
+                command.Parameters.Add(IDParam);
+
+                var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    Couple couple = new Couple();
+                    while (reader.Read())
+                    {
+                        couple.ID_Couple = reader.GetInt32(0);
+                        couple.Start = reader.GetTimeSpan(1);
+                        couple.End = reader.GetTimeSpan(1);
+                    }
+                    connection.Close();
+
+                    return couple;
+                }
+                else
+                {
+                    connection.Close();
+                    return null;
+                }
+            }
+        }
+
     }
 
     public class User
