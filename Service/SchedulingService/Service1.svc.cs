@@ -14,11 +14,11 @@ namespace SchedulingService
     public class Service1 : IService1
     {
         readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\tokin\Documents\GitHub\autoScheduling\Service\SchedulingService\App_Data\db_schedule.mdf;Integrated Security=True";
-        
+
         //class User
         public List<User> SelectUser()
         {
-            string sql= "SELECT ID_User as [ID]," +
+            string sql = "SELECT ID_User as [ID]," +
                             "Name as [Имя]," +
                             "Surname as [Фамилия]," +
                             "Patronymic as [Отчество]," +
@@ -31,7 +31,7 @@ namespace SchedulingService
                 connection.Open();
                 SqlCommand command = new SqlCommand(sql, connection);
 
-                var reader = command.ExecuteReader();            
+                var reader = command.ExecuteReader();
 
                 if (reader.HasRows)
                 {
@@ -226,14 +226,14 @@ namespace SchedulingService
                 {
                     User user = new User();
                     while (reader.Read())
-                    {                     
+                    {
                         user.ID_User = reader.GetInt32(0);
                         user.Name = reader.GetString(1);
                         user.Surname = reader.GetString(1);
                         user.Patronymic = reader.GetString(1);
                         user.Login = reader.GetString(1);
                         user.Password = reader.GetString(1);
-                        user.Role = reader.GetString(1);                      
+                        user.Role = reader.GetString(1);
                     }
                     connection.Close();
 
@@ -254,7 +254,7 @@ namespace SchedulingService
         {
             string sql = "SELECT ID_Group as [ID]," +
                             "Name as [Название группы]," +
-                            "Number as [Номер группы]," +
+                            "Number as [Количество учеников]," +
                         "FROM [Group]";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -275,7 +275,7 @@ namespace SchedulingService
                             ID_Group = reader.GetInt32(0),
                             Name = reader.GetString(1),
                             Number = reader.GetInt32(1),
-                            
+
                         };
 
                         Groups.Add(group);
@@ -314,7 +314,7 @@ namespace SchedulingService
                     Value = group.Number
                 };
                 command.Parameters.Add(NumberParam);
-                
+
                 var result = command.ExecuteScalar();
                 connection.Close();
             }
@@ -483,7 +483,7 @@ namespace SchedulingService
                 connection.Close();
             }
         }
-    
+
         public void UpdateRoom(Room room)
         {
             string sql = "UPDATE [Room] SET Number = @Number,Roominess= @Roominess WHERE [Room].ID_Room = @ID;";
@@ -744,7 +744,7 @@ namespace SchedulingService
         //class Order
         public List<OrderTable> OrderTable()
         {
-            string sql ="SELECT" +
+            string sql = "SELECT" +
                         "[Order].Id_Order as [ID]," +
                         "[User].Login as [Логин]," +
                         "[User].Name as [Имя]," +
@@ -800,7 +800,7 @@ namespace SchedulingService
 
         public void DeleteOrder(int id)
         {
-            string sql ="DELETE FROM " +
+            string sql = "DELETE FROM " +
                             "[Order] " +
                         "WHERE " +
                             "[Order].ID_Order = @ID";
@@ -822,8 +822,8 @@ namespace SchedulingService
         }
 
         public void AddOrder(Order order)
-        { 
-            string sql ="INSERT INTO [Order]" +
+        {
+            string sql = "INSERT INTO [Order]" +
                             "(User_ID, Subject_ID, Group_ID,NumberLessons) " +
                         "VALUES " +
                             "(@User_ID,@Subject_ID,@Group_ID,@NumberLessons)";
@@ -870,7 +870,7 @@ namespace SchedulingService
 
         public void UpdateOrder(Order order)
         {
-            string sql ="UPDATE " +
+            string sql = "UPDATE " +
                             "[Order] " +
                         "SET " +
                             "User_ID=@User_ID," +
@@ -879,8 +879,8 @@ namespace SchedulingService
                             "NumberLessons=@NumberLessons " +
                         "WHERE " +
                             "[Order].ID_Order = @ID";
-               
-               
+
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -969,7 +969,250 @@ namespace SchedulingService
                 }
             }
         }
-    }
+
+        //class Shedule
+        public List<SheduleTable> SheduleTable()
+        {
+            string sql = "SELECT" +
+                        "[Shedule].ID_Shedule as [ID]," +
+                        "[User].Name as [Имя]," +
+                        "[Room].Number as [Аудитория]," +
+                        "[Subject].Name as [Предмет]," +
+                        "[Group].Name as [Группа]," +
+                        "[Shedule].DayOfWeek as [День недели]," +
+                        "[Shedule].NumDem as [Числитель/Знаменатель]" +
+                    "FROM" +
+                        "[Shedule],[Subject],[Group],[Room],[User]" +
+                    "WHERE " +
+                        "[Shedule].Shedule_ID = [Shedule].ID_Shedule AND" +
+                        "[Shedule].Group_ID = [Group].ID_Group AND" +
+                        "[Shedule].Subject_ID = [Subject].ID_Subject AND" +
+                        "[Shedule].Room_ID = [Room].ID_Room AND" +
+                        "[Shedule].User_ID = [User].ID_User";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    List<SheduleTable> sheduleTables = new List<SheduleTable>();
+
+                    while (reader.Read())
+                    {
+                        SheduleTable sheduleTable = new SheduleTable
+                        {
+                            ID_Shedule = reader.GetInt32(0),
+                            User_name = reader.GetString(1),
+                            Subject_name = reader.GetString(2),
+                            Group_name = reader.GetString(3),
+                            DayOfWeek = reader.GetInt32(4),
+                            Room_number = reader.GetString(5),
+                            NumDem = reader.GetString(6),
+                        };
+
+                        sheduleTables.Add(sheduleTable);
+                    }
+                    connection.Close();
+
+                    return sheduleTables;
+
+                }
+                else
+                {
+                    connection.Close();
+                    return null;
+                }
+            }
+        }
+
+        public void AddShedule(Shedule shedule)
+        {
+            string sql = "INSERT INTO [Shedule]" +
+                            "(Room_ID, Order_ID, Couple_ID, DayOfWeek, NumDem)" +
+                        "VALUES " +
+                            "(@Room_ID,@Order_ID,@Couple_ID,@DayOfWeeks,@NumDems)";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+
+                SqlParameter Room_IDParam = new SqlParameter
+                {
+                    ParameterName = "@Room_ID",
+                    Value = shedule.Room_ID
+                };
+                command.Parameters.Add(Room_IDParam);
+
+                SqlParameter Order_IDParam = new SqlParameter
+                {
+                    ParameterName = "@Order_ID",
+                    Value = shedule.Order_ID
+                };
+                command.Parameters.Add(Order_IDParam);
+
+                SqlParameter Couple_IDParam = new SqlParameter
+                {
+                    ParameterName = "@Couple_ID",
+                    Value = shedule.Couple_ID
+                };
+                command.Parameters.Add(Couple_IDParam);
+
+                SqlParameter DayOfWeeksParam = new SqlParameter
+                {
+                    ParameterName = "@DayOfWeeks",
+                    Value = shedule.DayOfWeek
+                };
+                command.Parameters.Add(DayOfWeeksParam);
+
+                SqlParameter NumDemsParam = new SqlParameter
+                {
+                    ParameterName = "@NumDems",
+                    Value = shedule.NumDem
+                };
+                command.Parameters.Add(NumDemsParam);
+
+                var result = command.ExecuteScalar();
+                connection.Close();
+            }
+        }
+
+        public void UpdateShedule(Shedule shedule)
+        {
+            string sql = "UPDATE " +
+                            "[Shedule] " +
+                        "SET " +
+                            "Room_ID=@Room_ID," +
+                            "Order_ID=@Order_ID," +
+                            "Couple_ID=@Couple_ID," +
+                            "DayOfWeek=@DayOfWeeks," +
+                            "NumDem=@NumDems" +
+                        "WHERE " +
+                            "[Shedule].ID_Shedule = @ID";
+
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                SqlParameter IDParam = new SqlParameter
+                {
+                    ParameterName = "@ID",
+                    Value = shedule.ID_Shedule
+                };
+                command.Parameters.Add(IDParam);
+
+                SqlParameter Room_IDParam = new SqlParameter
+                {
+                    ParameterName = "@Room_ID",
+                    Value = shedule.Room_ID
+                };
+                command.Parameters.Add(Room_IDParam);
+
+                SqlParameter Order_IDParam = new SqlParameter
+                {
+                    ParameterName = "@Order_ID",
+                    Value = shedule.Order_ID
+                };
+                command.Parameters.Add(Order_IDParam);
+
+                SqlParameter Couple_IDParam = new SqlParameter
+                {
+                    ParameterName = "@Couple_ID",
+                    Value = shedule.Couple_ID
+                };
+                command.Parameters.Add(Couple_IDParam);
+
+                SqlParameter DayOfWeeksParam = new SqlParameter
+                {
+                    ParameterName = "@DayOfWeeks",
+                    Value = shedule.DayOfWeek
+                };
+                command.Parameters.Add(DayOfWeeksParam);
+
+                SqlParameter NumDemsParam = new SqlParameter
+                {
+                    ParameterName = "@NumDems",
+                    Value = shedule.NumDem
+                };
+                command.Parameters.Add(NumDemsParam);
+
+                var result = command.ExecuteScalar();
+                connection.Close();
+            }
+        }
+
+        public void DeleteShedule(int id)
+        {
+            string sql = "DELETE FROM " +
+                            "[Shedule] " +
+                        "WHERE " +
+                            "[Shedule].ID_Shedule = @ID";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                SqlParameter IDParam = new SqlParameter
+                {
+                    ParameterName = "@ID",
+                    Value = id
+                };
+                command.Parameters.Add(IDParam);
+
+                var result = command.ExecuteScalar();
+                connection.Close();
+            }
+        }
+
+        public Shedule FindByIDShedule(int id)
+        {
+            string sql = "SELECT * FROM [Shedule] WHERE [Shedule].ID_Shedule = @ID";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                SqlParameter IDParam = new SqlParameter
+                {
+                    ParameterName = "@ID",
+                    Value = id
+                };
+                command.Parameters.Add(IDParam);
+
+                var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    Shedule shedule = new Shedule();
+
+                    while (reader.Read())
+                    {
+                        shedule.ID_Shedule = (int)reader["ID_Shedule"];
+                        shedule.Room_ID = (int)reader["Room_ID"];
+                        shedule.Order_ID = (int)reader["Order_ID"];
+                        shedule.Couple_ID = (int)reader["Couple_ID"];
+                        shedule.DayOfWeek = (int)reader["DayOfWeek"];
+                        shedule.NumDem = (string)reader["NumDem"];
+                    }
+                    connection.Close();
+
+                    return shedule;
+
+                }
+                else
+                {
+                    connection.Close();
+                    return null;
+                }
+            }
+        }
+    }        
 
     public class User
     {
@@ -1014,6 +1257,28 @@ namespace SchedulingService
         public string Group_name;
         public int Group_number;
         public int NumberLessons;
+    }
+
+    public class Shedule
+    {
+        public int ID_Shedule;
+        public int Room_ID;
+        public int Order_ID;
+        public int Couple_ID;
+        public int DayOfWeek;
+        public string NumDem;
+    }
+
+    public class SheduleTable
+    {
+        public int ID_Shedule;
+        public string User_name;
+        public string Room_number;
+        public string Subject_name;
+        public string Group_name;
+        public int DayOfWeek;
+        public string NumDem;
+
     }
 
     public class Couple
