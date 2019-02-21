@@ -350,7 +350,7 @@ namespace SchedulingService
     
         public void UpdateRoom(Room room)
         {
-            string sql = "UPDATE [Room] SET Number = '',Roominess= '' WHERE [Room].ID_Room = @ID;";
+            string sql = "UPDATE [Room] SET Number = @Number,Roominess= @Roominess WHERE [Room].ID_Room = @ID;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -385,6 +385,130 @@ namespace SchedulingService
         public void DeleteRoom(int id)
         {
             string sql = "DELETE FROM [Room] WHERE [Room].ID_Room = @ID";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                SqlParameter IDParam = new SqlParameter
+                {
+                    ParameterName = "@ID",
+                    Value = id
+                };
+                command.Parameters.Add(IDParam);
+
+                var result = command.ExecuteScalar();
+                connection.Close();
+            }
+        }
+
+        //class Couple
+        public List<Couple> SelectCouple()
+        {
+            string sql = "SELECT ID_Couple as [ID]," +
+                            "Start as [Начало]," +
+                            "End as [Конец]," +
+                        "FROM [Couple]";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    List<Couple> Couples = new List<Couple>();
+
+                    while (reader.Read())
+                    {
+                        Couple сouple = new Couple
+                        {
+                            ID_Couple = reader.GetInt32(0),
+                            Start = reader.GetTimeSpan(1),
+                            End = reader.GetTimeSpan(1),
+                        };
+
+                        Couples.Add(сouple);
+                    }
+                    connection.Close();
+
+                    return Couples;
+
+                }
+                else
+                {
+                    connection.Close();
+                    return null;
+                }
+            }
+        }
+
+        public void AddCouple(Couple couple)
+        {
+            string sql = "INSERT INTO [Couple](Start, End) VALUES (@Start,@End)";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                SqlParameter StartParam = new SqlParameter
+                {
+                    ParameterName = "@Start",
+                    Value = couple.Start
+                };
+                command.Parameters.Add(StartParam);
+
+                SqlParameter EndParam = new SqlParameter
+                {
+                    ParameterName = "@End",
+                    Value = couple.End
+                };
+                command.Parameters.Add(EndParam);
+
+                var result = command.ExecuteScalar();
+                connection.Close();
+            }
+        }
+
+        public void UpdateCouple(Couple couple)
+        {
+            string sql = "UPDATE [Couple] SET Start = @Start,End= @End WHERE [Couple].ID_Couple = @ID;";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                SqlParameter IDParam = new SqlParameter
+                {
+                    ParameterName = "@ID",
+                    Value = couple.ID_Couple
+                };
+                command.Parameters.Add(IDParam);
+
+                SqlParameter StartParam = new SqlParameter
+                {
+                    ParameterName = "@Start",
+                    Value = couple.Start
+                };
+                command.Parameters.Add(StartParam);
+
+                SqlParameter RoominessParam = new SqlParameter
+                {
+                    ParameterName = "@End",
+                    Value = couple.End
+                };
+                command.Parameters.Add(RoominessParam);
+
+                var result = command.ExecuteScalar();
+                connection.Close();
+            }
+        }
+
+        public void DeleteCouple(int id)
+        {
+            string sql = "DELETE FROM [Couple] WHERE [Couple].ID_Couple = @ID";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -436,5 +560,11 @@ namespace SchedulingService
         public int Group_ID;
         public int NumberLessons;
     }
-   
+
+    public class Couple
+    {
+        public int ID_Couple;
+        public TimeSpan Start;
+        public TimeSpan End;
+    }
 }
