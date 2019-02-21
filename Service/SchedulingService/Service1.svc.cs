@@ -247,8 +247,8 @@ namespace SchedulingService
                 }
             }
         }
-        
-        //fghgreg
+
+
         //class Group
         public List<Group> SelectGroup()
         {
@@ -256,22 +256,161 @@ namespace SchedulingService
                             "Name as [Название группы]," +
                             "Number as [Номер группы]," +
                         "FROM [Group]";
-            return null;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    List<Group> Groups = new List<Group>();
+
+                    while (reader.Read())
+                    {
+                        Group group = new Group
+                        {
+                            ID_Group = reader.GetInt32(0),
+                            Name = reader.GetString(1),
+                            Number = reader.GetInt32(1),
+                            
+                        };
+
+                        Groups.Add(group);
+                    }
+                    connection.Close();
+
+                    return Groups;
+
+                }
+                else
+                {
+                    connection.Close();
+                    return null;
+                }
+            }
         }
 
         public void AddGroup(Group group)
         {
-            string sql = "INSERT INTO [Group](Name, Number) VALUES ('w','w')";
+            string sql = "INSERT INTO [Group](Name, Number) VALUES (@Name,@Number)";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                SqlParameter RoominessParam = new SqlParameter
+                {
+                    ParameterName = "@Name",
+                    Value = group.Name
+                };
+                command.Parameters.Add(RoominessParam);
+
+                SqlParameter NumberParam = new SqlParameter
+                {
+                    ParameterName = "@Number",
+                    Value = group.Number
+                };
+                command.Parameters.Add(NumberParam);
+                
+                var result = command.ExecuteScalar();
+                connection.Close();
+            }
         }
 
         public void UpdateGroup(Group group)
         {
-            string sql = "UPDATE [Group] SET Name = '', Number = '' WHERE [Group].ID_Group = 2;";
+            string sql = "UPDATE [Group] SET Name = @Name,Number = @Number WHERE [Group].ID_Group = @ID;";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                SqlParameter IDParam = new SqlParameter
+                {
+                    ParameterName = "@ID",
+                    Value = group.ID_Group
+                };
+                command.Parameters.Add(IDParam);
+
+                SqlParameter RoominessParam = new SqlParameter
+                {
+                    ParameterName = "@Name",
+                    Value = group.Name
+                };
+                command.Parameters.Add(RoominessParam);
+
+                SqlParameter NumberParam = new SqlParameter
+                {
+                    ParameterName = "@Number",
+                    Value = group.Number
+                };
+                command.Parameters.Add(NumberParam);
+
+                var result = command.ExecuteScalar();
+                connection.Close();
+            }
         }
 
         public void DeleteGroup(int id)
         {
-            string sql = "DELETE FROM [Group] WHERE [Group].ID_Group = @id";
+            string sql = "DELETE FROM [Group] WHERE [Group].ID_Group = @ID";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                SqlParameter IDParam = new SqlParameter
+                {
+                    ParameterName = "@ID",
+                    Value = id
+                };
+                command.Parameters.Add(IDParam);
+
+                var result = command.ExecuteScalar();
+                connection.Close();
+            }
+        }
+
+        public Group FindByIDGroup(int id)
+        {
+            string sql = "SELECT * From [Group] WHERE ID_Group =@ID";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                SqlParameter IDParam = new SqlParameter
+                {
+                    ParameterName = "@ID",
+                    Value = id
+                };
+                command.Parameters.Add(IDParam);
+
+                var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    Group group = new Group();
+                    while (reader.Read())
+                    {
+                        group.ID_Group = reader.GetInt32(0);
+                        group.Name = reader.GetString(1);
+                        group.Number = reader.GetInt32(1);
+                    }
+                    connection.Close();
+
+                    return group;
+                }
+                else
+                {
+                    connection.Close();
+                    return null;
+                }
+            }
         }
 
 
