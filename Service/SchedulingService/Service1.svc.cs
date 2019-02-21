@@ -740,6 +740,235 @@ namespace SchedulingService
             }
         }
 
+
+        //class Order
+        public List<OrderTable> OrderTable()
+        {
+            string sql ="SELECT" +
+                        "[Order].Id_Order as [ID]," +
+                        "[User].Login as [Логин]," +
+                        "[User].Name as [Имя]," +
+                        "[Subject].Name as [Предмет]," +
+                        "[Group].Name as [Группа]," +
+                        "[Group].Number as [Количество учеников]," +
+                        "[Order].NumberLessons as [Количество занятий]" +
+                    "FROM" +
+                        "[Order],[Subject],[Group],[User]" +
+                    "WHERE " +
+                        "[Order].User_ID = [User].ID_User AND" +
+                        "[Order].Group_ID =[Group].ID_Group AND" +
+                        "[Order].Subject_ID = [Subject].ID_Subject";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    List<OrderTable> orderTables = new List<OrderTable>();
+
+                    while (reader.Read())
+                    {
+                        OrderTable orderTable = new OrderTable
+                        {
+                            ID_Order = reader.GetInt32(0),
+                            User_login = reader.GetString(1),
+                            User_name = reader.GetString(2),
+                            Subject_name = reader.GetString(3),
+                            Group_name = reader.GetString(4),
+                            Group_number = reader.GetInt32(5),
+                            NumberLessons = reader.GetInt32(6),
+                        };
+
+                        orderTables.Add(orderTable);
+                    }
+                    connection.Close();
+
+                    return orderTables;
+
+                }
+                else
+                {
+                    connection.Close();
+                    return null;
+                }
+            }
+        }
+
+        public void DeleteOrder(int id)
+        {
+            string sql ="DELETE FROM " +
+                            "[Order] " +
+                        "WHERE " +
+                            "[Order].ID_Order = @ID";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                SqlParameter IDParam = new SqlParameter
+                {
+                    ParameterName = "@ID",
+                    Value = id
+                };
+                command.Parameters.Add(IDParam);
+
+                var result = command.ExecuteScalar();
+                connection.Close();
+            }
+        }
+
+        public void AddOrder(Order order)
+        { 
+            string sql ="INSERT INTO [Order]" +
+                            "(User_ID, Subject_ID, Group_ID,NumberLessons) " +
+                        "VALUES " +
+                            "(@User_ID,@Subject_ID,@Group_ID,@NumberLessons)";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+
+                SqlParameter User_IDParam = new SqlParameter
+                {
+                    ParameterName = "@User_ID",
+                    Value = order.User_ID
+                };
+                command.Parameters.Add(User_IDParam);
+
+                SqlParameter Subject_IDParam = new SqlParameter
+                {
+                    ParameterName = "@Subject_ID",
+                    Value = order.Subject_ID
+                };
+                command.Parameters.Add(Subject_IDParam);
+
+                SqlParameter Group_IDParam = new SqlParameter
+                {
+                    ParameterName = "@Group_ID",
+                    Value = order.Group_ID
+                };
+                command.Parameters.Add(Group_IDParam);
+
+                SqlParameter NumberLessonsParam = new SqlParameter
+                {
+                    ParameterName = "@NumberLessons",
+                    Value = order.NumberLessons
+                };
+                command.Parameters.Add(NumberLessonsParam);
+
+
+
+                var result = command.ExecuteScalar();
+                connection.Close();
+            }
+        }
+
+        public void UpdateOrder(Order order)
+        {
+            string sql ="UPDATE " +
+                            "[Order] " +
+                        "SET " +
+                            "User_ID=@User_ID," +
+                            "Subject_ID=@Subject_ID," +
+                            "Group_ID=@Group_ID," +
+                            "NumberLessons=@NumberLessons " +
+                        "WHERE " +
+                            "[Order].ID_Order = @ID";
+               
+               
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                SqlParameter IDParam = new SqlParameter
+                {
+                    ParameterName = "@ID",
+                    Value = order.ID_Order
+                };
+                command.Parameters.Add(IDParam);
+
+                SqlParameter User_IDParam = new SqlParameter
+                {
+                    ParameterName = "@User_ID",
+                    Value = order.User_ID
+                };
+                command.Parameters.Add(User_IDParam);
+
+                SqlParameter Subject_IDParam = new SqlParameter
+                {
+                    ParameterName = "@Subject_ID",
+                    Value = order.Subject_ID
+                };
+                command.Parameters.Add(Subject_IDParam);
+
+                SqlParameter Group_IDParam = new SqlParameter
+                {
+                    ParameterName = "@Group_ID",
+                    Value = order.Group_ID
+                };
+                command.Parameters.Add(Group_IDParam);
+
+                SqlParameter NumberLessonsParam = new SqlParameter
+                {
+                    ParameterName = "@NumberLessons",
+                    Value = order.NumberLessons
+                };
+                command.Parameters.Add(NumberLessonsParam);
+
+
+
+                var result = command.ExecuteScalar();
+                connection.Close();
+            }
+        }
+
+        public Order FindByIDOrder(int id)
+        {
+            string sql = "SELECT * FROM [Order] WHERE [Order].ID_Order = @ID";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                SqlParameter IDParam = new SqlParameter
+                {
+                    ParameterName = "@ID",
+                    Value = id
+                };
+                command.Parameters.Add(IDParam);
+
+                var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    Order order = new Order();
+
+                    while (reader.Read())
+                    {
+                        order.ID_Order = (int)reader["ID_Order"];
+                        order.User_ID = (int)reader["User_ID"];
+                        order.Subject_ID = (int)reader["Subject_ID"];
+                        order.Group_ID = (int)reader["Group_ID"];
+                        order.NumberLessons = (int)reader["NumberLessons"];
+                    }
+                    connection.Close();
+
+                    return order;
+
+                }
+                else
+                {
+                    connection.Close();
+                    return null;
+                }
+            }
+        }
     }
 
     public class User
@@ -773,6 +1002,17 @@ namespace SchedulingService
         public int User_ID;
         public int Subject_ID;
         public int Group_ID;
+        public int NumberLessons;
+    }
+
+    public class OrderTable
+    {
+        public int ID_Order;
+        public string User_login;
+        public string User_name;
+        public string Subject_name;
+        public string Group_name;
+        public int Group_number;
         public int NumberLessons;
     }
 
