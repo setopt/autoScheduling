@@ -413,6 +413,151 @@ namespace SchedulingService
             }
         }
 
+        //class Subject
+        public List<Subject> SelectSubject()
+        {
+            string sql = "SELECT ID_Subject as [ID]," +
+                            "Name as [Предмет]," +
+                        "FROM [Subject]";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    List<Subject> Subjects = new List<Subject>();
+
+                    while (reader.Read())
+                    {
+                        Subject subject = new Subject
+                        {
+                            ID_Subject = reader.GetInt32(0),
+                            Name = reader.GetString(1),
+                        };
+
+                        Subjects.Add(subject);
+                    }
+                    connection.Close();
+
+                    return Subjects;
+
+                }
+                else
+                {
+                    connection.Close();
+                    return null;
+                }
+            }
+        }
+
+        public void AddSubject(Subject subject)
+        {
+            string sql = "INSERT INTO [Subject](Name) VALUES (@Name)";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                SqlParameter NameParam = new SqlParameter
+                {
+                    ParameterName = "@Name",
+                    Value = subject.Name
+                };
+                command.Parameters.Add(NameParam);
+
+                var result = command.ExecuteScalar();
+                connection.Close();
+            }
+        }
+
+        public void UpdateSubject(Subject subject)
+        {
+            string sql = "UPDATE [Subject] SET Name = @Name WHERE [Subject].ID_Subject = @ID;";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                SqlParameter IDParam = new SqlParameter
+                {
+                    ParameterName = "@ID",
+                    Value = subject.ID_Subject
+                };
+                command.Parameters.Add(IDParam);
+
+                SqlParameter NameParam = new SqlParameter
+                {
+                    ParameterName = "@Name",
+                    Value = subject.Name
+                };
+                command.Parameters.Add(NameParam);
+
+                var result = command.ExecuteScalar();
+                connection.Close();
+            }
+        }
+
+        public void DeleteSubject(int id)
+        {
+            string sql = "DELETE FROM [Subject] WHERE [Subject].ID_Subject = @ID";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                SqlParameter IDParam = new SqlParameter
+                {
+                    ParameterName = "@ID",
+                    Value = id
+                };
+                command.Parameters.Add(IDParam);
+
+                var result = command.ExecuteScalar();
+                connection.Close();
+            }
+        }
+
+        public Subject FindByIDSubject(int id)
+        {
+            string sql = "SELECT * From [Subject] WHERE ID_Subject =@ID";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                SqlParameter IDParam = new SqlParameter
+                {
+                    ParameterName = "@ID",
+                    Value = id
+                };
+                command.Parameters.Add(IDParam);
+
+                var reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    Subject subject = new Subject();
+                    while (reader.Read())
+                    {
+                        subject.ID_Subject = reader.GetInt32(0);
+                        subject.Name = reader.GetString(1);
+                    }
+                    connection.Close();
+
+                    return subject;
+                }
+                else
+                {
+                    connection.Close();
+                    return null;
+                }
+            }
+        }   
 
         //class Room
         public List<Room> SelectRoom()
@@ -1230,6 +1375,12 @@ namespace SchedulingService
         public int ID_Room;
         public string Number;
         public int Roominess;
+    }
+
+    public class Subject
+    {
+        public int ID_Subject;
+        public string Name;
     }
 
     public class Group

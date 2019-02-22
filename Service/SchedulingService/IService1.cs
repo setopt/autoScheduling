@@ -96,16 +96,16 @@ namespace SchedulingService
         List<SheduleTable> SheduleTable();              
 
         [OperationContract]
-        void AddShedule(Order order);
+        void AddShedule(Shedule shedule);
 
         [OperationContract]
-        void UpdateShedule(Order order);
+        void UpdateShedule(Shedule shedule);
 
         [OperationContract]
         void DeleteShedule(int id);
 
         [OperationContract]
-        Order FindByIDShedule(int id);
+        Shedule FindByIDShedule(int id);
 
 
     }
