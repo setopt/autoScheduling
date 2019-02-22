@@ -767,7 +767,7 @@ namespace SchedulingService
 
         public void AddCouple(Couple couple)
         {
-            string sql = "INSERT INTO [Couple](Start, End) VALUES (@Start,@End)";
+            string sql = "INSERT INTO [Couple]([Start], [End]) VALUES (@Start,@End)";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -794,7 +794,7 @@ namespace SchedulingService
 
         public void UpdateCouple(Couple couple)
         {
-            string sql = "UPDATE [Couple] SET Start = @Start, End= @End WHERE [Couple].ID_Couple = @ID;";
+            string sql = "UPDATE [Couple] SET [Start] = @Start, [End]= @End WHERE [Couple].ID_Couple = @ID;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -884,7 +884,6 @@ namespace SchedulingService
                 }
             }
         }
-
 
         //class Order
         public List<OrderTable> OrderTable()
