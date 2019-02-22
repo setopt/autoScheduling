@@ -107,6 +107,21 @@ namespace SchedulingService
         [OperationContract]
         Shedule FindByIDShedule(int id);
 
+        //subject
+        [OperationContract]
+        List<Subject> SelectSubject();
+
+        [OperationContract]
+        void AddSubject(Subject subject);
+
+        [OperationContract]
+        void UpdateSubject(Subject subject);
+
+        [OperationContract]
+        void DeleteSubject(int id);
+
+        [OperationContract]
+        Subject FindByIDSubject(int id);
 
     }
 
