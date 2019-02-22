@@ -254,7 +254,7 @@ namespace SchedulingService
         {
             string sql = "SELECT ID_Group as [ID]," +
                             "Name as [Название группы]," +
-                            "Number as [Количество учеников]," +
+                            "Number as [Количество учеников]" +
                         "FROM [Group]";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -274,7 +274,7 @@ namespace SchedulingService
                         {
                             ID_Group = reader.GetInt32(0),
                             Name = reader.GetString(1),
-                            Number = reader.GetInt32(1),
+                            Number = reader.GetInt32(2),
 
                         };
 
@@ -399,7 +399,7 @@ namespace SchedulingService
                     {
                         group.ID_Group = reader.GetInt32(0);
                         group.Name = reader.GetString(1);
-                        group.Number = reader.GetInt32(1);
+                        group.Number = reader.GetInt32(2);
                     }
                     connection.Close();
 
@@ -417,7 +417,7 @@ namespace SchedulingService
         public List<Subject> SelectSubject()
         {
             string sql = "SELECT ID_Subject as [ID]," +
-                            "Name as [Предмет]," +
+                            "Name as [Предмет]" +
                         "FROM [Subject]";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -564,7 +564,7 @@ namespace SchedulingService
         {
             string sql = "SELECT ID_Room as [ID]," +
                             "Number as [Аудитория]," +
-                            "Roominess as [Вместимость]," +
+                            "Roominess as [Вместимость]" +
                         "FROM [Room]";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -584,7 +584,7 @@ namespace SchedulingService
                         {
                             ID_Room = reader.GetInt32(0),
                             Number = reader.GetString(1),
-                            Roominess = reader.GetInt32(1),
+                            Roominess = reader.GetInt32(2),
                         };
 
                         Rooms.Add(room);
@@ -708,7 +708,7 @@ namespace SchedulingService
                     {
                         room.ID_Room = reader.GetInt32(0);
                         room.Number = reader.GetString(1);
-                        room.Roominess = reader.GetInt32(1);
+                        room.Roominess = reader.GetInt32(2);
                     }
                     connection.Close();
 
@@ -726,8 +726,8 @@ namespace SchedulingService
         public List<Couple> SelectCouple()
         {
             string sql = "SELECT ID_Couple as [ID]," +
-                            "Start as [Начало]," +
-                            "End as [Конец]," +
+                            "[Start] as [Начало]," +
+                            "[End] as [Конец]" +
                         "FROM [Couple]";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -747,7 +747,7 @@ namespace SchedulingService
                         {
                             ID_Couple = reader.GetInt32(0),
                             Start = reader.GetTimeSpan(1),
-                            End = reader.GetTimeSpan(1),
+                            End = reader.GetTimeSpan(2),
                         };
 
                         Couples.Add(сouple);
@@ -794,7 +794,7 @@ namespace SchedulingService
 
         public void UpdateCouple(Couple couple)
         {
-            string sql = "UPDATE [Couple] SET Start = @Start,End= @End WHERE [Couple].ID_Couple = @ID;";
+            string sql = "UPDATE [Couple] SET Start = @Start, End= @End WHERE [Couple].ID_Couple = @ID;";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -871,7 +871,7 @@ namespace SchedulingService
                     {
                         couple.ID_Couple = reader.GetInt32(0);
                         couple.Start = reader.GetTimeSpan(1);
-                        couple.End = reader.GetTimeSpan(1);
+                        couple.End = reader.GetTimeSpan(2);
                     }
                     connection.Close();
 
