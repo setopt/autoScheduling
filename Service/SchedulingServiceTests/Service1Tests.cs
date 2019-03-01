@@ -14,23 +14,46 @@ namespace SchedulingService.Tests
         [TestMethod()]
         public void AddUserTest()
         {
+            var service = new Service1();
+            var userColPrev = service.SelectUser().Count;
+            User user = new User
+            {
+                Name = "dghfgfd",
+                Surname = "dfdfgghf",
+                Patronymic = "fdfgghgdfg",
+                Login = "dsfsgfghd",
+                Password = "fdsgfghfs",
+                Role = "1"
+            };
+
+            service.AddUser(user);
+
+            var userColPost = service.SelectUser().Count;
+
+            Assert.AreEqual(userColPrev + 1, userColPost);
+        }
+
+        [TestMethod()]
+        public void AddUserTest2()
+        {
             var servise = new Service1();
             var userColPrev = servise.SelectUser().Count;
-            User user = new User
+            User userPrev = new User
             {
                 Name = "dghfd",
                 Surname = "dfdghf",
                 Patronymic = "fdghgdfg",
                 Login = "dsfsghd",
                 Password = "fdsghfs",
-                Role = "1"
+                Role = "1",
+                error = false,
+                error_message = null
+
             };
 
-            servise.AddUser(user);
+            User userPost = servise.AddUser(userPrev);
 
-            var userColPost = servise.SelectUser().Count;
-
-            Assert.AreEqual(userColPrev + 1, userColPost);
+            Assert.AreEqual(userPrev, userPost);
         }
     }
 }
