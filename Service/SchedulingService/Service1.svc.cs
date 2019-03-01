@@ -13,7 +13,7 @@ namespace SchedulingService
     // ПРИМЕЧАНИЕ. Чтобы запустить клиент проверки WCF для тестирования службы, выберите элементы Service1.svc или Service1.svc.cs в обозревателе решений и начните отладку.
     public class Service1 : IService1
     {
-        readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\tokin\Documents\GitHub\autoScheduling\Service\SchedulingService\App_Data\db_schedule.mdf;Integrated Security=True";
+        readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Наталья\Documents\GitHub\autoScheduling\Service\SchedulingService\App_Data\db_schedule.mdf;Integrated Security=True";
 
         //class User
         public List<User> SelectUser()
@@ -65,59 +65,92 @@ namespace SchedulingService
             }
         }
 
-        public void AddUser(User user)
+        public User AddUser(User user)
         {
-            string sql = "INSERT INTO [User](Name,Surname,Patronymic,Login,Password,Role) VALUES (@Name,@Surname,@Patronymic,@Login,@Password,@Role)";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            if (user.Login != "" && user.Password != "" && user.Role != "" && user.Name != "" && user.Surname != "")
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
+                string sql = "INSERT INTO [User](Name,Surname,Patronymic,Login,Password,Role) VALUES (@Name,@Surname,@Patronymic,@Login,@Password,@Role)";
+                string sql_check_user = "SELECT COUNT(*) FROM [User] WHERE login = @login";
 
-                SqlParameter NameParam = new SqlParameter
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    ParameterName = "@Name",
-                    Value = user.Name
-                };
-                command.Parameters.Add(NameParam);
+                    connection.Open();
+                    SqlCommand command_check_user = new SqlCommand(sql_check_user, connection);
+                    command_check_user.Parameters.AddWithValue("@login", user.Login);
+                    int count_user = (int)command_check_user.ExecuteScalar();
 
-                SqlParameter SurnameParam = new SqlParameter
-                {
-                    ParameterName = "@Surname",
-                    Value = user.Surname
-                };
-                command.Parameters.Add(SurnameParam);
 
-                SqlParameter PatronymicParam = new SqlParameter
-                {
-                    ParameterName = "@Patronymic",
-                    Value = user.Patronymic
-                };
-                command.Parameters.Add(PatronymicParam);
 
-                SqlParameter LoginParam = new SqlParameter
-                {
-                    ParameterName = "@Login",
-                    Value = user.Login
-                };
-                command.Parameters.Add(LoginParam);
+                    if (count_user == 0)
+                    {
+                        SqlCommand command = new SqlCommand(sql, connection);
 
-                SqlParameter PasswordParam = new SqlParameter
-                {
-                    ParameterName = "@Password",
-                    Value = user.Password
-                };
-                command.Parameters.Add(PasswordParam);
+                        SqlParameter NameParam = new SqlParameter
+                        {
+                            ParameterName = "@Name",
+                            Value = user.Name
+                        };
+                        command.Parameters.Add(NameParam);
 
-                SqlParameter RoleParam = new SqlParameter
-                {
-                    ParameterName = "@Role",
-                    Value = user.Role
-                };
-                command.Parameters.Add(RoleParam);
+                        SqlParameter SurnameParam = new SqlParameter
+                        {
+                            ParameterName = "@Surname",
+                            Value = user.Surname
+                        };
+                        command.Parameters.Add(SurnameParam);
 
-                var result = command.ExecuteScalar();
-                connection.Close();
+                        SqlParameter PatronymicParam = new SqlParameter
+                        {
+                            ParameterName = "@Patronymic",
+                            Value = user.Patronymic
+                        };
+                        command.Parameters.Add(PatronymicParam);
+
+                        SqlParameter LoginParam = new SqlParameter
+                        {
+                            ParameterName = "@Login",
+                            Value = user.Login
+                        };
+                        command.Parameters.Add(LoginParam);
+
+                        SqlParameter PasswordParam = new SqlParameter
+                        {
+                            ParameterName = "@Password",
+                            Value = user.Password
+                        };
+                        command.Parameters.Add(PasswordParam);
+
+                        SqlParameter RoleParam = new SqlParameter
+                        {
+                            ParameterName = "@Role",
+                            Value = user.Role
+                        };
+                        command.Parameters.Add(RoleParam);
+
+                        var result = command.ExecuteScalar();
+                        user.error = false;
+
+                        return user;
+                    }
+                    else
+                    {
+                        user.error = true;
+                        user.error_message = "Пользователь с таким логином уже существует!";
+                        return user;
+                    }
+
+
+
+                }
             }
+            else {
+                user.error = true;
+                user.error_message = "Заполнены не все данные!";
+                return user;
+            }
+
+           
+            
         }
 
         public void UpdateUser(User user)
@@ -1367,6 +1400,8 @@ namespace SchedulingService
         public string Login;
         public string Password;
         public string Role;
+        public bool error;
+        public string error_message;
     }
 
     public class Room

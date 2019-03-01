@@ -13,7 +13,7 @@ namespace SchedulingService
     {
         //user
         [OperationContract]
-        void AddUser(User user);
+        User AddUser(User user);
 
         [OperationContract]
         List<User> SelectUser();
