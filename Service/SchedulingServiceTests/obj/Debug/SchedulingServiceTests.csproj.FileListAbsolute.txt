@@ -10,3 +10,12 @@ C:\Users\tokin\Documents\GitHub\autoScheduling\Service\SchedulingServiceTests\ob
 C:\Users\tokin\Documents\GitHub\autoScheduling\Service\SchedulingServiceTests\obj\Debug\SchedulingServiceTests.csproj.CopyComplete
 C:\Users\tokin\Documents\GitHub\autoScheduling\Service\SchedulingServiceTests\obj\Debug\SchedulingServiceTests.dll
 C:\Users\tokin\Documents\GitHub\autoScheduling\Service\SchedulingServiceTests\obj\Debug\SchedulingServiceTests.pdb
+C:\Users\etrim\OneDrive\Документы\GitHub\autoScheduling\Service\SchedulingServiceTests\bin\Debug\SchedulingServiceTests.dll
+C:\Users\etrim\OneDrive\Документы\GitHub\autoScheduling\Service\SchedulingServiceTests\bin\Debug\SchedulingServiceTests.pdb
+C:\Users\etrim\OneDrive\Документы\GitHub\autoScheduling\Service\SchedulingServiceTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\etrim\OneDrive\Документы\GitHub\autoScheduling\Service\SchedulingServiceTests\bin\Debug\SchedulingService.dll
+C:\Users\etrim\OneDrive\Документы\GitHub\autoScheduling\Service\SchedulingServiceTests\bin\Debug\SchedulingService.pdb
+C:\Users\etrim\OneDrive\Документы\GitHub\autoScheduling\Service\SchedulingServiceTests\bin\Debug\ru\Microsoft.VisualStudio.QualityTools.UnitTestFramework.resources.dll
+C:\Users\etrim\OneDrive\Документы\GitHub\autoScheduling\Service\SchedulingServiceTests\obj\Debug\SchedulingServiceTests.csprojResolveAssemblyReference.cache
+C:\Users\etrim\OneDrive\Документы\GitHub\autoScheduling\Service\SchedulingServiceTests\obj\Debug\SchedulingServiceTests.dll
+C:\Users\etrim\OneDrive\Документы\GitHub\autoScheduling\Service\SchedulingServiceTests\obj\Debug\SchedulingServiceTests.pdb
