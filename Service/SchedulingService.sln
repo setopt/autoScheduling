@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchedulingService", "SchedulingService\SchedulingService.csproj", "{B8CB3A1C-B6DA-4ACA-9030-B41CD79C071E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchedulingServiceTests", "SchedulingServiceTests\SchedulingServiceTests.csproj", "{C98C1D3F-AD1D-4245-A03C-9786EF2976CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B8CB3A1C-B6DA-4ACA-9030-B41CD79C071E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8CB3A1C-B6DA-4ACA-9030-B41CD79C071E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8CB3A1C-B6DA-4ACA-9030-B41CD79C071E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C98C1D3F-AD1D-4245-A03C-9786EF2976CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C98C1D3F-AD1D-4245-A03C-9786EF2976CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C98C1D3F-AD1D-4245-A03C-9786EF2976CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C98C1D3F-AD1D-4245-A03C-9786EF2976CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
