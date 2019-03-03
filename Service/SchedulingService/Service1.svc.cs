@@ -641,28 +641,32 @@ namespace SchedulingService
 
         public void AddRoom(Room room)
         {
-            string sql = "INSERT INTO [Room](Number, Roominess) VALUES (@Number,@Roominess)";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            if (room.Number != "" && room.Roominess != 0)
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
-
-                SqlParameter NumberParam = new SqlParameter
+                string sql = "INSERT INTO [Room](Number, Roominess) VALUES (@Number,@Roominess)";
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    ParameterName = "@Number",
-                    Value = room.Number
-                };
-                command.Parameters.Add(NumberParam);
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(sql, connection);
 
-                SqlParameter RoominessParam = new SqlParameter
-                {
-                    ParameterName = "@Roominess",
-                    Value = room.Roominess
-                };
-                command.Parameters.Add(RoominessParam);
+                    SqlParameter NumberParam = new SqlParameter
+                    {
+                        ParameterName = "@Number",
+                        Value = room.Number
+                    };
+                    command.Parameters.Add(NumberParam);
 
-                var result = command.ExecuteScalar();
-                connection.Close();
+                    SqlParameter RoominessParam = new SqlParameter
+                    {
+                        ParameterName = "@Roominess",
+                        Value = room.Roominess
+                    };
+                    command.Parameters.Add(RoominessParam);
+
+                    var result = command.ExecuteScalar();
+                    connection.Close();
+                }
+            
             }
         }
 
@@ -1412,7 +1416,7 @@ namespace SchedulingService
     {
         public int ID_Room;
         public string Number;
-        public int Roominess;
+        public int Roominess = 0;
     }
 
     public class Subject
