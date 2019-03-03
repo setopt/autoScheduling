@@ -18,17 +18,19 @@ namespace SchedulingService.Tests
             var userColPrev = service.SelectUser().Count;
             User user = new User
             {
-                Name = "dghfgfd",
-                Surname = "dfdfgghf",
-                Patronymic = "fdfgghgdfg",
-                Login = "dsfsgfghd",
-                Password = "fdsgfghfs",
+                Name = "Test",
+                Surname = "Test",
+                Patronymic = "Test",
+                Login = "Test",
+                Password = "test",
                 Role = "1"
             };
-
-            service.AddUser(user);
+            User user2 = new User();
+            user2 = service.AddUser(user);
 
             var userColPost = service.SelectUser().Count;
+
+            service.DeleteUser(user2.ID_User);
 
             Assert.AreEqual(userColPrev + 1, userColPost);
         }

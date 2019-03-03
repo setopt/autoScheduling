@@ -15,7 +15,7 @@ namespace SchedulingService
     public class Service1 : IService1
     {
         //Path.GetFullPath("db_schedule.mdf")
-        readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\etrim\OneDrive\Документы\GitHub\autoScheduling\Service\SchedulingService\App_Data\db_schedule.mdf;Integrated Security=True";
+        readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\tokin\Documents\GitHub\autoScheduling\Service\SchedulingService\App_Data\db_schedule.mdf;Integrated Security=True";
 
         //class User
         public List<User> SelectUser()
@@ -72,6 +72,7 @@ namespace SchedulingService
             if (user.Login != "" && user.Password != "" && user.Role != "" && user.Name != "" && user.Surname != "")
             {
                 string sql = "INSERT INTO [User](Name,Surname,Patronymic,Login,Password,Role) VALUES (@Name,@Surname,@Patronymic,@Login,@Password,@Role)";
+                sql += ";SELECT SCOPE_IDENTITY();";
                 string sql_check_user = "SELECT COUNT(*) FROM [User] WHERE login = @login";
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
@@ -129,7 +130,8 @@ namespace SchedulingService
                         };
                         command.Parameters.Add(RoleParam);
 
-                        var result = command.ExecuteScalar();
+                        int id = Convert.ToInt32(command.ExecuteScalar());
+                        user.ID_User = id;
                         user.error = false;
 
                         return user;
