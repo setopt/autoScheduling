@@ -65,7 +65,7 @@ namespace SchedulingService.Tests
             var roomColPrev = servise.SelectRoom().Count;
             Room room = new Room
             {
-                Number = "402",
+                Number = "Test Room",
                 Roominess = 15
             };
 

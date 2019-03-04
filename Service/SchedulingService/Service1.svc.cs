@@ -82,8 +82,6 @@ namespace SchedulingService
                     command_check_user.Parameters.AddWithValue("@login", user.Login);
                     int count_user = (int)command_check_user.ExecuteScalar();
 
-
-
                     if (count_user == 0)
                     {
                         SqlCommand command = new SqlCommand(sql, connection);
@@ -639,34 +637,54 @@ namespace SchedulingService
             }
         }
 
-        public void AddRoom(Room room)
+        public Room AddRoom(Room room)
         {
             if (room.Number != "" && room.Roominess != 0)
             {
                 string sql = "INSERT INTO [Room](Number, Roominess) VALUES (@Number,@Roominess)";
+                sql += ";SELECT SCOPE_IDENTITY();";
+                string sql_check_room = "SELECT COUNT(*) FROM [Room] WHERE Number = @number";
+
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    SqlCommand command = new SqlCommand(sql, connection);
-
-                    SqlParameter NumberParam = new SqlParameter
+                    SqlCommand command_check_user = new SqlCommand(sql_check_room, connection);
+                    command_check_user.Parameters.AddWithValue("@number", room.Number);
+                    int count_rooms = (int)command_check_user.ExecuteScalar();
+                    if (count_rooms == 0)
                     {
-                        ParameterName = "@Number",
-                        Value = room.Number
-                    };
-                    command.Parameters.Add(NumberParam);
+                        SqlCommand command = new SqlCommand(sql, connection);
 
-                    SqlParameter RoominessParam = new SqlParameter
+                        SqlParameter NumberParam = new SqlParameter
+                        {
+                            ParameterName = "@Number",
+                            Value = room.Number
+                        };
+                        command.Parameters.Add(NumberParam);
+
+                        SqlParameter RoominessParam = new SqlParameter
+                        {
+                            ParameterName = "@Roominess",
+                            Value = room.Roominess
+                        };
+                        command.Parameters.Add(RoominessParam);
+
+                        int id = Convert.ToInt32(command.ExecuteScalar());
+                        room.ID_Room = id;
+
+                        var result = command.ExecuteScalar();
+                        connection.Close();
+                        return room;
+                    }
+                    else
                     {
-                        ParameterName = "@Roominess",
-                        Value = room.Roominess
-                    };
-                    command.Parameters.Add(RoominessParam);
-
-                    var result = command.ExecuteScalar();
-                    connection.Close();
+                        return room;
+                    }
                 }
-            
+            }
+            else
+            {
+                return room;
             }
         }
 

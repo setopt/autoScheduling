@@ -48,7 +48,7 @@ namespace SchedulingService
         List<Room> SelectRoom();
 
         [OperationContract]
-        void AddRoom(Room room);
+        Room AddRoom(Room room);
 
         [OperationContract]
         void UpdateRoom(Room room);
