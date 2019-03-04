@@ -332,32 +332,53 @@ namespace SchedulingService
 
         public Group AddGroup(Group group)
         {
-            string sql = "INSERT INTO [Group](Name, Number) VALUES (@Name,@Number)";
-            sql += ";SELECT SCOPE_IDENTITY();";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            if (group.Name != "" && group.Number != 0)
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
+                string sql = "INSERT INTO [Group](Name, Number) VALUES (@Name,@Number)";
+                sql += ";SELECT SCOPE_IDENTITY();";
+                string sql_check_group = "SELECT COUNT(*) FROM [Group] WHERE Name = @name";
 
-                SqlParameter RoominessParam = new SqlParameter
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    ParameterName = "@Name",
-                    Value = group.Name
-                };
-                command.Parameters.Add(RoominessParam);
+                    connection.Open();
+                    SqlCommand command_check_gro = new SqlCommand(sql_check_group, connection);
+                    command_check_gro.Parameters.AddWithValue("@name", group.Name);
+                    int count_groups = (int)command_check_gro.ExecuteScalar();
+                    if (count_groups == 0)
+                    {
+                        SqlCommand command = new SqlCommand(sql, connection);
 
-                SqlParameter NumberParam = new SqlParameter
-                {
-                    ParameterName = "@Number",
-                    Value = group.Number
-                };
-                command.Parameters.Add(NumberParam);
+                        SqlParameter NameParam = new SqlParameter
+                        {
+                            ParameterName = "@Name",
+                            Value = group.Name
+                        };
+                        command.Parameters.Add(NameParam);
 
-                int id = Convert.ToInt32(command.ExecuteScalar());
-                group.ID_Group = id;
-                connection.Close();
-                return group;
+                        SqlParameter NumberParam = new SqlParameter
+                        {
+                            ParameterName = "@Number",
+                            Value = group.Number
+                        };
+                        command.Parameters.Add(NumberParam);
+
+                        int id = Convert.ToInt32(command.ExecuteScalar());
+                        group.ID_Group = id;
+
+                        //var result = command.ExecuteScalar();
+                        connection.Close();
+                        return group;
+                    }
+                    else
+                    {
+                        return group;
+                    }
+                }
             }
+            else
+            {
+                return group;
+            }            
         }
 
         public void UpdateGroup(Group group)
@@ -1452,7 +1473,7 @@ namespace SchedulingService
     {
         public int ID_Group;
         public string Name;
-        public int Number;
+        public int Number = 0;
     }
 
     public class Order
