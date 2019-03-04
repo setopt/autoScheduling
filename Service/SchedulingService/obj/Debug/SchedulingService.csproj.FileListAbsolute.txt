@@ -17,3 +17,4 @@ C:\Users\etrim\OneDrive\Документы\GitHub\autoScheduling\Service\Schedul
 C:\Users\etrim\OneDrive\Документы\GitHub\autoScheduling\Service\SchedulingService\bin\SchedulingService.pdb
 C:\Users\etrim\OneDrive\Документы\GitHub\autoScheduling\Service\SchedulingService\obj\Debug\SchedulingService.dll
 C:\Users\etrim\OneDrive\Документы\GitHub\autoScheduling\Service\SchedulingService\obj\Debug\SchedulingService.pdb
+C:\Users\etrim\OneDrive\Документы\GitHub\autoScheduling\Service\SchedulingService\obj\Debug\SchedulingService.csprojResolveAssemblyReference.cache
