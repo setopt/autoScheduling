@@ -140,9 +140,6 @@ namespace SchedulingService
                         user.error_message = "Пользователь с таким логином уже существует!";
                         return user;
                     }
-
-
-
                 }
             }
             else {

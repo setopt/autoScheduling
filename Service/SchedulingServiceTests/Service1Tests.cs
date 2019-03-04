@@ -61,17 +61,19 @@ namespace SchedulingService.Tests
         [TestMethod()]
         public void AddRoomTest()
         {
-            var servise = new Service1();
-            var roomColPrev = servise.SelectRoom().Count;
+            var service = new Service1();
+            var roomColPrev = service.SelectRoom().Count;
             Room room = new Room
             {
                 Number = "Test Room",
                 Roominess = 15
             };
+            Room room2 = new Room();
+            room2 = service.AddRoom(room);
 
-            servise.AddRoom(room);
+            var roomColPost = service.SelectRoom().Count;
 
-            var roomColPost = servise.SelectRoom().Count;
+            service.DeleteRoom(room2.ID_Room);
 
             Assert.AreEqual(roomColPrev + 1, roomColPost);
         }
