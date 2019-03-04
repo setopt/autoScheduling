@@ -11,6 +11,7 @@ namespace SchedulingService.Tests
     [TestClass()]
     public class Service1Tests
     {
+        //user
         [TestMethod()]
         public void AddUserTest()
         {
@@ -38,8 +39,7 @@ namespace SchedulingService.Tests
         [TestMethod()]
         public void AddUserTest2()
         {
-            var servise = new Service1();
-            var userColPrev = servise.SelectUser().Count;
+            var service = new Service1();
             User userPrev = new User
             {
                 Name = "dghfd",
@@ -53,11 +53,76 @@ namespace SchedulingService.Tests
 
             };
 
-            User userPost = servise.AddUser(userPrev);
+            User userPost = service.AddUser(userPrev);
+            service.DeleteUser(userPost.ID_User);
 
             Assert.AreEqual(userPrev, userPost);
         }
 
+        [TestMethod()]
+        public void FindByIDUserTest()
+        {
+            Service1 service = new Service1();
+            User user = new User
+            {
+                Name = "asdasd",
+                Surname = "tesadsadasst",
+                Patronymic = "tesdfdsfdsfst",
+                Login = "testsgfdgdfgt",
+                Password = "tessdasdt",
+                Role = "dsgfdgfdgf"
+            };
+
+            User userPrev = new User();
+            userPrev = service.AddUser(user);
+
+            User userPost = new User();
+            userPost = service.FindByIDUser(userPrev.ID_User);
+
+            service.DeleteUser(userPrev.ID_User);
+
+            Assert.AreEqual(userPrev.ID_User, userPost.ID_User);
+
+        }
+
+        [TestMethod()]
+        public void UpdateUserTest()
+        {
+            Service1 service = new Service1();
+            User user = new User
+            {
+                Name = "foo",
+                Surname = "foo",
+                Patronymic = "foo",
+                Login = "foo",
+                Password = "foo",
+                Role = "foo"
+            };
+
+            User userPrev = new User();
+            userPrev = service.AddUser(user);
+
+            User userPlug = new User();
+            userPlug = userPrev;
+            userPlug.Login = "bar";
+            userPlug.Name = "bar";
+            userPlug.Password = "bar";
+            service.UpdateUser(userPlug);
+
+
+            User userPost = new User();
+            userPost = service.FindByIDUser(userPrev.ID_User);
+
+            service.DeleteUser(userPost.ID_User);
+
+            Assert.AreNotEqual(userPrev, userPost);
+
+
+
+
+        }
+
+        //room
         [TestMethod()]
         public void AddRoomTest()
         {
@@ -77,6 +142,41 @@ namespace SchedulingService.Tests
 
             Assert.AreEqual(roomColPrev + 1, roomColPost);
         }
-        
-}
+
+        //group
+        [TestMethod()]
+        public void AddGroupTest()
+        {
+            var service = new Service1();
+            var groupColPrev = service.SelectGroup().Count;
+            Group group = new Group
+            {
+                Name = "foo",
+                Number = 12
+            };
+            Group group2 = new Group();
+            group2 = service.AddGroup(group);
+
+            var groupColPost = service.SelectGroup().Count;
+
+            service.DeleteGroup(group2.ID_Group);
+
+            Assert.AreEqual(groupColPrev + 1, groupColPost);
+        }
+
+        [TestMethod()]
+        public void AddGroupTest2()
+        {
+            var service = new Service1();
+            Group groupPrev = new Group
+            {
+                Name = "foo",
+                Number = 12
+            };
+
+            Group groupPost = service.AddGroup(groupPrev);
+
+            Assert.AreEqual(groupPrev, groupPost);
+        }
+    }
 }

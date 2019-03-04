@@ -15,7 +15,10 @@ namespace SchedulingService
     public class Service1 : IService1
     {
         //Path.GetFullPath("db_schedule.mdf")
+        //readonly static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data\\db_schedule.mdf");
         readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\tokin\Documents\GitHub\autoScheduling\Service\SchedulingService\App_Data\db_schedule.mdf;Integrated Security=True";
+        
+
 
         //class User
         public List<User> SelectUser()
@@ -45,11 +48,11 @@ namespace SchedulingService
                         {
                             ID_User = reader.GetInt32(0),
                             Name = reader.GetString(1),
-                            Surname = reader.GetString(1),
-                            Patronymic = reader.GetString(1),
-                            Login = reader.GetString(1),
-                            Password = reader.GetString(1),
-                            Role = reader.GetString(1),
+                            Surname = reader.GetString(2),
+                            Patronymic = reader.GetString(3),
+                            Login = reader.GetString(4),
+                            Password = reader.GetString(5),
+                            Role = reader.GetString(6),
                         };
 
                         Users.Add(user);
@@ -261,11 +264,13 @@ namespace SchedulingService
                     {
                         user.ID_User = reader.GetInt32(0);
                         user.Name = reader.GetString(1);
-                        user.Surname = reader.GetString(1);
-                        user.Patronymic = reader.GetString(1);
-                        user.Login = reader.GetString(1);
-                        user.Password = reader.GetString(1);
-                        user.Role = reader.GetString(1);
+                        user.Surname = reader.GetString(2);
+                        user.Patronymic = reader.GetString(3);
+                        user.Login = reader.GetString(4);
+                        user.Password = reader.GetString(5);
+                        user.Role = reader.GetString(6);
+                        user.error = false;
+                        user.error_message = null;
                     }
                     connection.Close();
 
@@ -325,9 +330,10 @@ namespace SchedulingService
             }
         }
 
-        public void AddGroup(Group group)
+        public Group AddGroup(Group group)
         {
             string sql = "INSERT INTO [Group](Name, Number) VALUES (@Name,@Number)";
+            sql += ";SELECT SCOPE_IDENTITY();";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -347,8 +353,10 @@ namespace SchedulingService
                 };
                 command.Parameters.Add(NumberParam);
 
-                var result = command.ExecuteScalar();
+                int id = Convert.ToInt32(command.ExecuteScalar());
+                group.ID_Group = id;
                 connection.Close();
+                return group;
             }
         }
 
@@ -669,7 +677,7 @@ namespace SchedulingService
                         int id = Convert.ToInt32(command.ExecuteScalar());
                         room.ID_Room = id;
 
-                        var result = command.ExecuteScalar();
+                        //var result = command.ExecuteScalar();
                         connection.Close();
                         return room;
                     }

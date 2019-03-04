@@ -80,7 +80,7 @@ namespace SchedulingService
         List<Group> SelectGroup();
 
         [OperationContract]
-        void AddGroup(Group group);
+        Group AddGroup(Group group);
 
         [OperationContract]
         void UpdateGroup(Group group);
