@@ -178,5 +178,53 @@ namespace SchedulingService.Tests
 
             Assert.AreEqual(groupPrev, groupPost);
         }
+
+        [TestMethod()]
+        public void FindByIDGroupTest()
+        {
+            Service1 service = new Service1();
+            Group group = new Group
+            {
+                Name = "foo",
+                Number = 12
+            };
+
+            Group groupPrev = new Group();
+            groupPrev = service.AddGroup(group);
+
+            Group groupPost = new Group();
+            groupPost = service.FindByIDGroup(groupPrev.ID_Group);
+
+            service.DeleteGroup(groupPrev.ID_Group);
+
+            Assert.AreEqual(groupPrev.ID_Group, groupPost.ID_Group);
+         }
+
+        [TestMethod()]
+        public void UpdateGroupTest()
+        {
+            Service1 service = new Service1();
+            Group group = new Group
+            {
+                Name = "foo",
+               Number = 12
+            };
+
+            Group groupPrev = new Group();
+            groupPrev = service.AddGroup(group);
+
+            Group groupPlug = new Group();
+            groupPlug = groupPrev;
+            groupPlug.Name = "bar";
+            groupPlug.Number = 13;
+            service.UpdateGroup(groupPlug);
+            
+            Group groupPost = new Group();
+            groupPost = service.FindByIDGroup(groupPrev.ID_Group);
+
+            service.DeleteGroup(groupPost.ID_Group);
+
+            Assert.AreNotEqual(groupPrev, groupPost);
+        }
     }
 }
