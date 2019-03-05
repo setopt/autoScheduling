@@ -116,10 +116,6 @@ namespace SchedulingService.Tests
             service.DeleteUser(userPost.ID_User);
 
             Assert.AreNotEqual(userPrev, userPost);
-
-
-
-
         }
 
         //room
@@ -142,6 +138,37 @@ namespace SchedulingService.Tests
 
             Assert.AreEqual(roomColPrev + 1, roomColPost);
         }
+
+        [TestMethod()]
+        public void UpdateRoomTest()
+        {
+            var service = new Service1();
+            Room room = new Room
+            {
+                Number = "Test Room",
+                Roominess = 15
+            };
+
+            Room roomPrev = new Room();
+            roomPrev = service.AddRoom(room);
+
+            Room roomPlug = new Room();
+            roomPlug = roomPrev;
+            roomPlug.Number = "TRoom";
+            roomPlug.Roominess = 15;
+            service.UpdateRoom(roomPlug);
+
+
+            Room roomPost = new Room();
+            roomPost = service.FindByIDRoom(roomPrev.ID_Room);
+
+            service.DeleteUser(roomPost.ID_Room);
+
+            Assert.AreNotEqual(roomPrev, roomPost);
+        }
+
+        [TestMethod()]
+        public void FindByIDRoomTest() { }
 
         //group
         [TestMethod()]

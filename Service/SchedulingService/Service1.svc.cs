@@ -740,36 +740,40 @@ namespace SchedulingService
 
         public void UpdateRoom(Room room)
         {
-            string sql = "UPDATE [Room] SET Number = @Number,Roominess= @Roominess WHERE [Room].ID_Room = @ID;";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            if (room.Number != "" && room.Roominess != 0)
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
-
-                SqlParameter IDParam = new SqlParameter
+                string sql = "UPDATE [Room] SET Number = @Number,Roominess= @Roominess WHERE [Room].ID_Room = @ID;";
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    ParameterName = "@ID",
-                    Value = room.ID_Room
-                };
-                command.Parameters.Add(IDParam);
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(sql, connection);
 
-                SqlParameter NumberParam = new SqlParameter
-                {
-                    ParameterName = "@Number",
-                    Value = room.Number
-                };
-                command.Parameters.Add(NumberParam);
+                    SqlParameter IDParam = new SqlParameter
+                    {
+                        ParameterName = "@ID",
+                        Value = room.ID_Room
+                    };
+                    command.Parameters.Add(IDParam);
 
-                SqlParameter RoominessParam = new SqlParameter
-                {
-                    ParameterName = "@Roominess",
-                    Value = room.Roominess
-                };
-                command.Parameters.Add(RoominessParam);
+                    SqlParameter NumberParam = new SqlParameter
+                    {
+                        ParameterName = "@Number",
+                        Value = room.Number
+                    };
+                    command.Parameters.Add(NumberParam);
 
-                var result = command.ExecuteScalar();
-                connection.Close();
+                    SqlParameter RoominessParam = new SqlParameter
+                    {
+                        ParameterName = "@Roominess",
+                        Value = room.Roominess
+                    };
+                    command.Parameters.Add(RoominessParam);
+
+                    var result = command.ExecuteScalar();
+                    connection.Close();
+                }
             }
+            
         }
 
         public void DeleteRoom(int id)
