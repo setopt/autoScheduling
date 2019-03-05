@@ -126,7 +126,7 @@ namespace SchedulingService.Tests
             var roomColPrev = service.SelectRoom().Count;
             Room room = new Room
             {
-                Number = "Test Roomf",
+                Number = "tt",
                 Roominess = 16
             };
             Room room2 = new Room();
@@ -145,7 +145,7 @@ namespace SchedulingService.Tests
             var service = new Service1();
             Room room = new Room
             {
-                Number = "Test Room",
+                Number = "tt",
                 Roominess = 15
             };
 
@@ -154,7 +154,7 @@ namespace SchedulingService.Tests
 
             Room roomPlug = new Room();
             roomPlug = roomPrev;
-            roomPlug.Number = "TRoom";
+            roomPlug.Number = "df";
             roomPlug.Roominess = 15;
             service.UpdateRoom(roomPlug);
 
@@ -220,6 +220,8 @@ namespace SchedulingService.Tests
             };
 
             Group groupPost = service.AddGroup(groupPrev);
+
+            service.DeleteGroup(groupPost.ID_Group);
 
             Assert.AreEqual(groupPrev, groupPost);
         }
@@ -512,16 +514,16 @@ namespace SchedulingService.Tests
         }
 
         //couple
-        [TestMethod()]
+       /* [TestMethod()]
         public void AddCoupleTest()
         {
             var service = new Service1();
             var coupleColPrev = service.SelectCouple().Count;
             Couple couple = new Couple
             {
-                ID_Couple = 10,
-                Start = TimeSpan.Parse("7:30"),
-				End = TimeSpan.Parse("7:50")
+               // ID_Couple = 10,
+                Start = TimeSpan.Parse("08:00:00"),
+				End = TimeSpan.Parse("08:10:00")
 
             };
             Couple couple2 = new Couple();
@@ -532,9 +534,9 @@ namespace SchedulingService.Tests
             service.DeleteCouple(couple2.ID_Couple);
 			
 			Assert.AreEqual(coupleColPrev + 1, coupleColPost);
-        }
+        }*/
 
-        [TestMethod()]
+       /* [TestMethod()]
         public void UpdateCoupleTest()
         {
             Service1 service = new Service1();
@@ -561,9 +563,9 @@ namespace SchedulingService.Tests
             service.DeleteCouple(couplePost.ID_Couple);
 
             Assert.AreNotEqual(couplePrev, couplePost);
-		}
+		}*/
 
-        [TestMethod()]
+       /* [TestMethod()]
         public void FindByIDCoupleTest()
         {
             Service1 service = new Service1();
@@ -583,7 +585,7 @@ namespace SchedulingService.Tests
             service.DeleteCouple(couplePrev.ID_Couple);
 
             Assert.AreEqual(couplePrev.ID_Couple, couplePost.ID_Couple);
-        }
+        }*/
 
     }
 }

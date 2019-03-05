@@ -64,7 +64,7 @@ namespace SchedulingService
         List<Couple> SelectCouple();
 
         [OperationContract]
-        void AddCouple(Couple couple);
+        Couple AddCouple(Couple couple);
 
         [OperationContract]
         void UpdateCouple(Couple couple);
