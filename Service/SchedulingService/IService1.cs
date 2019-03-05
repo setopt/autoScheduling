@@ -112,7 +112,7 @@ namespace SchedulingService
         List<Subject> SelectSubject();
 
         [OperationContract]
-        void AddSubject(Subject subject);
+        Subject AddSubject(Subject subject);
 
         [OperationContract]
         void UpdateSubject(Subject subject);

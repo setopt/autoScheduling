@@ -226,5 +226,25 @@ namespace SchedulingService.Tests
 
             Assert.AreNotEqual(groupPrev, groupPost);
         }
+
+        [TestMethod()]
+        public void AddSubjectTest()
+        {
+            var service = new Service1();
+            var subjectColPrev = service.SelectSubject().Count;
+            Subject subject = new Subject
+            {
+                Name = "foo",
+            };
+            Subject subject2 = new Subject();
+            subject2 = service.AddSubject(subject);
+
+            var subjectColPost = service.SelectSubject().Count;
+
+            service.DeleteSubject(subject2.ID_Subject);
+
+            Assert.AreEqual(subjectColPrev + 1, subjectColPost);
+            
+        }
     }
 }

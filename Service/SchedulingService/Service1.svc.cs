@@ -16,8 +16,9 @@ namespace SchedulingService
     {
         //Path.GetFullPath("db_schedule.mdf")
         //readonly static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data\\db_schedule.mdf");
-        readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\tokin\Documents\GitHub\autoScheduling\Service\SchedulingService\App_Data\db_schedule.mdf;Integrated Security=True";
-        
+        //readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\tokin\Documents\GitHub\autoScheduling\Service\SchedulingService\App_Data\db_schedule.mdf;Integrated Security=True";
+        readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Наталья\Documents\GitHub\autoScheduling\Service\SchedulingService\App_Data\db_schedule.mdf;Integrated Security=True";
+
 
 
         //class User
@@ -515,24 +516,47 @@ namespace SchedulingService
             }
         }
 
-        public void AddSubject(Subject subject)
+        public Subject AddSubject(Subject subject)
         {
-            string sql = "INSERT INTO [Subject](Name) VALUES (@Name)";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            if (subject.Name != "")
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
-
-                SqlParameter NameParam = new SqlParameter
+                string sql = "INSERT INTO [Subject](Name) VALUES (@Name);SELECT SCOPE_IDENTITY();";
+                string subject_check = "SELECT COUNT(*) FROM Subject WHERE Name = @Name";
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    ParameterName = "@Name",
-                    Value = subject.Name
-                };
-                command.Parameters.Add(NameParam);
+                    connection.Open();
+                    SqlCommand command_check_subject = new SqlCommand(subject_check, connection);
+                    command_check_subject.Parameters.AddWithValue("@Name", subject.Name);
+                    int count_subject = (int)command_check_subject.ExecuteScalar();
 
-                var result = command.ExecuteScalar();
-                connection.Close();
+                    if (count_subject == 0)
+                    {
+                        SqlCommand command = new SqlCommand(sql, connection);
+
+                        SqlParameter NameParam = new SqlParameter
+                        {
+                            ParameterName = "@Name",
+                            Value = subject.Name
+                        };
+                        command.Parameters.Add(NameParam);
+
+                        int id = Convert.ToInt32(command.ExecuteScalar());
+                        subject.ID_Subject = id;
+                      
+
+                        return subject;
+                    }
+                    else
+                    { 
+                        return subject;
+                    }
+                }
             }
+            else {
+               
+                return subject;
+            }
+            
         }
 
         public void UpdateSubject(Subject subject)
@@ -1264,6 +1288,7 @@ namespace SchedulingService
                             "(Room_ID, Order_ID, Couple_ID, DayOfWeek, NumDem)" +
                         "VALUES " +
                             "(@Room_ID,@Order_ID,@Couple_ID,@DayOfWeeks,@NumDems)";
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -1467,6 +1492,7 @@ namespace SchedulingService
     {
         public int ID_Subject;
         public string Name;
+   
     }
 
     public class Group
