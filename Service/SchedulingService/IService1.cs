@@ -123,6 +123,9 @@ namespace SchedulingService
         [OperationContract]
         Subject FindByIDSubject(int id);
 
+        [OperationContract]
+        Authentication Authentication(string login, string password);
+
     }
 
 

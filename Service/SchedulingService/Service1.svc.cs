@@ -1519,6 +1519,91 @@ namespace SchedulingService
                 }
             }
         }
+
+        public bool CheckLoginUser(string login)
+        {
+            string sql = "SELECT * FROM [User] WHERE [User].Login = @login";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                SqlParameter LoginParam = new SqlParameter
+                {
+                    ParameterName = "@login",
+                    Value = login
+                };
+                command.Parameters.Add(LoginParam);
+
+                var reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        public Authentication Authentication(string login, string password)
+        {
+            Authentication auth = new Authentication();
+
+            if (CheckLoginUser(login))
+            {
+                string sql = "SELECT [User].ID_User, [User].[Role] FROM [User] WHERE [Login] = @login AND [Password] = @password";
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(sql, connection);
+
+                    SqlParameter LoginParam = new SqlParameter
+                    {
+                        ParameterName = "@login",
+                        Value = login
+                    };
+                    command.Parameters.Add(LoginParam);
+
+                    SqlParameter PasswordParam = new SqlParameter
+                    {
+                        ParameterName = "@password",
+                        Value = password
+                    };
+                    command.Parameters.Add(PasswordParam);
+
+                    var reader = command.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            
+                            auth.error = false;
+                            auth.error_message = null;
+                            auth.User_ID = reader.GetInt32(0);
+                            auth.Role = reader.GetString(1);
+
+                        }
+                        return auth;
+                    }
+                    else
+                    {
+                        auth.error = true;
+                        auth.error_message = "Неверное имя пользователя или пароль";
+                        return auth;
+                    }
+                }
+            }
+            else
+            {
+                auth.error = true;
+                auth.error_message = "Неверное имя пользователя или пароль";
+                return auth;
+            }
+
+        }
     }        
 
     public class User
@@ -1602,5 +1687,13 @@ namespace SchedulingService
         public int ID_Couple;
         public TimeSpan Start;
         public TimeSpan End;
+    }
+
+    public class Authentication
+    {
+        public bool error;
+        public string error_message;
+        public int User_ID;
+        public string Role;
     }
 }
