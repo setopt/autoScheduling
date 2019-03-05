@@ -126,8 +126,8 @@ namespace SchedulingService.Tests
             var roomColPrev = service.SelectRoom().Count;
             Room room = new Room
             {
-                Number = "Test Room",
-                Roominess = 15
+                Number = "Test Roomf",
+                Roominess = 16
             };
             Room room2 = new Room();
             room2 = service.AddRoom(room);
@@ -179,7 +179,7 @@ namespace SchedulingService.Tests
             Group group = new Group
             {
                 Name = "foo",
-                Number = 12
+                Number = 14
             };
             Group group2 = new Group();
             group2 = service.AddGroup(group);
@@ -213,7 +213,7 @@ namespace SchedulingService.Tests
             Group group = new Group
             {
                 Name = "foo",
-                Number = 12
+                Number = 23
             };
 
             Group groupPrev = new Group();
@@ -225,7 +225,7 @@ namespace SchedulingService.Tests
             service.DeleteGroup(groupPrev.ID_Group);
 
             Assert.AreEqual(groupPrev.ID_Group, groupPost.ID_Group);
-         }
+        }
 
         [TestMethod()]
         public void UpdateGroupTest()
@@ -234,7 +234,7 @@ namespace SchedulingService.Tests
             Group group = new Group
             {
                 Name = "foo",
-               Number = 12
+                Number = 12
             };
 
             Group groupPrev = new Group();
@@ -245,7 +245,7 @@ namespace SchedulingService.Tests
             groupPlug.Name = "bar";
             groupPlug.Number = 13;
             service.UpdateGroup(groupPlug);
-            
+
             Group groupPost = new Group();
             groupPost = service.FindByIDGroup(groupPrev.ID_Group);
 
@@ -254,6 +254,8 @@ namespace SchedulingService.Tests
             Assert.AreNotEqual(groupPrev, groupPost);
         }
 
+
+        //subject
         [TestMethod()]
         public void AddSubjectTest()
         {
@@ -271,7 +273,151 @@ namespace SchedulingService.Tests
             service.DeleteSubject(subject2.ID_Subject);
 
             Assert.AreEqual(subjectColPrev + 1, subjectColPost);
-            
+
         }
+
+        [TestMethod()]
+        public void AddSubjectTest2()
+        {
+            var service = new Service1();
+            Subject subjectPrev = new Subject
+            {
+                Name = "foo",
+            };
+
+            Subject subjectPost = new Subject();
+            subjectPost = service.AddSubject(subjectPrev);
+
+            service.DeleteSubject(subjectPost.ID_Subject);
+
+            Assert.AreEqual(subjectPrev, subjectPost);
+        }
+
+        [TestMethod()]
+        public void UpdateSubjectTest()
+        {
+            var service = new Service1();
+            Subject subject = new Subject
+            {
+                Name = "foo",
+            };
+
+            Subject subjectPrev = new Subject();
+            subjectPrev = service.AddSubject(subject);
+
+            Subject subjectPlug = new Subject();
+            subjectPlug = subjectPrev;
+            subjectPlug.Name = "bar";
+            service.UpdateSubject(subjectPlug);
+
+            Subject subjectPost = new Subject();
+            subjectPost = service.FindByIDSubject(subjectPost.ID_Subject);
+
+            service.DeleteSubject(subjectPlug.ID_Subject);
+
+            Assert.AreNotEqual(subjectPrev, subjectPost);
+
+        }
+
+        //shedule
+        [TestMethod()]
+        public void AddSheduleTest()
+        {
+            Service1 service = new Service1();
+            int sheduleColPrev = service.SheduleTable().Count;
+            Shedule shedule = new Shedule
+            {
+                Room_ID = 1,
+                Order_ID = 1,
+                Couple_ID = 1,
+                DayOfWeek = 1,
+                NumDem = true
+            };
+
+            Shedule shedulePlug = new Shedule();
+            shedulePlug = service.AddShedule(shedule);
+
+            int sheduleColPost = service.SheduleTable().Count;
+            service.DeleteShedule(shedulePlug.ID_Shedule);
+
+            Assert.AreEqual(sheduleColPrev + 1, sheduleColPost);
+        }
+
+        [TestMethod()]
+        public void AddSheduleTest2()
+        {
+            Service1 service = new Service1();
+            Shedule shedulePrev = new Shedule
+            {
+                Room_ID = 1,
+                Order_ID = 1,
+                Couple_ID = 1,
+                DayOfWeek = 1,
+                NumDem = true
+            };
+
+            Shedule shedulePost = new Shedule();
+            shedulePost = service.AddShedule(shedulePrev);
+
+            service.DeleteShedule(shedulePost.ID_Shedule);
+
+            Assert.AreEqual(shedulePrev, shedulePost);
+        }
+
+        [TestMethod()]
+        public void UpdateSheduleTest()
+        {
+            Service1 service = new Service1();
+            Shedule shedule = new Shedule
+            {
+                Room_ID = 1,
+                Order_ID = 1,
+                Couple_ID = 1,
+                DayOfWeek = 1,
+                NumDem = true
+            };
+
+            Shedule shedulePrev = new Shedule();
+            shedulePrev = service.AddShedule(shedule);
+
+            Shedule shedulePlug = new Shedule();
+            shedulePlug = shedulePrev;
+            shedulePlug.NumDem = false;
+            service.UpdateShedule(shedulePlug);
+
+
+            Shedule shedulePost = new Shedule();
+            shedulePost = service.FindByIDShedule(shedulePrev.ID_Shedule);
+
+            service.DeleteShedule(shedulePost.ID_Shedule);
+
+            Assert.AreNotEqual(shedulePrev, shedulePost);
+        }
+
+        [TestMethod()]
+        public void FindByIDSheduleTest()
+        {
+            Service1 service = new Service1();
+            Shedule shedule = new Shedule
+            {
+                Room_ID = 1,
+                Order_ID = 1,
+                Couple_ID = 1,
+                DayOfWeek = 1,
+                NumDem = true
+            };
+
+            Shedule shedulePrev = new Shedule();
+            shedulePrev = service.AddShedule(shedule);
+
+            Shedule shedulePost = new Shedule();
+            shedulePost = service.FindByIDShedule(shedulePrev.ID_Shedule);
+
+            service.DeleteShedule(shedulePost.ID_Shedule);
+
+            Assert.AreEqual(shedulePrev.ID_Shedule, shedulePost.ID_Shedule);
+        }
+
+        
     }
 }

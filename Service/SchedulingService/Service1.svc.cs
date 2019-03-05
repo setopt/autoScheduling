@@ -17,7 +17,7 @@ namespace SchedulingService
         //Path.GetFullPath("db_schedule.mdf")
         //readonly static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data\\db_schedule.mdf");
         //readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\tokin\Documents\GitHub\autoScheduling\Service\SchedulingService\App_Data\db_schedule.mdf;Integrated Security=True";
-        readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Наталья\Documents\GitHub\autoScheduling\Service\SchedulingService\App_Data\db_schedule.mdf;Integrated Security=True";
+        readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\tokin\Documents\GitHub\autoScheduling\Service\SchedulingService\App_Data\db_schedule.mdf;Integrated Security=True";
 
 
 
@@ -365,14 +365,13 @@ namespace SchedulingService
 
                         int id = Convert.ToInt32(command.ExecuteScalar());
                         group.ID_Group = id;
-
-                        //var result = command.ExecuteScalar();
+                        
                         connection.Close();
                         return group;
                     }
                     else
                     {
-                        return group;
+                        return null;
                     }
                 }
             }
@@ -1239,13 +1238,14 @@ namespace SchedulingService
                         "[Shedule].DayOfWeek as [День недели]," +
                         "[Shedule].NumDem as [Числитель/Знаменатель]" +
                     "FROM" +
-                        "[Shedule],[Subject],[Group],[Room],[User]" +
+                        "[Shedule],[Subject],[Group],[Room],[User],[Order],[Couple]" +
                     "WHERE " +
-                        "[Shedule].Shedule_ID = [Shedule].ID_Shedule AND" +
-                        "[Shedule].Group_ID = [Group].ID_Group AND" +
-                        "[Shedule].Subject_ID = [Subject].ID_Subject AND" +
-                        "[Shedule].Room_ID = [Room].ID_Room AND" +
-                        "[Shedule].User_ID = [User].ID_User";
+                        "[Shedule].Order_Id = [Order].Id_Order AND" +
+                        "[Shedule].Couple_Id = [Couple].ID_Couple AND" +
+                        "[Shedule].Room_Id = [Room].ID_Room AND" +
+                        "[Order].User_ID = [User].ID_User AND" +
+                        "[Order].Group_ID = [Group].ID_Group AND" +
+                        "[Subject].ID_Subject = [Order].Subject_ID";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -1264,11 +1264,11 @@ namespace SchedulingService
                         {
                             ID_Shedule = reader.GetInt32(0),
                             User_name = reader.GetString(1),
-                            Subject_name = reader.GetString(2),
-                            Group_name = reader.GetString(3),
-                            DayOfWeek = reader.GetInt32(4),
-                            Room_number = reader.GetString(5),
-                            NumDem = reader.GetString(6),
+                            Room_number = reader.GetString(2),
+                            Subject_name = reader.GetString(3),
+                            Group_name = reader.GetString(4),
+                            DayOfWeek = reader.GetInt32(5),
+                            NumDem = reader.GetBoolean(6)
                         };
 
                         sheduleTables.Add(sheduleTable);
@@ -1286,12 +1286,13 @@ namespace SchedulingService
             }
         }
 
-        public void AddShedule(Shedule shedule)
+        public Shedule AddShedule(Shedule shedule)
         {
             string sql = "INSERT INTO [Shedule]" +
                             "(Room_ID, Order_ID, Couple_ID, DayOfWeek, NumDem)" +
                         "VALUES " +
                             "(@Room_ID,@Order_ID,@Couple_ID,@DayOfWeeks,@NumDems)";
+            sql += ";SELECT SCOPE_IDENTITY();";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -1334,8 +1335,11 @@ namespace SchedulingService
                 };
                 command.Parameters.Add(NumDemsParam);
 
-                var result = command.ExecuteScalar();
+                int id = Convert.ToInt32(command.ExecuteScalar());
+                shedule.ID_Shedule = id;
+                
                 connection.Close();
+                return shedule;
             }
         }
 
@@ -1348,7 +1352,7 @@ namespace SchedulingService
                             "Order_ID=@Order_ID," +
                             "Couple_ID=@Couple_ID," +
                             "DayOfWeek=@DayOfWeeks," +
-                            "NumDem=@NumDems" +
+                            "NumDem=@NumDems " +
                         "WHERE " +
                             "[Shedule].ID_Shedule = @ID";
 
@@ -1456,7 +1460,7 @@ namespace SchedulingService
                         shedule.Order_ID = (int)reader["Order_ID"];
                         shedule.Couple_ID = (int)reader["Couple_ID"];
                         shedule.DayOfWeek = (int)reader["DayOfWeek"];
-                        shedule.NumDem = (string)reader["NumDem"];
+                        shedule.NumDem = (bool)reader["NumDem"];
                     }
                     connection.Close();
 
@@ -1533,7 +1537,7 @@ namespace SchedulingService
         public int Order_ID;
         public int Couple_ID;
         public int DayOfWeek;
-        public string NumDem;
+        public bool NumDem;
     }
 
     public class SheduleTable
@@ -1544,7 +1548,7 @@ namespace SchedulingService
         public string Subject_name;
         public string Group_name;
         public int DayOfWeek;
-        public string NumDem;
+        public bool NumDem;
 
     }
 

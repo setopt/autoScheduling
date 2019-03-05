@@ -96,7 +96,7 @@ namespace SchedulingService
         List<SheduleTable> SheduleTable();              
 
         [OperationContract]
-        void AddShedule(Shedule shedule);
+        Shedule AddShedule(Shedule shedule);
 
         [OperationContract]
         void UpdateShedule(Shedule shedule);
