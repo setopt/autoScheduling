@@ -1,0 +1,17 @@
+C:\Users\tokin\source\repos\SchedulingClient\SchedulingClient\bin\Debug\SchedulingClient.exe.config
+C:\Users\tokin\source\repos\SchedulingClient\SchedulingClient\bin\Debug\SchedulingClient.exe
+C:\Users\tokin\source\repos\SchedulingClient\SchedulingClient\bin\Debug\SchedulingClient.pdb
+C:\Users\tokin\source\repos\SchedulingClient\SchedulingClient\obj\Debug\SchedulingClient.csprojAssemblyReference.cache
+C:\Users\tokin\source\repos\SchedulingClient\SchedulingClient\obj\Debug\MainWindow.g.cs
+C:\Users\tokin\source\repos\SchedulingClient\SchedulingClient\obj\Debug\MenuAdmin.g.cs
+C:\Users\tokin\source\repos\SchedulingClient\SchedulingClient\obj\Debug\App.g.cs
+C:\Users\tokin\source\repos\SchedulingClient\SchedulingClient\obj\Debug\SchedulingClient_MarkupCompile.cache
+C:\Users\tokin\source\repos\SchedulingClient\SchedulingClient\obj\Debug\SchedulingClient_MarkupCompile.lref
+C:\Users\tokin\source\repos\SchedulingClient\SchedulingClient\obj\Debug\MainWindow.baml
+C:\Users\tokin\source\repos\SchedulingClient\SchedulingClient\obj\Debug\MenuAdmin.baml
+C:\Users\tokin\source\repos\SchedulingClient\SchedulingClient\obj\Debug\SchedulingClient.g.resources
+C:\Users\tokin\source\repos\SchedulingClient\SchedulingClient\obj\Debug\SchedulingClient.Properties.Resources.resources
+C:\Users\tokin\source\repos\SchedulingClient\SchedulingClient\obj\Debug\SchedulingClient.csproj.GenerateResource.cache
+C:\Users\tokin\source\repos\SchedulingClient\SchedulingClient\obj\Debug\SchedulingClient.csproj.CoreCompileInputs.cache
+C:\Users\tokin\source\repos\SchedulingClient\SchedulingClient\obj\Debug\SchedulingClient.exe
+C:\Users\tokin\source\repos\SchedulingClient\SchedulingClient\obj\Debug\SchedulingClient.pdb
