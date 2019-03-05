@@ -17,8 +17,8 @@ namespace SchedulingService
         //Path.GetFullPath("db_schedule.mdf")
         //readonly static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data\\db_schedule.mdf");
         //readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\tokin\Documents\GitHub\autoScheduling\Service\SchedulingService\App_Data\db_schedule.mdf;Integrated Security=True";
-        readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\tokin\Documents\GitHub\autoScheduling\Service\SchedulingService\App_Data\db_schedule.mdf;Integrated Security=True";
-
+        readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\etrim\OneDrive\Документы\GitHub\autoScheduling\Service\SchedulingService\App_Data\db_schedule.mdf;Integrated Security=True";
+        //readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\tokin\Documents\GitHub\autoScheduling\Service\SchedulingService\App_Data\db_schedule.mdf;Integrated Security=True";
 
 
         //class User
@@ -877,65 +877,106 @@ namespace SchedulingService
             }
         }
 
-        public void AddCouple(Couple couple)
-        {
-            string sql = "INSERT INTO [Couple]([Start], [End]) VALUES (@Start,@End)";
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
+        public Couple AddCouple(Couple couple)
+		{
+			if(couple.Start != null && couple.End != null)
+			{
+				string sql = "INSERT INTO [Couple]([Start], [End]) VALUES (@Start, @End)";
+				sql += ";SELECT SCOPE_IDENTITY();";
+				string sql_check_start = "SELECT COUNT(*) FROM [User] WHERE [Start] = @start";
+				string sql_check_end = "SELECT COUNT(*) FROM [User] WHERE [End] = @end";
+				string sql_check_start1 = "SELECT COUNT(*) FROM [User] WHERE [Start] = @end";
+				string sql_check_end1 = "SELECT COUNT(*) FROM [User] WHERE [End] = @start";
+				using (SqlConnection connection = new SqlConnection(connectionString))
+				{
+					connection.Open();
+					SqlCommand command_check_start = new SqlCommand(sql_check_start, connection);
+					command_check_start.Parameters.AddWithValue("@start", couple.Start);
+					int count_start = (int)command_check_start.ExecuteScalar();
+					
+					SqlCommand command_check_end = new SqlCommand(sql_check_end, connection);
+					command_check_start.Parameters.AddWithValue("@end", couple.End);
+					int count_end = (int)command_check_end.ExecuteScalar();
+					
+					SqlCommand command_check_start1 = new SqlCommand(sql_check_start1, connection);
+					command_check_start.Parameters.AddWithValue("@end", couple.Start);
+					int count_start1 = (int)command_check_start.ExecuteScalar();
+					
+					SqlCommand command_check_end1 = new SqlCommand(sql_check_end1, connection);
+					command_check_start.Parameters.AddWithValue("@start", couple.End);
+					int count_end1 = (int)command_check_end.ExecuteScalar();
+						
+					if(count_end == 0 && count_start == 0 && count_end1 == 0 && count_start1 == 0)
+					{
+						SqlCommand command = new SqlCommand(sql, connection);
 
-                SqlParameter StartParam = new SqlParameter
-                {
-                    ParameterName = "@Start",
-                    Value = couple.Start
-                };
-                command.Parameters.Add(StartParam);
+						SqlParameter StartParam = new SqlParameter
+						{
+							ParameterName = "@Start",
+							Value = couple.Start
+						};
+						command.Parameters.Add(StartParam);
 
-                SqlParameter EndParam = new SqlParameter
-                {
-                    ParameterName = "@End",
-                    Value = couple.End
-                };
-                command.Parameters.Add(EndParam);
+						SqlParameter EndParam = new SqlParameter
+						{
+							ParameterName = "@End",
+							Value = couple.End
+						};
+						command.Parameters.Add(EndParam);
 
-                var result = command.ExecuteScalar();
-                connection.Close();
-            }
-        }
+						var result = command.ExecuteScalar();
+						connection.Close();
+						return couple;
+					}
+					else
+					{						
+						connection.Close();
+						return couple;
+					}					
+				}
+			}
+			else
+			{
+				return couple;
+			}
+		}
 
         public void UpdateCouple(Couple couple)
         {
-            string sql = "UPDATE [Couple] SET [Start] = @Start, [End]= @End WHERE [Couple].ID_Couple = @ID;";
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
-
-                SqlParameter IDParam = new SqlParameter
+			if(couple.Start != null && couple.End != null)
+			{
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    ParameterName = "@ID",
-                    Value = couple.ID_Couple
-                };
-                command.Parameters.Add(IDParam);
+                    string sql = "UPDATE [Couple] SET [Start] = @Start, [End]= @End WHERE [Couple].ID_Couple = @ID;";
+				
+					connection.Open();
+					SqlCommand command = new SqlCommand(sql, connection);
 
-                SqlParameter StartParam = new SqlParameter
-                {
-                    ParameterName = "@Start",
-                    Value = couple.Start
-                };
-                command.Parameters.Add(StartParam);
+					SqlParameter IDParam = new SqlParameter
+					{
+						ParameterName = "@ID",
+						Value = couple.ID_Couple
+					};
+					command.Parameters.Add(IDParam);
 
-                SqlParameter RoominessParam = new SqlParameter
-                {
-                    ParameterName = "@End",
-                    Value = couple.End
-                };
-                command.Parameters.Add(RoominessParam);
+					SqlParameter StartParam = new SqlParameter
+					{
+						ParameterName = "@Start",
+						Value = couple.Start
+					};
+					command.Parameters.Add(StartParam);
 
-                var result = command.ExecuteScalar();
-                connection.Close();
-            }
+					SqlParameter EndParam = new SqlParameter
+					{
+						ParameterName = "@End",
+						Value = couple.End
+					};
+					command.Parameters.Add(EndParam);
+
+					var result = command.ExecuteScalar();
+					connection.Close();
+				}				
+			}
         }
 
         public void DeleteCouple(int id)

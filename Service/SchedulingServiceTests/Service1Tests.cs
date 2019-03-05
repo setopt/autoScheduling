@@ -168,7 +168,25 @@ namespace SchedulingService.Tests
         }
 
         [TestMethod()]
-        public void FindByIDRoomTest() { }
+        public void FindByIDRoomTest()
+        {
+            Service1 service = new Service1();
+            Room room = new Room
+            {
+                Number = "TestRoom",
+                Roominess = 15
+            };
+
+            Room roomPrev = new Room();
+            roomPrev = service.AddRoom(room);
+
+            Room roomPost = new Room();
+            roomPost = service.FindByIDRoom(roomPrev.ID_Room);
+
+            service.DeleteRoom(roomPrev.ID_Room);
+
+            Assert.AreEqual(roomPrev.ID_Room, roomPost.ID_Room);
+        }
 
         //group
         [TestMethod()]
@@ -491,6 +509,80 @@ namespace SchedulingService.Tests
             service.DeleteOrder(orderPost.ID_Order);
 
             Assert.AreEqual(orderPrev.ID_Order, orderPost.ID_Order);
+        }
+
+        //couple
+        [TestMethod()]
+        public void AddCoupleTest()
+        {
+            var service = new Service1();
+            var coupleColPrev = service.SelectCouple().Count;
+            Couple couple = new Couple
+            {
+                ID_Couple = 10,
+                Start = TimeSpan.Parse("7:30"),
+				End = TimeSpan.Parse("7:50")
+
+            };
+            Couple couple2 = new Couple();
+            couple2 = service.AddCouple(couple);
+			
+			var coupleColPost = service.SelectCouple().Count;
+
+            service.DeleteCouple(couple2.ID_Couple);
+			
+			Assert.AreEqual(coupleColPrev + 1, coupleColPost);
+        }
+
+        [TestMethod()]
+        public void UpdateCoupleTest()
+        {
+            Service1 service = new Service1();
+            Couple couple = new Couple
+            {
+                ID_Couple = 10,
+                Start = TimeSpan.Parse("20:10"),
+                End = TimeSpan.Parse("21:40")
+            };
+
+            Couple couplePrev = new Couple();
+            couplePrev = service.AddCouple(couple);
+
+            Couple couplePlug = new Couple();
+            couplePlug = couplePrev;
+            couplePlug.Start = TimeSpan.Parse("20:15");
+			couplePlug.End = TimeSpan.Parse("21:45");
+            service.UpdateCouple(couplePlug);
+
+
+            Couple couplePost = new Couple();
+            couplePost = service.FindByIDCouple(couplePrev.ID_Couple);
+
+            service.DeleteCouple(couplePost.ID_Couple);
+
+            Assert.AreNotEqual(couplePrev, couplePost);
+		}
+
+        [TestMethod()]
+        public void FindByIDCoupleTest()
+        {
+            Service1 service = new Service1();
+            Couple couple = new Couple
+            {
+                ID_Couple = 10,
+                Start = TimeSpan.Parse("20:10"),
+                End = TimeSpan.Parse("21:40")
+            };
+
+            Couple couplePrev = new Couple();
+            couplePrev = service.AddCouple(couple);
+
+            Couple couplePost = new Couple();
+            couplePost = service.FindByIDCouple(couplePrev.ID_Couple);
+
+            service.DeleteCouple(couplePrev.ID_Couple);
+
+            Assert.AreEqual(couplePrev.ID_Couple, couplePost.ID_Couple);
         }
 
     }
