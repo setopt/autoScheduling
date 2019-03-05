@@ -418,6 +418,80 @@ namespace SchedulingService.Tests
             Assert.AreEqual(shedulePrev.ID_Shedule, shedulePost.ID_Shedule);
         }
 
-        
+        // Order
+        [TestMethod()]
+        public void AddOrderTest()
+        {
+            Service1 service = new Service1();
+            int orderColPrev = service.OrderTable().Count;
+            Order order = new Order
+            {
+                User_ID = 1,
+                Subject_ID = 1,
+                Group_ID = 1,
+                NumberLessons = 1
+            };
+
+            Order orderPlug = new Order();
+            orderPlug = service.AddOrder(order);
+
+            int orderColPost = service.OrderTable().Count;
+            service.DeleteOrder(orderPlug.ID_Order);
+
+            Assert.AreEqual(orderColPrev + 1, orderColPost);
+        }
+
+        [TestMethod()]
+        public void UpdateOrderTest()
+        {
+            Service1 service = new Service1();
+            Order order = new Order
+            {
+                User_ID = 1,
+                Subject_ID = 1,
+                Group_ID = 1,
+                NumberLessons = 1
+            };
+
+            Order orderPrev = new Order();
+            orderPrev = service.AddOrder(order);
+
+            Order orderPlug = new Order();
+            orderPlug = orderPrev;
+            orderPlug.NumberLessons = 2;
+            service.UpdateOrder(orderPlug);
+
+
+            Order orderPost = new Order();
+            orderPost = service.FindByIDOrder(orderPrev.ID_Order);
+
+            service.DeleteOrder(orderPost.ID_Order);
+
+            Assert.AreNotEqual(orderPrev, orderPost);
+        }
+
+        [TestMethod()]
+        public void FindByIDOrderTest()
+        {
+            Service1 service = new Service1();
+            Order order = new Order
+            {
+                User_ID = 1,
+                Subject_ID = 1,
+                Group_ID = 1,
+                NumberLessons = 1
+            };
+
+            Order orderPrev = new Order();
+            orderPrev = service.AddOrder(order);
+
+            Order orderPost = new Order();
+            orderPost = service.FindByIDOrder(orderPrev.ID_Order);
+
+            service.DeleteOrder(orderPost.ID_Order);
+
+            Assert.AreEqual(orderPrev.ID_Order, orderPost.ID_Order);
+        }
+
     }
 }
