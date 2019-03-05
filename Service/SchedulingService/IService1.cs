@@ -35,7 +35,7 @@ namespace SchedulingService
         void DeleteOrder(int id);
 
         [OperationContract]
-        void AddOrder(Order order);
+        Order AddOrder(Order order);
 
         [OperationContract]
         void UpdateOrder(Order order);

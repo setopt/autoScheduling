@@ -1077,12 +1077,14 @@ namespace SchedulingService
             }
         }
 
-        public void AddOrder(Order order)
+        public Order AddOrder(Order order)
         {
             string sql = "INSERT INTO [Order]" +
-                            "(User_ID, Subject_ID, Group_ID,NumberLessons) " +
+                            "(User_ID, Subject_ID, Group_ID, NumberLessons)" +
                         "VALUES " +
                             "(@User_ID,@Subject_ID,@Group_ID,@NumberLessons)";
+            sql += ";SELECT SCOPE_IDENTITY();";
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -1117,10 +1119,11 @@ namespace SchedulingService
                 };
                 command.Parameters.Add(NumberLessonsParam);
 
+                int id = Convert.ToInt32(command.ExecuteScalar());
+                order.ID_Order = id;
 
-
-                var result = command.ExecuteScalar();
                 connection.Close();
+                return order;
             }
         }
 
