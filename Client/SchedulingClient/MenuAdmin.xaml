@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SchedulingClient"
         mc:Ignorable="d"
-        Title="MenuAdmin" Height="450" Width="800">
+        Title="Администратор" Height="450" Width="800">
     <Grid>
-        <Label Content="Админ" HorizontalAlignment="Left" Margin="327,170,0,0" VerticalAlignment="Top" Height="68" Width="88" FontSize="22"/>
+        <Label Content="Админ" HorizontalAlignment="Left" VerticalAlignment="Top" Height="68" Width="88" FontSize="22"/>
 
     </Grid>
 </Window>

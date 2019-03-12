@@ -7,11 +7,11 @@
         mc:Ignorable="d"
         Title="Авторизация" Height="450" Width="800">
     <Grid>
-        <TextBox x:Name="tbLogin" Height="25" Margin="374,201,269.6,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" HorizontalAlignment="Center"/>
-        <PasswordBox x:Name="pbPassword" Margin="374,228,269.6,0" VerticalAlignment="Top" Width="150" Height="25" HorizontalAlignment="Center"/>
-        <Label x:Name="labelLogin" Content="Логин:" Margin="280,201,424.6,0" VerticalAlignment="Top" Height="25" Width="89" HorizontalContentAlignment="Center" HorizontalAlignment="Center"/>
-        <Label x:Name="labelPassword" Content="Пароль:" Margin="280,228,424.6,0" VerticalAlignment="Top" Height="25" Width="89" HorizontalContentAlignment="Center" HorizontalAlignment="Center"/>
-        <Button x:Name="btAuthorization" Content="Авторизация" HorizontalAlignment="Left" Margin="374,271,0,0" VerticalAlignment="Top" Width="150" Click="BtAuthorization_Click"/>
+        <TextBox x:Name="tbLogin" Height="25" Margin="365,157,277,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" HorizontalAlignment="Center"/>
+        <PasswordBox x:Name="pbPassword" Margin="365,184,277,0" VerticalAlignment="Top" Width="150" Height="25" HorizontalAlignment="Center"/>
+        <Label x:Name="labelLogin" Content="Логин:" Margin="271,157,432,0" VerticalAlignment="Top" Height="25" Width="89" HorizontalContentAlignment="Center" HorizontalAlignment="Center"/>
+        <Label x:Name="labelPassword" Content="Пароль:" Margin="271,184,432,0" VerticalAlignment="Top" Height="25" Width="89" HorizontalContentAlignment="Center" HorizontalAlignment="Center"/>
+        <Button x:Name="btAuthorization" Content="Авторизация" HorizontalAlignment="Left" Margin="366,227,0,0" VerticalAlignment="Top" Width="150" Click="BtAuthorization_Click"/>
 
     </Grid>
 </Window>
