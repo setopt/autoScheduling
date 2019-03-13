@@ -12,6 +12,7 @@
         <Label x:Name="labelLogin" Content="Логин:" Margin="271,157,432,0" VerticalAlignment="Top" Height="25" Width="89" HorizontalContentAlignment="Center" HorizontalAlignment="Center"/>
         <Label x:Name="labelPassword" Content="Пароль:" Margin="271,184,432,0" VerticalAlignment="Top" Height="25" Width="89" HorizontalContentAlignment="Center" HorizontalAlignment="Center"/>
         <Button x:Name="btAuthorization" Content="Авторизация" HorizontalAlignment="Left" Margin="366,227,0,0" VerticalAlignment="Top" Width="150" Click="BtAuthorization_Click"/>
+        <Label x:Name="labelError" Content="Не верное имя пользователя или пароль" HorizontalAlignment="Left" Margin="293,258,0,0" VerticalAlignment="Top" Height="60" Width="244" Foreground="Red" Visibility="Collapsed"/>
 
     </Grid>
 </Window>

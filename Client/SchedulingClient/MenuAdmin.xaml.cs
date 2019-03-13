@@ -23,5 +23,11 @@ namespace SchedulingClient
         {
             InitializeComponent();
         }
+
+        private void BtnGroup_Click(object sender, RoutedEventArgs e)
+        {
+            Group group = new Group();
+            group.ShowDialog();
+        }
     }
 }

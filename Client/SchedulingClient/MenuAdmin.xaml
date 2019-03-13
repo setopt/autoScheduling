@@ -8,6 +8,7 @@
         Title="Администратор" Height="450" Width="800">
     <Grid>
         <Label Content="Админ" HorizontalAlignment="Left" VerticalAlignment="Top" Height="68" Width="88" FontSize="22"/>
+        <Button x:Name="btnGroup" Content="Открыть группы" HorizontalAlignment="Left" Margin="93,107,0,0" VerticalAlignment="Top" Width="128" Height="29" Click="BtnGroup_Click"/>
 
     </Grid>
 </Window>

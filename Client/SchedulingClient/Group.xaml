@@ -1,0 +1,33 @@
+﻿<Window x:Class="SchedulingClient.Group"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SchedulingClient"
+        mc:Ignorable="d"
+        Title="Group" Height="278.133" Width="447.067" ResizeMode="NoResize">
+    <Grid Margin="0,0,-6.4,-20">
+        <DataGrid x:Name="dataGrid" Margin="10,10,158.2,32.8" CanUserAddRows="False" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="DataGrid_MouseDoubleClick">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding ID_Group}" Header="ID" Visibility="Hidden"/>
+                <DataGridTextColumn Binding="{Binding Name}" Header="Номер"/>
+                <DataGridTextColumn Binding="{Binding Number}" Header="Количество"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid x:Name="gridDB" HorizontalAlignment="Left" Height="219" Margin="10,10,0,0" VerticalAlignment="Top" Width="279" Background="White" IsVisibleChanged="GridDB_IsVisibleChanged">
+            <Button x:Name="btnCancel" Content="Отмена" HorizontalAlignment="Left" Margin="183,182,0,0" VerticalAlignment="Top" Width="86" Height="27" Click="BtnCancel_Click"/>
+            <Button x:Name="btnOK" Content="ОК" HorizontalAlignment="Left" Margin="92,182,0,0" VerticalAlignment="Top" Width="86" Height="27" Click="BtnOK_Click"/>
+            <Label x:Name="labelDB" Content="Добавить группу" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="210" Height="36" FontSize="18"/>
+            <Label x:Name="il" Content="Номер" HorizontalAlignment="Left" Margin="10,46,0,0" VerticalAlignment="Top" Width="98"/>
+            <TextBox x:Name="tbName" HorizontalAlignment="Left" Height="23" Margin="10,76,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+            <Label x:Name="il_Copy" Content="Количество" HorizontalAlignment="Left" Margin="10,101,0,0" VerticalAlignment="Top" Width="98"/>
+            <TextBox x:Name="tbNumber" HorizontalAlignment="Left" Height="23" Margin="10,131,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        </Grid>
+
+        <Button x:Name="btnAdd" Content="Добавить" Margin="294,13,0,0" VerticalAlignment="Top" Height="30" Click="BtnAdd_Click" HorizontalAlignment="Left" Width="133"/>
+        <Button x:Name="btnDel" Content="Удалить" HorizontalAlignment="Left" Margin="294,118,0,0" VerticalAlignment="Top" Width="133" Height="30" Click="BtnDel_Click"/>
+        <Button x:Name="btnUpdate" Content="Редактировать" HorizontalAlignment="Left" Margin="294,48,0,0" VerticalAlignment="Top" Width="133" Height="30" Click="BtnUpdate_Click"/>
+
+    </Grid>
+</Window>
