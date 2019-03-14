@@ -41,5 +41,11 @@ namespace SchedulingClient
             Room room = new Room();
             room.ShowDialog();
         }
+
+        private void BtnSubject_Click(object sender, RoutedEventArgs e)
+        {
+            Subject subject = new Subject();
+            subject.ShowDialog();
+        }
     }
 }
