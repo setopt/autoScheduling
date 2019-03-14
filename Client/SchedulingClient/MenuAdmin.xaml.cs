@@ -35,5 +35,11 @@ namespace SchedulingClient
             User user = new User();
             user.ShowDialog();
         }
+
+        private void BtnRoom_Click(object sender, RoutedEventArgs e)
+        {
+            Room room = new Room();
+            room.ShowDialog();
+        }
     }
 }

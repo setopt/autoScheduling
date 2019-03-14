@@ -54,3 +54,6 @@ C:\Users\tokin\Documents\GitHub\autoScheduling\Client\SchedulingClient\obj\Debug
 C:\Users\tokin\Documents\GitHub\autoScheduling\Client\SchedulingClient\obj\Debug\Group.baml
 C:\Users\tokin\Documents\GitHub\autoScheduling\Client\SchedulingClient\obj\Debug\User.g.cs
 C:\Users\tokin\Documents\GitHub\autoScheduling\Client\SchedulingClient\obj\Debug\User.baml
+C:\Users\Илья\Desktop\autoScheduling-master\autoScheduling\Client\SchedulingClient\bin\Debug\SchedulingClient.exe.config
+C:\Users\Илья\Desktop\autoScheduling-master\autoScheduling\Client\SchedulingClient\obj\Debug\SchedulingClient.exe
+C:\Users\Илья\Desktop\autoScheduling-master\autoScheduling\Client\SchedulingClient\obj\Debug\SchedulingClient.pdb

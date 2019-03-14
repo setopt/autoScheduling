@@ -56,6 +56,14 @@ namespace SchedulingClient {
         #line default
         #line hidden
         
+        
+        #line 13 "..\..\MenuAdmin.xaml"
+        [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        internal System.Windows.Controls.Button btnRoom;
+        
+        #line default
+        #line hidden
+        
         private bool _contentLoaded;
         
         /// <summary>
@@ -100,6 +108,15 @@ namespace SchedulingClient {
             
             #line 12 "..\..\MenuAdmin.xaml"
             this.btnUser.Click += new System.Windows.RoutedEventHandler(this.BtnUser_Click);
+            
+            #line default
+            #line hidden
+            return;
+            case 3:
+            this.btnRoom = ((System.Windows.Controls.Button)(target));
+            
+            #line 13 "..\..\MenuAdmin.xaml"
+            this.btnRoom.Click += new System.Windows.RoutedEventHandler(this.BtnRoom_Click);
             
             #line default
             #line hidden
