@@ -25,14 +25,9 @@ namespace SchedulingClient
         public Group()
         {
             InitializeComponent();
-            FillDG();
+            dataGrid.ItemsSource = service.SelectGroup();
             gridDB.Visibility = Visibility.Hidden;
             dataGrid.Visibility = Visibility.Visible;
-        }
-
-        private void FillDG()
-        {
-            dataGrid.ItemsSource = service.SelectGroup();
         }
 
         private void BtnOK_Click(object sender, RoutedEventArgs e)
@@ -58,7 +53,7 @@ namespace SchedulingClient
                 service.UpdateGroup(group);
             }
             btnCancel.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
-            FillDG();
+            dataGrid.ItemsSource = service.SelectGroup();
         }
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
@@ -70,14 +65,18 @@ namespace SchedulingClient
 
         private void BtnUpdate_Click(object sender, RoutedEventArgs e)
         {
-            labelDB.Content = "Редактировать группу";
-            gridDB.Visibility = Visibility.Visible;
-            dataGrid.Visibility = Visibility.Hidden;
-
-            Service.Group group = dataGrid.SelectedItem as Service.Group;
-            tbName.Text = group.Name;
-            tbNumber.Text = group.Number.ToString();
-            id_group = group.ID_Group;
+            try
+            {
+                labelDB.Content = "Редактировать группу";
+                gridDB.Visibility = Visibility.Visible;
+                dataGrid.Visibility = Visibility.Hidden;
+            
+                Service.Group group = dataGrid.SelectedItem as Service.Group;
+                tbName.Text = group.Name;
+                tbNumber.Text = group.Number.ToString();
+                id_group = group.ID_Group;
+            }
+            catch { }
         }
 
         private void BtnDel_Click(object sender, RoutedEventArgs e)
@@ -87,7 +86,7 @@ namespace SchedulingClient
                 Service.Group group = SelectedItem as Service.Group;
                 service.DeleteGroup(group.ID_Group);
             }
-            FillDG();
+            dataGrid.ItemsSource = service.SelectGroup();
         }
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)

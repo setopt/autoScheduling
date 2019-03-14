@@ -29,5 +29,11 @@ namespace SchedulingClient
             Group group = new Group();
             group.ShowDialog();
         }
+
+        private void BtnUser_Click(object sender, RoutedEventArgs e)
+        {
+            User user = new User();
+            user.ShowDialog();
+        }
     }
 }
