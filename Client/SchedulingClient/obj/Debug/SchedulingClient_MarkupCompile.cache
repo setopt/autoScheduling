@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\etrim\OneDrive\Документы\GitHub\autoScheduling\Client\SchedulingClient\obj\Debug\
+C:\Users\tokin\Documents\GitHub\autoScheduling\Client\SchedulingClient\obj\Debug\
 SchedulingClient
 none
 false
 DEBUG;TRACE
-C:\Users\etrim\OneDrive\Документы\GitHub\autoScheduling\Client\SchedulingClient\App.xaml
-2-772823361
+C:\Users\tokin\Documents\GitHub\autoScheduling\Client\SchedulingClient\App.xaml
+5-1545488777
 
-71691392276
+10-1730314942
 15833945659
-MainWindow.xaml;MenuAdmin.xaml;
+Group.xaml;MainWindow.xaml;MenuAdmin.xaml;MenuUser.xaml;User.xaml;
 
 False
 

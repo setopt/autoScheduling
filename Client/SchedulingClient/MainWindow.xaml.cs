@@ -35,12 +35,24 @@ namespace SchedulingClient
             auth = service.Authentication(Login, Password);
             if (!auth.error)
             {
+                labelError.Visibility = Visibility.Collapsed;
                 if (auth.Role == "admin")
                 {
                     MenuAdmin menuAdmin = new MenuAdmin();
                     menuAdmin.Show();
                     Close();
                 }
+                else if (auth.Role == "user")
+                {
+                    MenuUser menuUser = new MenuUser();
+                    menuUser.Show();
+                    Close();
+                }
+            }
+            else
+            {
+                labelError.Content = auth.error_message;
+                labelError.Visibility = Visibility.Visible;
             }
         }
     }

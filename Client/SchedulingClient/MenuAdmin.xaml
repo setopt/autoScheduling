@@ -8,6 +8,10 @@
         Title="Администратор" Height="450" Width="800">
     <Grid>
         <Label Content="Админ" HorizontalAlignment="Left" VerticalAlignment="Top" Height="68" Width="88" FontSize="22"/>
+        <Button x:Name="btnGroup" Content="Открыть группы" HorizontalAlignment="Left" Margin="93,107,0,0" VerticalAlignment="Top" Width="128" Height="29" Click="BtnGroup_Click"/>
+        <Button x:Name="btnUser" Content="Открыть юзеров" HorizontalAlignment="Left" Margin="93,141,0,0" VerticalAlignment="Top" Width="128" Height="30" Click="BtnUser_Click"/>
+        <Button x:Name="btnRoom" Content="Открыть аудитории" HorizontalAlignment="Left" Margin="93,176,0,0" VerticalAlignment="Top" Width="128" Height="30" Click="BtnRoom_Click"/>
+        <Button x:Name="btnSubject" Content="Открыть предметы" HorizontalAlignment="Left" Margin="93,211,0,0" VerticalAlignment="Top" Width="128" Height="30" Click="BtnSubject_Click"/>
 
     </Grid>
 </Window>
