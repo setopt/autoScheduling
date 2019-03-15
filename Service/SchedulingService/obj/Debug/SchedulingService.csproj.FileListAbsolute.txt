@@ -18,3 +18,10 @@ C:\Users\etrim\OneDrive\Документы\GitHub\autoScheduling\Service\Schedul
 C:\Users\etrim\OneDrive\Документы\GitHub\autoScheduling\Service\SchedulingService\obj\Debug\SchedulingService.dll
 C:\Users\etrim\OneDrive\Документы\GitHub\autoScheduling\Service\SchedulingService\obj\Debug\SchedulingService.pdb
 C:\Users\etrim\OneDrive\Документы\GitHub\autoScheduling\Service\SchedulingService\obj\Debug\SchedulingService.csprojResolveAssemblyReference.cache
+C:\Users\Наталья\Source\Repos\autoScheduling5\Service\SchedulingService\bin\SchedulingService.dll.config
+C:\Users\Наталья\Source\Repos\autoScheduling5\Service\SchedulingService\bin\SchedulingService.dll
+C:\Users\Наталья\Source\Repos\autoScheduling5\Service\SchedulingService\bin\SchedulingService.pdb
+C:\Users\Наталья\Source\Repos\autoScheduling5\Service\SchedulingService\obj\Debug\SchedulingService.csprojAssemblyReference.cache
+C:\Users\Наталья\Source\Repos\autoScheduling5\Service\SchedulingService\obj\Debug\SchedulingService.csproj.CoreCompileInputs.cache
+C:\Users\Наталья\Source\Repos\autoScheduling5\Service\SchedulingService\obj\Debug\SchedulingService.dll
+C:\Users\Наталья\Source\Repos\autoScheduling5\Service\SchedulingService\obj\Debug\SchedulingService.pdb

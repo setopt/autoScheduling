@@ -48,6 +48,9 @@ namespace SchedulingClient
                     menuUser.Show();
                     Close();
                 }
+                Properties.Settings.Default.User_ID = auth.User_ID;
+                Properties.Settings.Default.Save();
+                
             }
             else
             {
