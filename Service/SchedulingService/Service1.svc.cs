@@ -884,10 +884,10 @@ namespace SchedulingService
 			{
 				string sql = "INSERT INTO [Couple]([Start], [End]) VALUES (@Start, @End)";
 				sql += ";SELECT SCOPE_IDENTITY();";
-				string sql_check_start = "SELECT COUNT(*) FROM [User] WHERE [Start] = @start";
-				string sql_check_end = "SELECT COUNT(*) FROM [User] WHERE [End] = @end";
-				string sql_check_start1 = "SELECT COUNT(*) FROM [User] WHERE [Start] = @end";
-				string sql_check_end1 = "SELECT COUNT(*) FROM [User] WHERE [End] = @start";
+				string sql_check_start = "SELECT COUNT(*) FROM [User] WHERE TIMESTAMPDIFF(HOUR, [Start], @start) = 0 AND TIMESTAMPDIFF(MINUTE, [Start], @start) = 0";
+				string sql_check_end = "SELECT COUNT(*) FROM [User] WHERE TIMESTAMPDIFF(HOUR, [End], @end) = 0 AND TIMESTAMPDIFF(MINUTE, [End], @end) = 0";
+				string sql_check_start1 = "SELECT COUNT(*) FROM [User] WHERE TIMESTAMPDIFF(HOUR, [Start], @end) = 0 AND TIMESTAMPDIFF(MINUTE, [Start], @end) = 0";
+				string sql_check_end1 = "SELECT COUNT(*) FROM [User] WHERE IMESTAMPDIFF(HOUR, [End], @start) = 0 AND TIMESTAMPDIFF(MINUTE, [End], @start) = 0";
 				using (SqlConnection connection = new SqlConnection(connectionString))
 				{
 					connection.Open();
