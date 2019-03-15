@@ -1607,72 +1607,22 @@ namespace SchedulingService
         }
 
         //собственно алгоритм
-        //public List<Room> Rooms = new List<Room>();
-        //public List<WhenClass> Classes = new List<WhenClass>();
-        //public List<WhoClass> Orders = new List<WhoClass>();
-        //public List<int> Limits = new List<int>();
-        //public List<Matrix[,]> mtx = new List<Matrix[,]>();
-        //public Matrix[,] Matrix;
-
-        //public void PreBuild(Matrix[,] matrix)
-        //{
-        //    //часть 1: поставить нули, где группы не помещаются в аудитории
-        //    for (int i = 0; i < Classes.Count; i++)
-        //        for (int j = 0; j < Orders.Count; j++)
-        //            if (Classes[i].Roominess < Orders[j].NumberStud)
-        //            {
-        //                matrix[i, j] = new Matrix { m = false };
-        //            }
-        //}
-
-        //public void Build(Matrix[,] matrix, List<int> limits)
-        //{
-        //    //часть 2: собственно выполнение алгоритма
-        //    //Matrix[,] cmatrix = new Matrix[Classes.Count, Orders.Count];
-        //    //for (int i = 0; i < Classes.Count; i++)
-        //    //    for (int j = 0; j < Orders.Count; j++)
-        //    //    {
-        //    //        if (matrix[i, j] == null)
-        //    //            cmatrix[i, j] = null;
-        //    //        else
-        //    //            cmatrix[i, j] = (Matrix)matrix[i, j].Clone();
-        //    //    }
-        //    //        List<int> cLimits = new List<int>();
-        //    //for (int i = 0; i < limits.Count; i++)
-        //    //{
-        //    //    cLimits.Add(limits[i]);
-        //    //}
-
-        //    for (int i = 0; i < Classes.Count; i++)
-        //        for (int j = 0; j < Orders.Count; j++)
-        //        {
-        //            if (matrix[i, j] == null)
-        //            {
-        //                for (int m = 0; m < Classes.Count; m++)
-        //                {
-        //                    if (matrix[m, j] != null)
-        //                        if (!matrix[m, j].m)
-        //                            matrix[m, j] = new Matrix { m = false };
-        //                }
-
-        //                for (int m = 0; m < Orders.Count; m++)
-        //                {
-        //                    if (matrix[i, m] != null)
-        //                        if (!matrix[i, m].m)
-        //                            matrix[i, m] = new Matrix { m = false };
-        //                }
-        //                matrix[i, j] = new Matrix { m = true };
-        //                Limits[j]--;
-        //                if (Limits[j] != 0)
-        //                {
-        //                    matrix[i + (Classes.Count / 2), j] = new Matrix { m = true };
-        //                    Limits[j]--;
-        //                }
-        //            }
-        //        }
-
-
-        //}
+        public void Create()
+        {
+            Building.PreBuild();
+            Building.Build();
+            for (int i = 0; i < Building.Classes.Count; i++)
+                for (int j = 0; j < Building.Orders.Count; j++)
+                {
+                    Shedule sh = new Shedule();
+                    sh.Couple_ID = Building.Classes[i].Couple;
+                    sh.DayOfWeek = Building.Classes[i].Day_Of_Week;
+                    sh.NumDem = Building.Classes[i].NumDel;
+                    sh.Order_ID = Building.Orders[j].ID_Order;
+                    sh.Room_ID = Building.Classes[i].Room;
+                    AddShedule(sh);
+                }
+        }
     }        
 
     public class User
@@ -1823,46 +1773,6 @@ namespace SchedulingService
         }
     }
 
-    public class WhoClass
-    {
-        int teacher;
-        int group;
-        int numberStud;
-        int number;
-
-        public int Teacher
-        {
-            get { return teacher; }
-            set { teacher = value; }
-        }
-
-        public int Group
-        {
-            get { return group; }
-            set { group = value; }
-        }
-
-        public int NumberStud
-        {
-            get { return numberStud; }
-            set
-            {
-                if (value > 0)
-                    numberStud = value;
-            }
-        }
-
-        public int Number
-        {
-            get { return number; }
-            set
-            {
-                if (value > 0)
-                    number = value;
-            }
-        }
-    }
-
     public class Matrix : ICloneable
     {
         public bool m;
@@ -1870,6 +1780,102 @@ namespace SchedulingService
         public object Clone()
         {
             return new Matrix { m = this.m };
+        }
+    }
+
+    public class Building
+    {
+        public static Service1 ser = new Service1();
+        public static List<Room> Rooms = new List<Room>();
+        public static List<WhenClass> Classes = new List<WhenClass>();
+        public static List<OrderTable> Orders = new List<OrderTable>();
+        public static List<int> Limits = new List<int>();
+        public static List<Matrix[,]> mtx = new List<Matrix[,]>();
+        public static Matrix[,] Matrix;
+
+        public static void PreBuild()
+        {
+            Orders = ser.OrderTable();
+            Rooms = ser.SelectRoom();
+            Matrix = new Matrix[Classes.Count, Orders.Count];
+            fillClasses();
+            //часть 1: поставить нули, где группы не помещаются в аудитории
+            for (int i = 0; i < Classes.Count; i++)
+                for (int j = 0; j < Orders.Count; j++)
+                    if (Classes[i].Roominess < Orders[j].Group_number)
+                    {
+                        Matrix[i, j] = new Matrix { m = false };
+                    }
+        }
+
+        public static void Build()
+        {
+            //часть 2: собственно выполнение алгоритма
+            //Matrix[,] cmatrix = new Matrix[Classes.Count, Orders.Count];
+            //for (int i = 0; i < Classes.Count; i++)
+            //    for (int j = 0; j < Orders.Count; j++)
+            //    {
+            //        if (matrix[i, j] == null)
+            //            cmatrix[i, j] = null;
+            //        else
+            //            cmatrix[i, j] = (Matrix)matrix[i, j].Clone();
+            //    }
+            //        List<int> cLimits = new List<int>();
+            //for (int i = 0; i < limits.Count; i++)
+            //{
+            //    cLimits.Add(limits[i]);
+            //}
+
+            for (int i = 0; i < Classes.Count; i++)
+                for (int j = 0; j < Orders.Count; j++)
+                {
+                    if (Matrix[i, j] == null)
+                    {
+                        for (int m = 0; m < Classes.Count; m++)
+                        {
+                            if (Matrix[m, j] != null)
+                                if (!Matrix[m, j].m)
+                                    Matrix[m, j] = new Matrix { m = false };
+                        }
+
+                        for (int m = 0; m < Orders.Count; m++)
+                        {
+                            if (Matrix[i, m] != null)
+                                if (!Matrix[i, m].m)
+                                    Matrix[i, m] = new Matrix { m = false };
+                        }
+                        Matrix[i, j] = new Matrix { m = true };
+                        Limits[j]--;
+                        if (Limits[j] != 0)
+                        {
+                            Matrix[i + (Classes.Count / 2), j] = new Matrix { m = true };
+                            Limits[j]--;
+                        }
+                    }
+                }
+        }
+
+        public static void fillClasses()
+        {
+            for (int i = 1; i < 7; i++)
+                for (int j = 1; j < 9; j++)
+                    for (int r = 0; r < Rooms.Count; r++)
+                    {
+                        Classes.Add(new WhenClass(i, j, false, Rooms[r].ID_Room, Rooms[r].Roominess));
+                    }
+
+            for (int i = 1; i < 7; i++)
+                for (int j = 1; j < 9; j++)
+                    for (int r = 0; r < Rooms.Count; r++)
+                    {
+                        Classes.Add(new WhenClass(i, j, true, Rooms[r].ID_Room, Rooms[r].Roominess));
+                    }
+
+            for (int i = 0; i < Orders.Count; i++)
+            {
+                Limits.Add(Orders[i].NumberLessons);
+            }
+
         }
     }
 }

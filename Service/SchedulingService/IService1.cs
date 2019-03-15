@@ -126,6 +126,9 @@ namespace SchedulingService
         [OperationContract]
         Authentication Authentication(string login, string password);
 
+        [OperationContract]
+        void Create();
+
     }
 
 
