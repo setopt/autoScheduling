@@ -12,12 +12,7 @@ namespace AlgorithmSheduleTest
 {
     public partial class Form1 : Form
     {
-        public List<Room> Rooms = new List<Room>();
-        public List<WhenClass> Classes = new List<WhenClass>();
-        public List<WhoClass> Orders = new List<WhoClass>();
-        public List<int> Limits = new List<int>();
-        public List<Matrix[,]> mtx = new List<AlgorithmSheduleTest.Matrix[,]>();
-        public Matrix[,] Matrix;
+        
 
         public Form1()
         {
@@ -71,6 +66,13 @@ namespace AlgorithmSheduleTest
             }
 
         }
+
+        public List<Room> Rooms = new List<Room>();
+        public List<WhenClass> Classes = new List<WhenClass>();
+        public List<WhoClass> Orders = new List<WhoClass>();
+        public List<int> Limits = new List<int>();
+        public List<Matrix[,]> mtx = new List<Matrix[,]>();
+        public Matrix[,] Matrix;
 
         public void PreBuild(Matrix[,] matrix)
         {
