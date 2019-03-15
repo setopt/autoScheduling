@@ -1604,6 +1604,74 @@ namespace SchedulingService
             }
 
         }
+
+        //собственно алгоритм
+        //public List<Room> Rooms = new List<Room>();
+        //public List<WhenClass> Classes = new List<WhenClass>();
+        //public List<WhoClass> Orders = new List<WhoClass>();
+        //public List<int> Limits = new List<int>();
+        //public List<Matrix[,]> mtx = new List<Matrix[,]>();
+        //public Matrix[,] Matrix;
+
+        //public void PreBuild(Matrix[,] matrix)
+        //{
+        //    //часть 1: поставить нули, где группы не помещаются в аудитории
+        //    for (int i = 0; i < Classes.Count; i++)
+        //        for (int j = 0; j < Orders.Count; j++)
+        //            if (Classes[i].Roominess < Orders[j].NumberStud)
+        //            {
+        //                matrix[i, j] = new Matrix { m = false };
+        //            }
+        //}
+
+        //public void Build(Matrix[,] matrix, List<int> limits)
+        //{
+        //    //часть 2: собственно выполнение алгоритма
+        //    //Matrix[,] cmatrix = new Matrix[Classes.Count, Orders.Count];
+        //    //for (int i = 0; i < Classes.Count; i++)
+        //    //    for (int j = 0; j < Orders.Count; j++)
+        //    //    {
+        //    //        if (matrix[i, j] == null)
+        //    //            cmatrix[i, j] = null;
+        //    //        else
+        //    //            cmatrix[i, j] = (Matrix)matrix[i, j].Clone();
+        //    //    }
+        //    //        List<int> cLimits = new List<int>();
+        //    //for (int i = 0; i < limits.Count; i++)
+        //    //{
+        //    //    cLimits.Add(limits[i]);
+        //    //}
+
+        //    for (int i = 0; i < Classes.Count; i++)
+        //        for (int j = 0; j < Orders.Count; j++)
+        //        {
+        //            if (matrix[i, j] == null)
+        //            {
+        //                for (int m = 0; m < Classes.Count; m++)
+        //                {
+        //                    if (matrix[m, j] != null)
+        //                        if (!matrix[m, j].m)
+        //                            matrix[m, j] = new Matrix { m = false };
+        //                }
+
+        //                for (int m = 0; m < Orders.Count; m++)
+        //                {
+        //                    if (matrix[i, m] != null)
+        //                        if (!matrix[i, m].m)
+        //                            matrix[i, m] = new Matrix { m = false };
+        //                }
+        //                matrix[i, j] = new Matrix { m = true };
+        //                Limits[j]--;
+        //                if (Limits[j] != 0)
+        //                {
+        //                    matrix[i + (Classes.Count / 2), j] = new Matrix { m = true };
+        //                    Limits[j]--;
+        //                }
+        //            }
+        //        }
+
+
+        //}
     }        
 
     public class User
@@ -1695,5 +1763,112 @@ namespace SchedulingService
         public string error_message;
         public int User_ID;
         public string Role;
+    }
+
+    //Всё, что нужно для выполнения алгоритма
+    public class WhenClass
+    {
+        int couple;
+        int day_of_week;
+        bool numdel;
+        int room;
+        int roominess;
+
+        public int Couple
+        {
+            get { return couple; }
+            set { couple = value; }
+        }
+
+        public int Day_Of_Week
+        {
+            get { return day_of_week; }
+            set
+            {
+                if (value > 0 && value < 7)
+                    day_of_week = value;
+            }
+        }
+
+        public bool NumDel
+        {
+            get { return numdel; }
+            set { numdel = value; }
+        }
+
+        public int Room
+        {
+            get { return room; }
+            set { room = value; }
+        }
+
+        public int Roominess
+        {
+            get { return roominess; }
+            set
+            {
+                if (value > 0)
+                    roominess = value;
+            }
+        }
+
+        public WhenClass(int _c, int _d, bool _nd, int _r, int _rness)
+        {
+            Couple = _c;
+            Day_Of_Week = _d;
+            NumDel = _nd;
+            Room = _r;
+            Roominess = _rness;
+        }
+    }
+
+    public class WhoClass
+    {
+        int teacher;
+        int group;
+        int numberStud;
+        int number;
+
+        public int Teacher
+        {
+            get { return teacher; }
+            set { teacher = value; }
+        }
+
+        public int Group
+        {
+            get { return group; }
+            set { group = value; }
+        }
+
+        public int NumberStud
+        {
+            get { return numberStud; }
+            set
+            {
+                if (value > 0)
+                    numberStud = value;
+            }
+        }
+
+        public int Number
+        {
+            get { return number; }
+            set
+            {
+                if (value > 0)
+                    number = value;
+            }
+        }
+    }
+
+    public class Matrix : ICloneable
+    {
+        public bool m;
+
+        public object Clone()
+        {
+            return new Matrix { m = this.m };
+        }
     }
 }
