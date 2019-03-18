@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -956,60 +957,41 @@ namespace SchedulingService
         //class Shedule
         public List<SheduleTable> SheduleTable()
         {
-            string sql = "SELECT" +
-                        "[Shedule].ID_Shedule as [ID]," +
-                        "[User].Name as [Имя]," +
-                        "[Room].Number as [Аудитория]," +
-                        "[Subject].Name as [Предмет]," +
-                        "[Group].Name as [Группа]," +
-                        "[Shedule].DayOfWeek as [День недели]," +
-                        "[Shedule].NumDem as [Числитель/Знаменатель]" +
-                    "FROM" +
-                        "[Shedule],[Subject],[Group],[Room],[User],[Order],[Couple]" +
-                    "WHERE " +
-                        "[Shedule].Order_Id = [Order].Id_Order AND" +
-                        "[Shedule].Couple_Id = [Couple].ID_Couple AND" +
-                        "[Shedule].Room_Id = [Room].ID_Room AND" +
-                        "[Order].User_ID = [User].ID_User AND" +
-                        "[Order].Group_ID = [Group].ID_Group AND" +
-                        "[Subject].ID_Subject = [Order].Subject_ID";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (db_schedule db = new db_schedule())
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
-
-                var reader = command.ExecuteReader();
-
-                if (reader.HasRows)
+                var tables = (from shedule in db.Shedule
+                             join order in db.Order on shedule.Order_ID equals order.ID_Order
+                             join couple in db.Couple on shedule.Couple_ID equals couple.ID_Couple
+                             join room in db.Room on shedule.Couple_ID equals room.ID_Room
+                             join user in db.User on order.User_ID equals user.ID_User
+                             join gro in db.Group on order.Group_ID equals gro.ID_Group
+                             join subject in db.Subject on order.Subject_ID equals subject.ID_Subject
+                             select new
+                             {
+                                 shedule.ID_Shedule,
+                                 User_name = user.Name,
+                                 Room_number = room.Number,
+                                 Subject_name = subject.Name,
+                                 Group_name = gro.Name,
+                                 shedule.DayOfWeek,
+                                 shedule.NumDem
+                             });
+                List<SheduleTable> sheduleList = new List<SheduleTable>();
+                foreach(var table in tables)
                 {
-                    List<SheduleTable> sheduleTables = new List<SheduleTable>();
-
-                    while (reader.Read())
+                    SheduleTable shed = new SheduleTable
                     {
-                        SheduleTable sheduleTable = new SheduleTable
-                        {
-                            ID_Shedule = reader.GetInt32(0),
-                            User_name = reader.GetString(1),
-                            Room_number = reader.GetString(2),
-                            Subject_name = reader.GetString(3),
-                            Group_name = reader.GetString(4),
-                            DayOfWeek = reader.GetInt32(5),
-                            NumDem = reader.GetBoolean(6)
-                        };
-
-                        sheduleTables.Add(sheduleTable);
-                    }
-                    connection.Close();
-
-                    return sheduleTables;
-
+                        ID_Shedule = table.ID_Shedule,
+                        User_name = table.User_name,
+                        Room_number = table.Room_number,
+                        Subject_name = table.Subject_name,
+                        Group_name = table.Group_name,
+                        DayOfWeek = table.DayOfWeek,
+                        NumDem = table.NumDem
+                    };
+                    sheduleList.Add(shed);
                 }
-                else
-                {
-                    connection.Close();
-                    return null;
-                }
+                return sheduleList;
             }
         }
 
