@@ -25,118 +25,28 @@ namespace SchedulingService
         //class User
         public List<User> SelectUser()
         {
-            string sql = "SELECT ID_User as [ID]," +
-                            "Name as [Имя]," +
-                            "Surname as [Фамилия]," +
-                            "Patronymic as [Отчество]," +
-                            "Login as [Логин]," +
-                            "Password as [Пароль]," +
-                            "Role as [Роль]" +
-                        "FROM [User]";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (db_schedule db = new db_schedule())
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
-
-                var reader = command.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    List<User> Users = new List<User>();
-
-                    while (reader.Read())
-                    {
-                        User user = new User
-                        {
-                            ID_User = reader.GetInt32(0),
-                            Name = reader.GetString(1),
-                            Surname = reader.GetString(2),
-                            Patronymic = reader.GetString(3),
-                            Login = reader.GetString(4),
-                            Password = reader.GetString(5),
-                            Role = reader.GetString(6),
-                        };
-
-                        Users.Add(user);
-                    }
-                    connection.Close();
-
-                    return Users;
-
-                }
-                else
-                {
-                    connection.Close();
-                    return null;//Name,Surname,Patronymic,Login,Password,Role
-                }
+                List<User> users = db.User.ToList();
+                return users;
             }
+
         }
 
         public User AddUser(User user)
         {
             if (user.Login != "" && user.Password != "" && user.Role != "" && user.Name != "" && user.Surname != "")
             {
-                string sql = "INSERT INTO [User](Name,Surname,Patronymic,Login,Password,Role) VALUES (@Name,@Surname,@Patronymic,@Login,@Password,@Role)";
-                sql += ";SELECT SCOPE_IDENTITY();";
-                string sql_check_user = "SELECT COUNT(*) FROM [User] WHERE login = @login";
 
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (db_schedule db = new db_schedule())
                 {
-                    connection.Open();
-                    SqlCommand command_check_user = new SqlCommand(sql_check_user, connection);
-                    command_check_user.Parameters.AddWithValue("@login", user.Login);
-                    int count_user = (int)command_check_user.ExecuteScalar();
-
-                    if (count_user == 0)
+                    var count = db.User
+                                .Where(s => s.Login == user.Login)
+                                .Count();
+                    if (count == 0)
                     {
-                        SqlCommand command = new SqlCommand(sql, connection);
-
-                        SqlParameter NameParam = new SqlParameter
-                        {
-                            ParameterName = "@Name",
-                            Value = user.Name
-                        };
-                        command.Parameters.Add(NameParam);
-
-                        SqlParameter SurnameParam = new SqlParameter
-                        {
-                            ParameterName = "@Surname",
-                            Value = user.Surname
-                        };
-                        command.Parameters.Add(SurnameParam);
-
-                        SqlParameter PatronymicParam = new SqlParameter
-                        {
-                            ParameterName = "@Patronymic",
-                            Value = user.Patronymic
-                        };
-                        command.Parameters.Add(PatronymicParam);
-
-                        SqlParameter LoginParam = new SqlParameter
-                        {
-                            ParameterName = "@Login",
-                            Value = user.Login
-                        };
-                        command.Parameters.Add(LoginParam);
-
-                        SqlParameter PasswordParam = new SqlParameter
-                        {
-                            ParameterName = "@Password",
-                            Value = user.Password
-                        };
-                        command.Parameters.Add(PasswordParam);
-
-                        SqlParameter RoleParam = new SqlParameter
-                        {
-                            ParameterName = "@Role",
-                            Value = user.Role
-                        };
-                        command.Parameters.Add(RoleParam);
-
-                        int id = Convert.ToInt32(command.ExecuteScalar());
-                        user.ID_User = id;
-                        user.error = false;
-
+                        db.User.Add(user);
+                        db.SaveChanges();
                         return user;
                     }
                     else
@@ -146,144 +56,53 @@ namespace SchedulingService
                         return user;
                     }
                 }
+                
             }
             else {
                 user.error = true;
                 user.error_message = "Заполнены не все данные!";
                 return user;
             }
-
-           
-            
         }
 
         public void UpdateUser(User user)
         {
-            string sql = "UPDATE [User] SET Name = @Name,Surname = @Surname,Patronymic= @Patronymic, Login= @Login, Password= @Password,Role= @Role WHERE [User].ID_User = @ID;";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using(db_schedule db = new db_schedule())
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
+                User u = db.User
+                    .Where(s => s.ID_User == user.ID_User)
+                    .FirstOrDefault();
+                u.Name = user.Name;
+                u.Surname = user.Surname;
+                u.Patronymic = user.Patronymic;
+                u.Login = user.Login;
+                u.Password = user.Password;
+                u.Role = user.Role;
 
-                SqlParameter IDParam = new SqlParameter
-                {
-                    ParameterName = "@ID",
-                    Value = user.ID_User
-                };
-                command.Parameters.Add(IDParam);
-
-                SqlParameter NameParam = new SqlParameter
-                {
-                    ParameterName = "@Name",
-                    Value = user.Name
-                };
-                command.Parameters.Add(NameParam);
-
-
-                SqlParameter SurnameParam = new SqlParameter
-                {
-                    ParameterName = "@Surname",
-                    Value = user.Surname
-                };
-                command.Parameters.Add(SurnameParam);
-
-                SqlParameter PatronymicParam = new SqlParameter
-                {
-                    ParameterName = "@Patronymic",
-                    Value = user.Patronymic
-                };
-                command.Parameters.Add(PatronymicParam);
-
-                SqlParameter LoginParam = new SqlParameter
-                {
-                    ParameterName = "@Login",
-                    Value = user.Login
-                };
-                command.Parameters.Add(LoginParam);
-
-                SqlParameter PasswordParam = new SqlParameter
-                {
-                    ParameterName = "@Password",
-                    Value = user.Password
-                };
-                command.Parameters.Add(PasswordParam);
-
-                SqlParameter RoleParam = new SqlParameter
-                {
-                    ParameterName = "@Role",
-                    Value = user.Role
-                };
-                command.Parameters.Add(RoleParam);
-
-                var result = command.ExecuteScalar();
-                connection.Close();
+                db.SaveChanges();
             }
         }
 
         public void DeleteUser(int id)
         {
-            string sql = "DELETE FROM [User] WHERE [User].ID_User = @ID";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (db_schedule db = new db_schedule())
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
-
-                SqlParameter IDParam = new SqlParameter
-                {
-                    ParameterName = "@ID",
-                    Value = id
-                };
-                command.Parameters.Add(IDParam);
-
-                var result = command.ExecuteScalar();
-                connection.Close();
+                User user = db.User
+                            .Where(o => o.ID_User == id)
+                            .FirstOrDefault();
+                db.User.Remove(user);
+                db.SaveChanges();
             }
         }
 
         public User FindByIDUser(int id)
         {
-            string sql = "SELECT * From [User] WHERE ID_User =@ID";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (db_schedule db = new db_schedule())
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
-
-                SqlParameter IDParam = new SqlParameter
-                {
-                    ParameterName = "@ID",
-                    Value = id
-                };
-                command.Parameters.Add(IDParam);
-
-                var reader = command.ExecuteReader();
-
-
-                if (reader.HasRows)
-                {
-                    User user = new User();
-                    while (reader.Read())
-                    {
-                        user.ID_User = reader.GetInt32(0);
-                        user.Name = reader.GetString(1);
-                        user.Surname = reader.GetString(2);
-                        user.Patronymic = reader.GetString(3);
-                        user.Login = reader.GetString(4);
-                        user.Password = reader.GetString(5);
-                        user.Role = reader.GetString(6);
-                        user.error = false;
-                        user.error_message = null;
-                    }
-                    connection.Close();
-
-                    return user;
-
-                }
-                else
-                {
-                    connection.Close();
-                    return null;//Name,Surname,Patronymic,Login,Password,Role
-                }
+                User user = db.User
+                            .Where(o => o.ID_User == id)
+                            .FirstOrDefault();
+                return user;
             }
         }
 
@@ -291,44 +110,10 @@ namespace SchedulingService
         //class Group
         public List<Group> SelectGroup()
         {
-            string sql = "SELECT ID_Group as [ID]," +
-                            "Name as [Название группы]," +
-                            "Number as [Количество учеников]" +
-                        "FROM [Group]";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (db_schedule db = new db_schedule())
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
-
-                var reader = command.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    List<Group> Groups = new List<Group>();
-
-                    while (reader.Read())
-                    {
-                        Group group = new Group
-                        {
-                            ID_Group = reader.GetInt32(0),
-                            Name = reader.GetString(1),
-                            Number = reader.GetInt32(2),
-
-                        };
-
-                        Groups.Add(group);
-                    }
-                    connection.Close();
-
-                    return Groups;
-
-                }
-                else
-                {
-                    connection.Close();
-                    return null;
-                }
+                List<Group> groups = db.Group.ToList();
+                return groups;
             }
         }
 
@@ -478,169 +263,65 @@ namespace SchedulingService
         //class Subject
         public List<Subject> SelectSubject()
         {
-            string sql = "SELECT ID_Subject as [ID]," +
-                            "Name as [Предмет]" +
-                        "FROM [Subject]";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (db_schedule db = new db_schedule())
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
-
-                var reader = command.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    List<Subject> Subjects = new List<Subject>();
-
-                    while (reader.Read())
-                    {
-                        Subject subject = new Subject
-                        {
-                            ID_Subject = reader.GetInt32(0),
-                            Name = reader.GetString(1),
-                        };
-
-                        Subjects.Add(subject);
-                    }
-                    connection.Close();
-
-                    return Subjects;
-
-                }
-                else
-                {
-                    connection.Close();
-                    return null;
-                }
+                List<Subject> subject = db.Subject.ToList();
+                return subject;
             }
+
         }
 
         public Subject AddSubject(Subject subject)
         {
-            if (subject.Name != "")
+            using (db_schedule db = new db_schedule())
             {
-                string sql = "INSERT INTO [Subject](Name) VALUES (@Name);SELECT SCOPE_IDENTITY();";
-                string subject_check = "SELECT COUNT(*) FROM Subject WHERE Name = @Name";
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                var count = db.Subject
+                            .Where(s => s.Name == subject.Name)
+                            .Count();
+                if (count == 0)
                 {
-                    connection.Open();
-                    SqlCommand command_check_subject = new SqlCommand(subject_check, connection);
-                    command_check_subject.Parameters.AddWithValue("@Name", subject.Name);
-                    int count_subject = (int)command_check_subject.ExecuteScalar();
-
-                    if (count_subject == 0)
-                    {
-                        SqlCommand command = new SqlCommand(sql, connection);
-
-                        SqlParameter NameParam = new SqlParameter
-                        {
-                            ParameterName = "@Name",
-                            Value = subject.Name
-                        };
-                        command.Parameters.Add(NameParam);
-
-                        int id = Convert.ToInt32(command.ExecuteScalar());
-                        subject.ID_Subject = id;
-                      
-
-                        return subject;
-                    }
-                    else
-                    { 
-                        return subject;
-                    }
+                    db.Subject.Add(subject);
+                    db.SaveChanges();
                 }
             }
-            else {
-               
-                return subject;
-            }
-            
+            return subject;
+
+
         }
 
         public void UpdateSubject(Subject subject)
         {
-            string sql = "UPDATE [Subject] SET Name = @Name WHERE [Subject].ID_Subject = @ID;";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (db_schedule db = new db_schedule())
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
+                Subject s = db.Subject
+                    .Where(o => o.ID_Subject == subject.ID_Subject)
+                    .FirstOrDefault();
+                s.Name = subject.Name;
 
-                SqlParameter IDParam = new SqlParameter
-                {
-                    ParameterName = "@ID",
-                    Value = subject.ID_Subject
-                };
-                command.Parameters.Add(IDParam);
-
-                SqlParameter NameParam = new SqlParameter
-                {
-                    ParameterName = "@Name",
-                    Value = subject.Name
-                };
-                command.Parameters.Add(NameParam);
-
-                var result = command.ExecuteScalar();
-                connection.Close();
+                db.SaveChanges();
             }
         }
 
         public void DeleteSubject(int id)
         {
-            string sql = "DELETE FROM [Subject] WHERE [Subject].ID_Subject = @ID";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (db_schedule db = new db_schedule())
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
-
-                SqlParameter IDParam = new SqlParameter
-                {
-                    ParameterName = "@ID",
-                    Value = id
-                };
-                command.Parameters.Add(IDParam);
-
-                var result = command.ExecuteScalar();
-                connection.Close();
+                Subject subject = db.Subject
+                            .Where(o => o.ID_Subject == id)
+                            .FirstOrDefault();
+                db.Subject.Remove(subject);
+                db.SaveChanges();
             }
         }
 
         public Subject FindByIDSubject(int id)
         {
-            string sql = "SELECT * From [Subject] WHERE ID_Subject =@ID";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (db_schedule db = new db_schedule())
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
-
-                SqlParameter IDParam = new SqlParameter
-                {
-                    ParameterName = "@ID",
-                    Value = id
-                };
-                command.Parameters.Add(IDParam);
-
-                var reader = command.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    Subject subject = new Subject();
-                    while (reader.Read())
-                    {
-                        subject.ID_Subject = reader.GetInt32(0);
-                        subject.Name = reader.GetString(1);
-                    }
-                    connection.Close();
-
-                    return subject;
-                }
-                else
-                {
-                    connection.Close();
-                    return null;
-                }
+                Subject subject = db.Subject
+                            .Where(o => o.ID_Subject == id)
+                            .FirstOrDefault();
+                return subject;
             }
         }   
 
@@ -1624,49 +1305,7 @@ namespace SchedulingService
                 }
         }
     }        
-
-    public class User
-    {
-        public int ID_User;
-        public string Name;
-        public string Surname;
-        public string Patronymic;
-        public string Login;
-        public string Password;
-        public string Role;
-        public bool error;
-        public string error_message;
-    }
-
-    public class Room
-    {
-        public int ID_Room;
-        public string Number;
-        public int Roominess = 0;
-    }
-
-    public class Subject
-    {
-        public int ID_Subject;
-        public string Name;
-   
-    }
-
-    public class Group
-    {
-        public int ID_Group;
-        public string Name;
-        public int Number = 0;
-    }
-
-    public class Order
-    {
-        public int ID_Order;
-        public int User_ID;
-        public int Subject_ID;
-        public int Group_ID;
-        public int NumberLessons;
-    }
+    
 
     public class OrderTable
     {
@@ -1679,16 +1318,6 @@ namespace SchedulingService
         public int NumberLessons;
     }
 
-    public class Shedule
-    {
-        public int ID_Shedule;
-        public int Room_ID;
-        public int Order_ID;
-        public int Couple_ID;
-        public int DayOfWeek;
-        public bool NumDem;
-    }
-
     public class SheduleTable
     {
         public int ID_Shedule;
@@ -1699,13 +1328,6 @@ namespace SchedulingService
         public int DayOfWeek;
         public bool NumDem;
 
-    }
-
-    public class Couple
-    {
-        public int ID_Couple;
-        public TimeSpan Start;
-        public TimeSpan End;
     }
 
     public class Authentication

@@ -1,0 +1,451 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище db_scheduleModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Couple">
+          <Key>
+            <PropertyRef Name="ID_Couple" />
+          </Key>
+          <Property Name="ID_Couple" Type="int" Nullable="false" />
+          <Property Name="Start" Type="time" Precision="0" Nullable="false" />
+          <Property Name="End" Type="time" Precision="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="ID_Group" />
+          </Key>
+          <Property Name="ID_Group" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Number" Type="int" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="ID_Order" />
+          </Key>
+          <Property Name="ID_Order" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="User_ID" Type="int" Nullable="false" />
+          <Property Name="Subject_ID" Type="int" Nullable="false" />
+          <Property Name="Group_ID" Type="int" Nullable="false" />
+          <Property Name="NumberLessons" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="ID_Room" />
+          </Key>
+          <Property Name="ID_Room" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Number" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Roominess" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Shedule">
+          <Key>
+            <PropertyRef Name="ID_Shedule" />
+          </Key>
+          <Property Name="ID_Shedule" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Room_ID" Type="int" Nullable="false" />
+          <Property Name="Order_ID" Type="int" Nullable="false" />
+          <Property Name="Couple_ID" Type="int" Nullable="false" />
+          <Property Name="DayOfWeek" Type="int" Nullable="false" />
+          <Property Name="NumDem" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Subject">
+          <Key>
+            <PropertyRef Name="ID_Subject" />
+          </Key>
+          <Property Name="ID_Subject" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID_User" />
+          </Key>
+          <Property Name="ID_User" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Patronymic" Type="nvarchar" MaxLength="100" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Role" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Order__Group_ID__02FC7413">
+          <End Role="Group" Type="Self.Group" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="ID_Group" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="Group_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Order__Subject_I__02084FDA">
+          <End Role="Subject" Type="Self.Subject" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subject">
+              <PropertyRef Name="ID_Subject" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="Subject_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Order__User_Id__01142BA1">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID_User" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Shedule__Couple___05D8E0BE">
+          <End Role="Couple" Type="Self.Couple" Multiplicity="1" />
+          <End Role="Shedule" Type="Self.Shedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Couple">
+              <PropertyRef Name="ID_Couple" />
+            </Principal>
+            <Dependent Role="Shedule">
+              <PropertyRef Name="Couple_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Shedule__Order_I__2739D489">
+          <End Role="Order" Type="Self.Order" Multiplicity="1" />
+          <End Role="Shedule" Type="Self.Shedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="ID_Order" />
+            </Principal>
+            <Dependent Role="Shedule">
+              <PropertyRef Name="Order_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Shedule__Room_Id__160F4887">
+          <End Role="Room" Type="Self.Room" Multiplicity="1" />
+          <End Role="Shedule" Type="Self.Shedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="ID_Room" />
+            </Principal>
+            <Dependent Role="Shedule">
+              <PropertyRef Name="Room_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище db_scheduleModelContainer">
+          <EntitySet Name="Couple" EntityType="Self.Couple" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Group" EntityType="Self.Group" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Room" EntityType="Self.Room" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Shedule" EntityType="Self.Shedule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Subject" EntityType="Self.Subject" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Order__Group_ID__02FC7413" Association="Self.FK__Order__Group_ID__02FC7413">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Order__Subject_I__02084FDA" Association="Self.FK__Order__Subject_I__02084FDA">
+            <End Role="Subject" EntitySet="Subject" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Order__User_Id__01142BA1" Association="Self.FK__Order__User_Id__01142BA1">
+            <End Role="User" EntitySet="User" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Shedule__Couple___05D8E0BE" Association="Self.FK__Shedule__Couple___05D8E0BE">
+            <End Role="Couple" EntitySet="Couple" />
+            <End Role="Shedule" EntitySet="Shedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Shedule__Order_I__2739D489" Association="Self.FK__Shedule__Order_I__2739D489">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="Shedule" EntitySet="Shedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Shedule__Room_Id__160F4887" Association="Self.FK__Shedule__Room_Id__160F4887">
+            <End Role="Room" EntitySet="Room" />
+            <End Role="Shedule" EntitySet="Shedule" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="db_scheduleModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Couple">
+          <Key>
+            <PropertyRef Name="ID_Couple" />
+          </Key>
+          <Property Name="ID_Couple" Type="Int32" Nullable="false" />
+          <Property Name="Start" Type="Time" Nullable="false" Precision="0" />
+          <Property Name="End" Type="Time" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="ID_Group" />
+          </Key>
+          <Property Name="ID_Group" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Number" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="ID_Order" />
+          </Key>
+          <Property Name="ID_Order" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User_ID" Type="Int32" Nullable="false" />
+          <Property Name="Subject_ID" Type="Int32" Nullable="false" />
+          <Property Name="Group_ID" Type="Int32" Nullable="false" />
+          <Property Name="NumberLessons" Type="Int32" Nullable="false" />
+          </EntityType>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="ID_Room" />
+          </Key>
+          <Property Name="ID_Room" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Number" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Roominess" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Shedule">
+          <Key>
+            <PropertyRef Name="ID_Shedule" />
+          </Key>
+          <Property Name="ID_Shedule" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Room_ID" Type="Int32" Nullable="false" />
+          <Property Name="Order_ID" Type="Int32" Nullable="false" />
+          <Property Name="Couple_ID" Type="Int32" Nullable="false" />
+          <Property Name="DayOfWeek" Type="Int32" Nullable="false" />
+          <Property Name="NumDem" Type="Boolean" Nullable="false" />
+          </EntityType>
+        <EntityType Name="Subject">
+          <Key>
+            <PropertyRef Name="ID_Subject" />
+          </Key>
+          <Property Name="ID_Subject" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID_User" />
+          </Key>
+          <Property Name="ID_User" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Surname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Patronymic" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Shedule__Couple___05D8E0BE">
+          <End Role="Couple" Type="Self.Couple" Multiplicity="1" />
+          <End Role="Shedule" Type="Self.Shedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Couple">
+              <PropertyRef Name="ID_Couple" />
+            </Principal>
+            <Dependent Role="Shedule">
+              <PropertyRef Name="Couple_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Order__Group_ID__02FC7413">
+          <End Role="Group" Type="Self.Group" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="ID_Group" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="Group_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Order__Subject_I__02084FDA">
+          <End Role="Subject" Type="Self.Subject" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subject">
+              <PropertyRef Name="ID_Subject" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="Subject_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Order__User_Id__01142BA1">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID_User" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Shedule__Order_I__2739D489">
+          <End Role="Order" Type="Self.Order" Multiplicity="1" />
+          <End Role="Shedule" Type="Self.Shedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="ID_Order" />
+            </Principal>
+            <Dependent Role="Shedule">
+              <PropertyRef Name="Order_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Shedule__Room_Id__160F4887">
+          <End Role="Room" Type="Self.Room" Multiplicity="1" />
+          <End Role="Shedule" Type="Self.Shedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="ID_Room" />
+            </Principal>
+            <Dependent Role="Shedule">
+              <PropertyRef Name="Room_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="db_schedule" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Couple" EntityType="Self.Couple" />
+          <EntitySet Name="Group" EntityType="Self.Group" />
+          <EntitySet Name="Order" EntityType="Self.Order" />
+          <EntitySet Name="Room" EntityType="Self.Room" />
+          <EntitySet Name="Shedule" EntityType="Self.Shedule" />
+          <EntitySet Name="Subject" EntityType="Self.Subject" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <AssociationSet Name="FK__Shedule__Couple___05D8E0BE" Association="Self.FK__Shedule__Couple___05D8E0BE">
+            <End Role="Couple" EntitySet="Couple" />
+            <End Role="Shedule" EntitySet="Shedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Order__Group_ID__02FC7413" Association="Self.FK__Order__Group_ID__02FC7413">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Order__Subject_I__02084FDA" Association="Self.FK__Order__Subject_I__02084FDA">
+            <End Role="Subject" EntitySet="Subject" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Order__User_Id__01142BA1" Association="Self.FK__Order__User_Id__01142BA1">
+            <End Role="User" EntitySet="User" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Shedule__Order_I__2739D489" Association="Self.FK__Shedule__Order_I__2739D489">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="Shedule" EntitySet="Shedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Shedule__Room_Id__160F4887" Association="Self.FK__Shedule__Room_Id__160F4887">
+            <End Role="Room" EntitySet="Room" />
+            <End Role="Shedule" EntitySet="Shedule" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище db_scheduleModelContainer" CdmEntityContainer="db_schedule">
+          <EntitySetMapping Name="Couple">
+            <EntityTypeMapping TypeName="db_scheduleModel.Couple">
+              <MappingFragment StoreEntitySet="Couple">
+                <ScalarProperty Name="ID_Couple" ColumnName="ID_Couple" />
+                <ScalarProperty Name="Start" ColumnName="Start" />
+                <ScalarProperty Name="End" ColumnName="End" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Group">
+            <EntityTypeMapping TypeName="db_scheduleModel.Group">
+              <MappingFragment StoreEntitySet="Group">
+                <ScalarProperty Name="ID_Group" ColumnName="ID_Group" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Order">
+            <EntityTypeMapping TypeName="db_scheduleModel.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="ID_Order" ColumnName="ID_Order" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="Subject_ID" ColumnName="Subject_ID" />
+                <ScalarProperty Name="Group_ID" ColumnName="Group_ID" />
+                <ScalarProperty Name="NumberLessons" ColumnName="NumberLessons" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Room">
+            <EntityTypeMapping TypeName="db_scheduleModel.Room">
+              <MappingFragment StoreEntitySet="Room">
+                <ScalarProperty Name="ID_Room" ColumnName="ID_Room" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Roominess" ColumnName="Roominess" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Shedule">
+            <EntityTypeMapping TypeName="db_scheduleModel.Shedule">
+              <MappingFragment StoreEntitySet="Shedule">
+                <ScalarProperty Name="ID_Shedule" ColumnName="ID_Shedule" />
+                <ScalarProperty Name="Room_ID" ColumnName="Room_ID" />
+                <ScalarProperty Name="Order_ID" ColumnName="Order_ID" />
+                <ScalarProperty Name="Couple_ID" ColumnName="Couple_ID" />
+                <ScalarProperty Name="DayOfWeek" ColumnName="DayOfWeek" />
+                <ScalarProperty Name="NumDem" ColumnName="NumDem" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Subject">
+            <EntityTypeMapping TypeName="db_scheduleModel.Subject">
+              <MappingFragment StoreEntitySet="Subject">
+                <ScalarProperty Name="ID_Subject" ColumnName="ID_Subject" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="db_scheduleModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="ID_User" ColumnName="ID_User" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
