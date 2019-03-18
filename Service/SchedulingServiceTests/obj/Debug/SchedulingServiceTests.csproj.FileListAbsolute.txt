@@ -31,3 +31,6 @@ C:\Users\Наталья\Documents\GitHub\autoScheduling\Service\SchedulingServic
 C:\Users\Наталья\Documents\GitHub\autoScheduling\Service\SchedulingServiceTests\obj\Debug\SchedulingServiceTests.csproj.CopyComplete
 C:\Users\Наталья\Documents\GitHub\autoScheduling\Service\SchedulingServiceTests\obj\Debug\SchedulingServiceTests.dll
 C:\Users\Наталья\Documents\GitHub\autoScheduling\Service\SchedulingServiceTests\obj\Debug\SchedulingServiceTests.pdb
+C:\Users\tokin\Documents\GitHub\autoScheduling\Service\SchedulingServiceTests\bin\Debug\EntityFramework.dll
+C:\Users\tokin\Documents\GitHub\autoScheduling\Service\SchedulingServiceTests\bin\Debug\EntityFramework.xml
+C:\Users\tokin\Documents\GitHub\autoScheduling\Service\SchedulingServiceTests\bin\Debug\ru\EntityFramework.resources.dll

@@ -19,8 +19,8 @@ namespace SchedulingService
         //readonly static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data\\db_schedule.mdf");
         //readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\tokin\Documents\GitHub\autoScheduling\Service\SchedulingService\App_Data\db_schedule.mdf;Integrated Security=True";
         //readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\etrim\OneDrive\Документы\GitHub\autoScheduling\Service\SchedulingService\App_Data\db_schedule.mdf;Integrated Security=True";
-        //readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\tokin\Documents\GitHub\autoScheduling\Service\SchedulingService\App_Data\db_schedule.mdf;Integrated Security=True";
-        readonly string connectionString = @"Data Source = (LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Наталья\Source\Repos\autoScheduling5\Service\SchedulingService\App_Data\db_schedule.mdf;Integrated Security = True";
+        readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\tokin\Documents\GitHub\autoScheduling\Service\SchedulingService\App_Data\db_schedule.mdf;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework";
+        //readonly string connectionString = @"Data Source = (LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Наталья\Source\Repos\autoScheduling5\Service\SchedulingService\App_Data\db_schedule.mdf;Integrated Security = True";
 
 
         //class User
@@ -1186,21 +1186,12 @@ namespace SchedulingService
 
         public bool CheckLoginUser(string login)
         {
-            string sql = "SELECT * FROM [User] WHERE [User].Login = @login";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (db_schedule db = new db_schedule())
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
-
-                SqlParameter LoginParam = new SqlParameter
-                {
-                    ParameterName = "@login",
-                    Value = login
-                };
-                command.Parameters.Add(LoginParam);
-
-                var reader = command.ExecuteReader();
-                if (reader.HasRows)
+                User u = db.User
+                           .Where(s => s.Login == login)
+                           .FirstOrDefault();
+                if (u != null)
                 {
                     return true;
                 }
@@ -1217,39 +1208,21 @@ namespace SchedulingService
 
             if (CheckLoginUser(login))
             {
-                string sql = "SELECT [User].ID_User, [User].[Role] FROM [User] WHERE [Login] = @login AND [Password] = @password";
-                using (SqlConnection connection = new SqlConnection(connectionString))
+
+                using (db_schedule db = new db_schedule())
                 {
-                    connection.Open();
-                    SqlCommand command = new SqlCommand(sql, connection);
+                    User u = db.User
+                        .Where(s => s.Login == login)
+                        .Where(s => s.Password == password)
+                        .FirstOrDefault();
 
-                    SqlParameter LoginParam = new SqlParameter
+                    if (u!=null)
                     {
-                        ParameterName = "@login",
-                        Value = login
-                    };
-                    command.Parameters.Add(LoginParam);
 
-                    SqlParameter PasswordParam = new SqlParameter
-                    {
-                        ParameterName = "@password",
-                        Value = password
-                    };
-                    command.Parameters.Add(PasswordParam);
-
-                    var reader = command.ExecuteReader();
-
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            
-                            auth.error = false;
-                            auth.error_message = null;
-                            auth.User_ID = reader.GetInt32(0);
-                            auth.Role = reader.GetString(1);
-
-                        }
+                        auth.error = false;
+                        auth.error_message = null;
+                        auth.User_ID = u.ID_User;
+                        auth.Role = u.Role;
                         return auth;
                     }
                     else
@@ -1259,6 +1232,7 @@ namespace SchedulingService
                         return auth;
                     }
                 }
+                
             }
             else
             {
