@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="258289601c6a477199c86ecd6073c959" Name="Diagram1">
+        <EntityTypeShape EntityType="db_scheduleModel.Couple" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_scheduleModel.Group" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_scheduleModel.Order" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_scheduleModel.Room" Width="1.5" PointX="3" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_scheduleModel.Shedule" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_scheduleModel.Subject" Width="1.5" PointX="0.75" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_scheduleModel.User" Width="1.5" PointX="0.75" PointY="7" IsExpanded="true" />
+        <AssociationConnector Association="db_scheduleModel.FK__Shedule__Couple___05D8E0BE" ManuallyRouted="false" />
+        <AssociationConnector Association="db_scheduleModel.FK__Order__Group_ID__02FC7413" ManuallyRouted="false" />
+        <AssociationConnector Association="db_scheduleModel.FK__Order__Subject_I__02084FDA" ManuallyRouted="false" />
+        <AssociationConnector Association="db_scheduleModel.FK__Order__User_Id__01142BA1" ManuallyRouted="false" />
+        <AssociationConnector Association="db_scheduleModel.FK__Shedule__Order_I__2739D489" ManuallyRouted="false" />
+        <AssociationConnector Association="db_scheduleModel.FK__Shedule__Room_Id__160F4887" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

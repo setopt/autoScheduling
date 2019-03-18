@@ -464,4 +464,14 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="Create">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

@@ -32,6 +32,9 @@ namespace SchedulingClient.Service {
         private string NameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private SchedulingClient.Service.Order[] OrderField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string PasswordField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -94,6 +97,19 @@ namespace SchedulingClient.Service {
                 if ((object.ReferenceEquals(this.NameField, value) != true)) {
                     this.NameField = value;
                     this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public SchedulingClient.Service.Order[] Order {
+            get {
+                return this.OrderField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.OrderField, value) != true)) {
+                    this.OrderField = value;
+                    this.RaisePropertyChanged("Order");
                 }
             }
         }
@@ -172,6 +188,708 @@ namespace SchedulingClient.Service {
                 if ((object.ReferenceEquals(this.error_messageField, value) != true)) {
                     this.error_messageField = value;
                     this.RaisePropertyChanged("error_message");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Order", Namespace="http://schemas.datacontract.org/2004/07/SchedulingService")]
+    [System.SerializableAttribute()]
+    public partial class Order : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private SchedulingClient.Service.Group GroupField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int Group_IDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int ID_OrderField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int NumberLessonsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private SchedulingClient.Service.Shedule[] SheduleField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private SchedulingClient.Service.Subject SubjectField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int Subject_IDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private SchedulingClient.Service.User UserField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int User_IDField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public SchedulingClient.Service.Group Group {
+            get {
+                return this.GroupField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.GroupField, value) != true)) {
+                    this.GroupField = value;
+                    this.RaisePropertyChanged("Group");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Group_ID {
+            get {
+                return this.Group_IDField;
+            }
+            set {
+                if ((this.Group_IDField.Equals(value) != true)) {
+                    this.Group_IDField = value;
+                    this.RaisePropertyChanged("Group_ID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int ID_Order {
+            get {
+                return this.ID_OrderField;
+            }
+            set {
+                if ((this.ID_OrderField.Equals(value) != true)) {
+                    this.ID_OrderField = value;
+                    this.RaisePropertyChanged("ID_Order");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int NumberLessons {
+            get {
+                return this.NumberLessonsField;
+            }
+            set {
+                if ((this.NumberLessonsField.Equals(value) != true)) {
+                    this.NumberLessonsField = value;
+                    this.RaisePropertyChanged("NumberLessons");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public SchedulingClient.Service.Shedule[] Shedule {
+            get {
+                return this.SheduleField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SheduleField, value) != true)) {
+                    this.SheduleField = value;
+                    this.RaisePropertyChanged("Shedule");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public SchedulingClient.Service.Subject Subject {
+            get {
+                return this.SubjectField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SubjectField, value) != true)) {
+                    this.SubjectField = value;
+                    this.RaisePropertyChanged("Subject");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Subject_ID {
+            get {
+                return this.Subject_IDField;
+            }
+            set {
+                if ((this.Subject_IDField.Equals(value) != true)) {
+                    this.Subject_IDField = value;
+                    this.RaisePropertyChanged("Subject_ID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public SchedulingClient.Service.User User {
+            get {
+                return this.UserField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.UserField, value) != true)) {
+                    this.UserField = value;
+                    this.RaisePropertyChanged("User");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int User_ID {
+            get {
+                return this.User_IDField;
+            }
+            set {
+                if ((this.User_IDField.Equals(value) != true)) {
+                    this.User_IDField = value;
+                    this.RaisePropertyChanged("User_ID");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Group", Namespace="http://schemas.datacontract.org/2004/07/SchedulingService")]
+    [System.SerializableAttribute()]
+    public partial class Group : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int ID_GroupField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> NumberField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private SchedulingClient.Service.Order[] OrderField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int ID_Group {
+            get {
+                return this.ID_GroupField;
+            }
+            set {
+                if ((this.ID_GroupField.Equals(value) != true)) {
+                    this.ID_GroupField = value;
+                    this.RaisePropertyChanged("ID_Group");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> Number {
+            get {
+                return this.NumberField;
+            }
+            set {
+                if ((this.NumberField.Equals(value) != true)) {
+                    this.NumberField = value;
+                    this.RaisePropertyChanged("Number");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public SchedulingClient.Service.Order[] Order {
+            get {
+                return this.OrderField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.OrderField, value) != true)) {
+                    this.OrderField = value;
+                    this.RaisePropertyChanged("Order");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Subject", Namespace="http://schemas.datacontract.org/2004/07/SchedulingService")]
+    [System.SerializableAttribute()]
+    public partial class Subject : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int ID_SubjectField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private SchedulingClient.Service.Order[] OrderField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int ID_Subject {
+            get {
+                return this.ID_SubjectField;
+            }
+            set {
+                if ((this.ID_SubjectField.Equals(value) != true)) {
+                    this.ID_SubjectField = value;
+                    this.RaisePropertyChanged("ID_Subject");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public SchedulingClient.Service.Order[] Order {
+            get {
+                return this.OrderField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.OrderField, value) != true)) {
+                    this.OrderField = value;
+                    this.RaisePropertyChanged("Order");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Shedule", Namespace="http://schemas.datacontract.org/2004/07/SchedulingService")]
+    [System.SerializableAttribute()]
+    public partial class Shedule : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private SchedulingClient.Service.Couple CoupleField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int Couple_IDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int DayOfWeekField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int ID_SheduleField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool NumDemField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private SchedulingClient.Service.Order OrderField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int Order_IDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private SchedulingClient.Service.Room RoomField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int Room_IDField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public SchedulingClient.Service.Couple Couple {
+            get {
+                return this.CoupleField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CoupleField, value) != true)) {
+                    this.CoupleField = value;
+                    this.RaisePropertyChanged("Couple");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Couple_ID {
+            get {
+                return this.Couple_IDField;
+            }
+            set {
+                if ((this.Couple_IDField.Equals(value) != true)) {
+                    this.Couple_IDField = value;
+                    this.RaisePropertyChanged("Couple_ID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int DayOfWeek {
+            get {
+                return this.DayOfWeekField;
+            }
+            set {
+                if ((this.DayOfWeekField.Equals(value) != true)) {
+                    this.DayOfWeekField = value;
+                    this.RaisePropertyChanged("DayOfWeek");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int ID_Shedule {
+            get {
+                return this.ID_SheduleField;
+            }
+            set {
+                if ((this.ID_SheduleField.Equals(value) != true)) {
+                    this.ID_SheduleField = value;
+                    this.RaisePropertyChanged("ID_Shedule");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool NumDem {
+            get {
+                return this.NumDemField;
+            }
+            set {
+                if ((this.NumDemField.Equals(value) != true)) {
+                    this.NumDemField = value;
+                    this.RaisePropertyChanged("NumDem");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public SchedulingClient.Service.Order Order {
+            get {
+                return this.OrderField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.OrderField, value) != true)) {
+                    this.OrderField = value;
+                    this.RaisePropertyChanged("Order");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Order_ID {
+            get {
+                return this.Order_IDField;
+            }
+            set {
+                if ((this.Order_IDField.Equals(value) != true)) {
+                    this.Order_IDField = value;
+                    this.RaisePropertyChanged("Order_ID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public SchedulingClient.Service.Room Room {
+            get {
+                return this.RoomField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.RoomField, value) != true)) {
+                    this.RoomField = value;
+                    this.RaisePropertyChanged("Room");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Room_ID {
+            get {
+                return this.Room_IDField;
+            }
+            set {
+                if ((this.Room_IDField.Equals(value) != true)) {
+                    this.Room_IDField = value;
+                    this.RaisePropertyChanged("Room_ID");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Couple", Namespace="http://schemas.datacontract.org/2004/07/SchedulingService")]
+    [System.SerializableAttribute()]
+    public partial class Couple : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.TimeSpan EndField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int ID_CoupleField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private SchedulingClient.Service.Shedule[] SheduleField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.TimeSpan StartField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.TimeSpan End {
+            get {
+                return this.EndField;
+            }
+            set {
+                if ((this.EndField.Equals(value) != true)) {
+                    this.EndField = value;
+                    this.RaisePropertyChanged("End");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int ID_Couple {
+            get {
+                return this.ID_CoupleField;
+            }
+            set {
+                if ((this.ID_CoupleField.Equals(value) != true)) {
+                    this.ID_CoupleField = value;
+                    this.RaisePropertyChanged("ID_Couple");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public SchedulingClient.Service.Shedule[] Shedule {
+            get {
+                return this.SheduleField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SheduleField, value) != true)) {
+                    this.SheduleField = value;
+                    this.RaisePropertyChanged("Shedule");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.TimeSpan Start {
+            get {
+                return this.StartField;
+            }
+            set {
+                if ((this.StartField.Equals(value) != true)) {
+                    this.StartField = value;
+                    this.RaisePropertyChanged("Start");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Room", Namespace="http://schemas.datacontract.org/2004/07/SchedulingService")]
+    [System.SerializableAttribute()]
+    public partial class Room : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int ID_RoomField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NumberField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int RoominessField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private SchedulingClient.Service.Shedule[] SheduleField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int ID_Room {
+            get {
+                return this.ID_RoomField;
+            }
+            set {
+                if ((this.ID_RoomField.Equals(value) != true)) {
+                    this.ID_RoomField = value;
+                    this.RaisePropertyChanged("ID_Room");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Number {
+            get {
+                return this.NumberField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NumberField, value) != true)) {
+                    this.NumberField = value;
+                    this.RaisePropertyChanged("Number");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Roominess {
+            get {
+                return this.RoominessField;
+            }
+            set {
+                if ((this.RoominessField.Equals(value) != true)) {
+                    this.RoominessField = value;
+                    this.RaisePropertyChanged("Roominess");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public SchedulingClient.Service.Shedule[] Shedule {
+            get {
+                return this.SheduleField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SheduleField, value) != true)) {
+                    this.SheduleField = value;
+                    this.RaisePropertyChanged("Shedule");
                 }
             }
         }
@@ -329,346 +1047,6 @@ namespace SchedulingClient.Service {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Order", Namespace="http://schemas.datacontract.org/2004/07/SchedulingService")]
-    [System.SerializableAttribute()]
-    public partial class Order : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int Group_IDField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int ID_OrderField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int NumberLessonsField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int Subject_IDField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int User_IDField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Group_ID {
-            get {
-                return this.Group_IDField;
-            }
-            set {
-                if ((this.Group_IDField.Equals(value) != true)) {
-                    this.Group_IDField = value;
-                    this.RaisePropertyChanged("Group_ID");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int ID_Order {
-            get {
-                return this.ID_OrderField;
-            }
-            set {
-                if ((this.ID_OrderField.Equals(value) != true)) {
-                    this.ID_OrderField = value;
-                    this.RaisePropertyChanged("ID_Order");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int NumberLessons {
-            get {
-                return this.NumberLessonsField;
-            }
-            set {
-                if ((this.NumberLessonsField.Equals(value) != true)) {
-                    this.NumberLessonsField = value;
-                    this.RaisePropertyChanged("NumberLessons");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Subject_ID {
-            get {
-                return this.Subject_IDField;
-            }
-            set {
-                if ((this.Subject_IDField.Equals(value) != true)) {
-                    this.Subject_IDField = value;
-                    this.RaisePropertyChanged("Subject_ID");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int User_ID {
-            get {
-                return this.User_IDField;
-            }
-            set {
-                if ((this.User_IDField.Equals(value) != true)) {
-                    this.User_IDField = value;
-                    this.RaisePropertyChanged("User_ID");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Room", Namespace="http://schemas.datacontract.org/2004/07/SchedulingService")]
-    [System.SerializableAttribute()]
-    public partial class Room : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int ID_RoomField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string NumberField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int RoominessField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int ID_Room {
-            get {
-                return this.ID_RoomField;
-            }
-            set {
-                if ((this.ID_RoomField.Equals(value) != true)) {
-                    this.ID_RoomField = value;
-                    this.RaisePropertyChanged("ID_Room");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Number {
-            get {
-                return this.NumberField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.NumberField, value) != true)) {
-                    this.NumberField = value;
-                    this.RaisePropertyChanged("Number");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Roominess {
-            get {
-                return this.RoominessField;
-            }
-            set {
-                if ((this.RoominessField.Equals(value) != true)) {
-                    this.RoominessField = value;
-                    this.RaisePropertyChanged("Roominess");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Couple", Namespace="http://schemas.datacontract.org/2004/07/SchedulingService")]
-    [System.SerializableAttribute()]
-    public partial class Couple : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.TimeSpan EndField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int ID_CoupleField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.TimeSpan StartField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.TimeSpan End {
-            get {
-                return this.EndField;
-            }
-            set {
-                if ((this.EndField.Equals(value) != true)) {
-                    this.EndField = value;
-                    this.RaisePropertyChanged("End");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int ID_Couple {
-            get {
-                return this.ID_CoupleField;
-            }
-            set {
-                if ((this.ID_CoupleField.Equals(value) != true)) {
-                    this.ID_CoupleField = value;
-                    this.RaisePropertyChanged("ID_Couple");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.TimeSpan Start {
-            get {
-                return this.StartField;
-            }
-            set {
-                if ((this.StartField.Equals(value) != true)) {
-                    this.StartField = value;
-                    this.RaisePropertyChanged("Start");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Group", Namespace="http://schemas.datacontract.org/2004/07/SchedulingService")]
-    [System.SerializableAttribute()]
-    public partial class Group : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int ID_GroupField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string NameField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int NumberField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int ID_Group {
-            get {
-                return this.ID_GroupField;
-            }
-            set {
-                if ((this.ID_GroupField.Equals(value) != true)) {
-                    this.ID_GroupField = value;
-                    this.RaisePropertyChanged("ID_Group");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Name {
-            get {
-                return this.NameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.NameField, value) != true)) {
-                    this.NameField = value;
-                    this.RaisePropertyChanged("Name");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Number {
-            get {
-                return this.NumberField;
-            }
-            set {
-                if ((this.NumberField.Equals(value) != true)) {
-                    this.NumberField = value;
-                    this.RaisePropertyChanged("Number");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="SheduleTable", Namespace="http://schemas.datacontract.org/2004/07/SchedulingService")]
     [System.SerializableAttribute()]
     public partial class SheduleTable : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
@@ -794,192 +1172,6 @@ namespace SchedulingClient.Service {
                 if ((object.ReferenceEquals(this.User_nameField, value) != true)) {
                     this.User_nameField = value;
                     this.RaisePropertyChanged("User_name");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Shedule", Namespace="http://schemas.datacontract.org/2004/07/SchedulingService")]
-    [System.SerializableAttribute()]
-    public partial class Shedule : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int Couple_IDField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int DayOfWeekField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int ID_SheduleField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private bool NumDemField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int Order_IDField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int Room_IDField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Couple_ID {
-            get {
-                return this.Couple_IDField;
-            }
-            set {
-                if ((this.Couple_IDField.Equals(value) != true)) {
-                    this.Couple_IDField = value;
-                    this.RaisePropertyChanged("Couple_ID");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int DayOfWeek {
-            get {
-                return this.DayOfWeekField;
-            }
-            set {
-                if ((this.DayOfWeekField.Equals(value) != true)) {
-                    this.DayOfWeekField = value;
-                    this.RaisePropertyChanged("DayOfWeek");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int ID_Shedule {
-            get {
-                return this.ID_SheduleField;
-            }
-            set {
-                if ((this.ID_SheduleField.Equals(value) != true)) {
-                    this.ID_SheduleField = value;
-                    this.RaisePropertyChanged("ID_Shedule");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public bool NumDem {
-            get {
-                return this.NumDemField;
-            }
-            set {
-                if ((this.NumDemField.Equals(value) != true)) {
-                    this.NumDemField = value;
-                    this.RaisePropertyChanged("NumDem");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Order_ID {
-            get {
-                return this.Order_IDField;
-            }
-            set {
-                if ((this.Order_IDField.Equals(value) != true)) {
-                    this.Order_IDField = value;
-                    this.RaisePropertyChanged("Order_ID");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Room_ID {
-            get {
-                return this.Room_IDField;
-            }
-            set {
-                if ((this.Room_IDField.Equals(value) != true)) {
-                    this.Room_IDField = value;
-                    this.RaisePropertyChanged("Room_ID");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Subject", Namespace="http://schemas.datacontract.org/2004/07/SchedulingService")]
-    [System.SerializableAttribute()]
-    public partial class Subject : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int ID_SubjectField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string NameField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int ID_Subject {
-            get {
-                return this.ID_SubjectField;
-            }
-            set {
-                if ((this.ID_SubjectField.Equals(value) != true)) {
-                    this.ID_SubjectField = value;
-                    this.RaisePropertyChanged("ID_Subject");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Name {
-            get {
-                return this.NameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.NameField, value) != true)) {
-                    this.NameField = value;
-                    this.RaisePropertyChanged("Name");
                 }
             }
         }
@@ -1306,6 +1498,12 @@ namespace SchedulingClient.Service {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/Authentication", ReplyAction="http://tempuri.org/IService1/AuthenticationResponse")]
         System.Threading.Tasks.Task<SchedulingClient.Service.Authentication> AuthenticationAsync(string login, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/Create", ReplyAction="http://tempuri.org/IService1/CreateResponse")]
+        void Create();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/Create", ReplyAction="http://tempuri.org/IService1/CreateResponse")]
+        System.Threading.Tasks.Task CreateAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -1621,6 +1819,14 @@ namespace SchedulingClient.Service {
         
         public System.Threading.Tasks.Task<SchedulingClient.Service.Authentication> AuthenticationAsync(string login, string password) {
             return base.Channel.AuthenticationAsync(login, password);
+        }
+        
+        public void Create() {
+            base.Channel.Create();
+        }
+        
+        public System.Threading.Tasks.Task CreateAsync() {
+            return base.Channel.CreateAsync();
         }
     }
 }

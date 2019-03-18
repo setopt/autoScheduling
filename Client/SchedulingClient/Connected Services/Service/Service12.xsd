@@ -6,6 +6,7 @@
       <xs:element minOccurs="0" name="ID_User" type="xs:int" />
       <xs:element minOccurs="0" name="Login" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Order" nillable="true" type="tns:ArrayOfOrder" />
       <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Patronymic" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Role" nillable="true" type="xs:string" />
@@ -15,6 +16,81 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="User" nillable="true" type="tns:User" />
+  <xs:complexType name="ArrayOfOrder">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Order" nillable="true" type="tns:Order" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfOrder" nillable="true" type="tns:ArrayOfOrder" />
+  <xs:complexType name="Order">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Group" nillable="true" type="tns:Group" />
+      <xs:element minOccurs="0" name="Group_ID" type="xs:int" />
+      <xs:element minOccurs="0" name="ID_Order" type="xs:int" />
+      <xs:element minOccurs="0" name="NumberLessons" type="xs:int" />
+      <xs:element minOccurs="0" name="Shedule" nillable="true" type="tns:ArrayOfShedule" />
+      <xs:element minOccurs="0" name="Subject" nillable="true" type="tns:Subject" />
+      <xs:element minOccurs="0" name="Subject_ID" type="xs:int" />
+      <xs:element minOccurs="0" name="User" nillable="true" type="tns:User" />
+      <xs:element minOccurs="0" name="User_ID" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Order" nillable="true" type="tns:Order" />
+  <xs:complexType name="Group">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ID_Group" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Number" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Order" nillable="true" type="tns:ArrayOfOrder" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Group" nillable="true" type="tns:Group" />
+  <xs:complexType name="ArrayOfShedule">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Shedule" nillable="true" type="tns:Shedule" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfShedule" nillable="true" type="tns:ArrayOfShedule" />
+  <xs:complexType name="Shedule">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Couple" nillable="true" type="tns:Couple" />
+      <xs:element minOccurs="0" name="Couple_ID" type="xs:int" />
+      <xs:element minOccurs="0" name="DayOfWeek" type="xs:int" />
+      <xs:element minOccurs="0" name="ID_Shedule" type="xs:int" />
+      <xs:element minOccurs="0" name="NumDem" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Order" nillable="true" type="tns:Order" />
+      <xs:element minOccurs="0" name="Order_ID" type="xs:int" />
+      <xs:element minOccurs="0" name="Room" nillable="true" type="tns:Room" />
+      <xs:element minOccurs="0" name="Room_ID" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Shedule" nillable="true" type="tns:Shedule" />
+  <xs:complexType name="Couple">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="End" type="ser:duration" />
+      <xs:element minOccurs="0" name="ID_Couple" type="xs:int" />
+      <xs:element minOccurs="0" name="Shedule" nillable="true" type="tns:ArrayOfShedule" />
+      <xs:element minOccurs="0" name="Start" type="ser:duration" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Couple" nillable="true" type="tns:Couple" />
+  <xs:complexType name="Room">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ID_Room" type="xs:int" />
+      <xs:element minOccurs="0" name="Number" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Roominess" type="xs:int" />
+      <xs:element minOccurs="0" name="Shedule" nillable="true" type="tns:ArrayOfShedule" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Room" nillable="true" type="tns:Room" />
+  <xs:complexType name="Subject">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ID_Subject" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Order" nillable="true" type="tns:ArrayOfOrder" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Subject" nillable="true" type="tns:Subject" />
   <xs:complexType name="ArrayOfUser">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="User" nillable="true" type="tns:User" />
@@ -39,58 +115,24 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="OrderTable" nillable="true" type="tns:OrderTable" />
-  <xs:complexType name="Order">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="Group_ID" type="xs:int" />
-      <xs:element minOccurs="0" name="ID_Order" type="xs:int" />
-      <xs:element minOccurs="0" name="NumberLessons" type="xs:int" />
-      <xs:element minOccurs="0" name="Subject_ID" type="xs:int" />
-      <xs:element minOccurs="0" name="User_ID" type="xs:int" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="Order" nillable="true" type="tns:Order" />
   <xs:complexType name="ArrayOfRoom">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="Room" nillable="true" type="tns:Room" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOfRoom" nillable="true" type="tns:ArrayOfRoom" />
-  <xs:complexType name="Room">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="ID_Room" type="xs:int" />
-      <xs:element minOccurs="0" name="Number" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Roominess" type="xs:int" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="Room" nillable="true" type="tns:Room" />
   <xs:complexType name="ArrayOfCouple">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="Couple" nillable="true" type="tns:Couple" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOfCouple" nillable="true" type="tns:ArrayOfCouple" />
-  <xs:complexType name="Couple">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="End" type="ser:duration" />
-      <xs:element minOccurs="0" name="ID_Couple" type="xs:int" />
-      <xs:element minOccurs="0" name="Start" type="ser:duration" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="Couple" nillable="true" type="tns:Couple" />
   <xs:complexType name="ArrayOfGroup">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="Group" nillable="true" type="tns:Group" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOfGroup" nillable="true" type="tns:ArrayOfGroup" />
-  <xs:complexType name="Group">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="ID_Group" type="xs:int" />
-      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Number" type="xs:int" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="Group" nillable="true" type="tns:Group" />
   <xs:complexType name="ArrayOfSheduleTable">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="SheduleTable" nillable="true" type="tns:SheduleTable" />
@@ -109,30 +151,12 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="SheduleTable" nillable="true" type="tns:SheduleTable" />
-  <xs:complexType name="Shedule">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="Couple_ID" type="xs:int" />
-      <xs:element minOccurs="0" name="DayOfWeek" type="xs:int" />
-      <xs:element minOccurs="0" name="ID_Shedule" type="xs:int" />
-      <xs:element minOccurs="0" name="NumDem" type="xs:boolean" />
-      <xs:element minOccurs="0" name="Order_ID" type="xs:int" />
-      <xs:element minOccurs="0" name="Room_ID" type="xs:int" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="Shedule" nillable="true" type="tns:Shedule" />
   <xs:complexType name="ArrayOfSubject">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="Subject" nillable="true" type="tns:Subject" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOfSubject" nillable="true" type="tns:ArrayOfSubject" />
-  <xs:complexType name="Subject">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="ID_Subject" type="xs:int" />
-      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="Subject" nillable="true" type="tns:Subject" />
   <xs:complexType name="Authentication">
     <xs:sequence>
       <xs:element minOccurs="0" name="Role" nillable="true" type="xs:string" />

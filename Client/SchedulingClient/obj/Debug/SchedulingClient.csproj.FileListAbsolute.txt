@@ -84,3 +84,7 @@ C:\Users\Наталья\Source\Repos\autoScheduling5\Client\SchedulingClient\obj
 C:\Users\Наталья\Source\Repos\autoScheduling5\Client\SchedulingClient\obj\Debug\SchedulingClient.csproj.CoreCompileInputs.cache
 C:\Users\Наталья\Source\Repos\autoScheduling5\Client\SchedulingClient\obj\Debug\SchedulingClient.exe
 C:\Users\Наталья\Source\Repos\autoScheduling5\Client\SchedulingClient\obj\Debug\SchedulingClient.pdb
+C:\Users\tokin\Documents\GitHub\autoScheduling\Client\SchedulingClient\obj\Debug\Room.g.cs
+C:\Users\tokin\Documents\GitHub\autoScheduling\Client\SchedulingClient\obj\Debug\Subject.g.cs
+C:\Users\tokin\Documents\GitHub\autoScheduling\Client\SchedulingClient\obj\Debug\Room.baml
+C:\Users\tokin\Documents\GitHub\autoScheduling\Client\SchedulingClient\obj\Debug\Subject.baml
