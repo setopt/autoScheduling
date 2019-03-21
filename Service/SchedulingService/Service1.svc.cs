@@ -120,144 +120,53 @@ namespace SchedulingService
 
         public Group AddGroup(Group group)
         {
-            if (group.Name != "" && group.Number != 0)
+            using (db_schedule db = new db_schedule())
             {
-                string sql = "INSERT INTO [Group](Name, Number) VALUES (@Name,@Number)";
-                sql += ";SELECT SCOPE_IDENTITY();";
-                string sql_check_group = "SELECT COUNT(*) FROM [Group] WHERE Name = @name";
-
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                var count = db.Group
+                            .Where(s => s.Name == group.Name)
+                            .Count();
+                if (count == 0)
                 {
-                    connection.Open();
-                    SqlCommand command_check_gro = new SqlCommand(sql_check_group, connection);
-                    command_check_gro.Parameters.AddWithValue("@name", group.Name);
-                    int count_groups = (int)command_check_gro.ExecuteScalar();
-                    if (count_groups == 0)
-                    {
-                        SqlCommand command = new SqlCommand(sql, connection);
-
-                        SqlParameter NameParam = new SqlParameter
-                        {
-                            ParameterName = "@Name",
-                            Value = group.Name
-                        };
-                        command.Parameters.Add(NameParam);
-
-                        SqlParameter NumberParam = new SqlParameter
-                        {
-                            ParameterName = "@Number",
-                            Value = group.Number
-                        };
-                        command.Parameters.Add(NumberParam);
-
-                        int id = Convert.ToInt32(command.ExecuteScalar());
-                        group.ID_Group = id;
-                        
-                        connection.Close();
-                        return group;
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    db.Group.Add(group);
+                    db.SaveChanges();
                 }
             }
-            else
-            {
-                return group;
-            }            
+            return group;
         }
 
         public void UpdateGroup(Group group)
         {
-            string sql = "UPDATE [Group] SET Name = @Name,Number = @Number WHERE [Group].ID_Group = @ID;";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (db_schedule db = new db_schedule())
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
+                Group s = db.Group
+                    .Where(o => o.ID_Group == group.ID_Group)
+                    .FirstOrDefault();
+                s.Name = group.Name;
 
-                SqlParameter IDParam = new SqlParameter
-                {
-                    ParameterName = "@ID",
-                    Value = group.ID_Group
-                };
-                command.Parameters.Add(IDParam);
-
-                SqlParameter RoominessParam = new SqlParameter
-                {
-                    ParameterName = "@Name",
-                    Value = group.Name
-                };
-                command.Parameters.Add(RoominessParam);
-
-                SqlParameter NumberParam = new SqlParameter
-                {
-                    ParameterName = "@Number",
-                    Value = group.Number
-                };
-                command.Parameters.Add(NumberParam);
-
-                var result = command.ExecuteScalar();
-                connection.Close();
+                db.SaveChanges();
             }
         }
 
         public void DeleteGroup(int id)
         {
-            string sql = "DELETE FROM [Group] WHERE [Group].ID_Group = @ID";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (db_schedule db = new db_schedule())
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
-
-                SqlParameter IDParam = new SqlParameter
-                {
-                    ParameterName = "@ID",
-                    Value = id
-                };
-                command.Parameters.Add(IDParam);
-
-                var result = command.ExecuteScalar();
-                connection.Close();
+                Group group = db.Group
+                            .Where(o => o.ID_Group == id)
+                            .FirstOrDefault();
+                db.Group.Remove(group);
+                db.SaveChanges();
             }
         }
 
         public Group FindByIDGroup(int id)
         {
-            string sql = "SELECT * From [Group] WHERE ID_Group =@ID";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (db_schedule db = new db_schedule())
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
-
-                SqlParameter IDParam = new SqlParameter
-                {
-                    ParameterName = "@ID",
-                    Value = id
-                };
-                command.Parameters.Add(IDParam);
-
-                var reader = command.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    Group group = new Group();
-                    while (reader.Read())
-                    {
-                        group.ID_Group = reader.GetInt32(0);
-                        group.Name = reader.GetString(1);
-                        group.Number = reader.GetInt32(2);
-                    }
-                    connection.Close();
-
-                    return group;
-                }
-                else
-                {
-                    connection.Close();
-                    return null;
-                }
+                Group group = db.Group
+                            .Where(o => o.ID_Group == id)
+                            .FirstOrDefault();
+                return group;
             }
         }
 
@@ -329,192 +238,63 @@ namespace SchedulingService
         //class Room
         public List<Room> SelectRoom()
         {
-            string sql = "SELECT ID_Room as [ID]," +
-                            "Number as [Аудитория]," +
-                            "Roominess as [Вместимость]" +
-                        "FROM [Room]";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (db_schedule db = new db_schedule())
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
-
-                var reader = command.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    List<Room> Rooms = new List<Room>();
-
-                    while (reader.Read())
-                    {
-                        Room room = new Room
-                        {
-                            ID_Room = reader.GetInt32(0),
-                            Number = reader.GetString(1),
-                            Roominess = reader.GetInt32(2),
-                        };
-
-                        Rooms.Add(room);
-                    }
-                    connection.Close();
-
-                    return Rooms;
-
-                }
-                else
-                {
-                    connection.Close();
-                    return null;
-                }
+                List<Room> room = db.Room.ToList();
+                return room;
             }
         }
 
         public Room AddRoom(Room room)
         {
-            if (room.Number != "" && room.Roominess != 0)
+            using (db_schedule db = new db_schedule())
             {
-                string sql = "INSERT INTO [Room](Number, Roominess) VALUES (@Number,@Roominess)";
-                sql += ";SELECT SCOPE_IDENTITY();";
-                string sql_check_room = "SELECT COUNT(*) FROM [Room] WHERE Number = @number";
-
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                var count = db.Room
+                            .Where(s => s.Number == room.Number)
+                            .Count();
+                if (count == 0)
                 {
-                    connection.Open();
-                    SqlCommand command_check_user = new SqlCommand(sql_check_room, connection);
-                    command_check_user.Parameters.AddWithValue("@number", room.Number);
-                    int count_rooms = (int)command_check_user.ExecuteScalar();
-
-                    if (count_rooms == 0)
-                    {
-                        SqlCommand command = new SqlCommand(sql, connection);
-
-                        SqlParameter NumberParam = new SqlParameter
-                        {
-                            ParameterName = "@Number",
-                            Value = room.Number
-                        };
-                        command.Parameters.Add(NumberParam);
-
-                        SqlParameter RoominessParam = new SqlParameter
-                        {
-                            ParameterName = "@Roominess",
-                            Value = room.Roominess
-                        };
-                        command.Parameters.Add(RoominessParam);
-
-                        int id = Convert.ToInt32(command.ExecuteScalar());
-                        room.ID_Room = id;
-
-                        //var result = command.ExecuteScalar();
-                        connection.Close();
-                        return room;
-                    }
-                    else
-                    {
-                        return room;
-                    }
+                    db.Room.Add(room);
+                    db.SaveChanges();
                 }
             }
-            else
-            {
-                return room;
-            }
+            return room;
         }
 
         public void UpdateRoom(Room room)
         {
-            if (room.Number != "" && room.Roominess != 0)
+            using (db_schedule db = new db_schedule())
             {
-                string sql = "UPDATE [Room] SET Number = @Number,Roominess= @Roominess WHERE [Room].ID_Room = @ID;";
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    connection.Open();
-                    SqlCommand command = new SqlCommand(sql, connection);
+                Room s = db.Room
+                    .Where(o => o.ID_Room == room.ID_Room)
+                    .FirstOrDefault();
+                s.Number = room.Number;
 
-                    SqlParameter IDParam = new SqlParameter
-                    {
-                        ParameterName = "@ID",
-                        Value = room.ID_Room
-                    };
-                    command.Parameters.Add(IDParam);
-
-                    SqlParameter NumberParam = new SqlParameter
-                    {
-                        ParameterName = "@Number",
-                        Value = room.Number
-                    };
-                    command.Parameters.Add(NumberParam);
-
-                    SqlParameter RoominessParam = new SqlParameter
-                    {
-                        ParameterName = "@Roominess",
-                        Value = room.Roominess
-                    };
-                    command.Parameters.Add(RoominessParam);
-
-                    var result = command.ExecuteScalar();
-                    connection.Close();
-                }
+                db.SaveChanges();
             }
-            
+
         }
 
         public void DeleteRoom(int id)
         {
-            string sql = "DELETE FROM [Room] WHERE [Room].ID_Room = @ID";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (db_schedule db = new db_schedule())
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
-
-                SqlParameter IDParam = new SqlParameter
-                {
-                    ParameterName = "@ID",
-                    Value = id
-                };
-                command.Parameters.Add(IDParam);
-
-                var result = command.ExecuteScalar();
-                connection.Close();
+                Room room = db.Room
+                            .Where(o => o.ID_Room == id)
+                            .FirstOrDefault();
+                db.Room.Remove(room);
+                db.SaveChanges();
             }
         }
 
         public Room FindByIDRoom(int id)
         {
-            string sql = "SELECT * From [Room] WHERE ID_Room =@ID";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (db_schedule db = new db_schedule())
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
-
-                SqlParameter IDParam = new SqlParameter
-                {
-                    ParameterName = "@ID",
-                    Value = id
-                };
-                command.Parameters.Add(IDParam);
-
-                var reader = command.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    Room room = new Room();
-                    while (reader.Read())
-                    {
-                        room.ID_Room = reader.GetInt32(0);
-                        room.Number = reader.GetString(1);
-                        room.Roominess = reader.GetInt32(2);
-                    }
-                    connection.Close();
-
-                    return room;
-                }
-                else
-                {
-                    connection.Close();
-                    return null;
-                }
+                Room room = db.Room
+                            .Where(o => o.ID_Room == id)
+                            .FirstOrDefault();
+                return room;
             }
         }
 

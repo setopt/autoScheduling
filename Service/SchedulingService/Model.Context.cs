@@ -32,5 +32,10 @@ namespace SchedulingService
         public virtual DbSet<Shedule> Shedule { get; set; }
         public virtual DbSet<Subject> Subject { get; set; }
         public virtual DbSet<User> User { get; set; }
+
+        internal void SaveChanges()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
