@@ -508,7 +508,7 @@ namespace SchedulingService
             using (db_schedule db = new db_schedule())
             {
                 var tables = (from order in db.Order
-                             join shedule in db.Shedule on order.Shedule_ID equals shedule.ID_Shedule
+                             join shedule in db.Shedule on order.ID_Order equals shedule.Order_ID
                              join couple in db.Couple on shedule.Couple_ID equals couple.ID_Couple
                              join room in db.Room on shedule.Couple_ID equals room.ID_Room
                              join user in db.User on order.User_ID equals user.ID_User
@@ -534,7 +534,7 @@ namespace SchedulingService
                         User_name = table.User_name,
                         Subject_name = table.Subject_name,
                         Group_name = table.Group_name,
-                        Group_number = table.Group_name,
+                        Group_number =(int)table.Group_number,
                         NumberLessons = table.NumberLessons
                     };
                     orderList.Add(orde);
@@ -1005,6 +1005,33 @@ namespace SchedulingService
                 return auth;
             }
 
+        }
+
+        public void TransactionDeleteOrder(int id)
+        {
+            using (db_schedule db = new db_schedule())
+            {
+                using (var transaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        Order order = db.Order
+                                    .Where(o => o.ID_Order == id)
+                                    .FirstOrDefault();
+
+                        List<Shedule> shedules = db.Shedule
+                                        .Where(o => o.Order_ID == order.ID_Order).ToList();
+                        db.Shedule.RemoveRange(shedules);
+                        db.Order.Remove(order);
+                        db.SaveChanges();
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                    }
+                }
+            }
         }
 
         //собственно алгоритм
