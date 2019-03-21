@@ -505,57 +505,41 @@ namespace SchedulingService
         //class Order
         public List<OrderTable> OrderTable()
         {
-            string sql = "SELECT" +
-                        "[Order].Id_Order as [ID]," +
-                        "[User].Login as [Логин]," +
-                        "[User].Name as [Имя]," +
-                        "[Subject].Name as [Предмет]," +
-                        "[Group].Name as [Группа]," +
-                        "[Group].Number as [Количество учеников]," +
-                        "[Order].NumberLessons as [Количество занятий]" +
-                    "FROM" +
-                        "[Order],[Subject],[Group],[User]" +
-                    "WHERE " +
-                        "[Order].User_ID = [User].ID_User AND" +
-                        "[Order].Group_ID =[Group].ID_Group AND" +
-                        "[Order].Subject_ID = [Subject].ID_Subject";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (db_schedule db = new db_schedule())
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
-
-                var reader = command.ExecuteReader();
-
-                if (reader.HasRows)
+                var tables = (from order in db.Order
+                             join shedule in db.Shedule on order.Shedule_ID equals shedule.ID_Shedule
+                             join couple in db.Couple on shedule.Couple_ID equals couple.ID_Couple
+                             join room in db.Room on shedule.Couple_ID equals room.ID_Room
+                             join user in db.User on order.User_ID equals user.ID_User
+                             join gro in db.Group on order.Group_ID equals gro.ID_Group
+                             join subject in db.Subject on order.Subject_ID equals subject.ID_Subject
+                             select new
+                             {
+                                 order.ID_Order,
+                                 User_login = user.Login,
+                                 User_name = user.Name,
+                                 Subject_name = subject.Name,
+                                 Group_name = gro.Name,
+                                 Group_number = gro.Number,
+                                 order.NumberLessons
+                             });
+                List<OrderTable> orderList = new List<OrderTable>();
+                foreach(var table in tables)
                 {
-                    List<OrderTable> orderTables = new List<OrderTable>();
-
-                    while (reader.Read())
+                    OrderTable orde = new OrderTable
                     {
-                        OrderTable orderTable = new OrderTable
-                        {
-                            ID_Order = reader.GetInt32(0),
-                            User_login = reader.GetString(1),
-                            User_name = reader.GetString(2),
-                            Subject_name = reader.GetString(3),
-                            Group_name = reader.GetString(4),
-                            Group_number = reader.GetInt32(5),
-                            NumberLessons = reader.GetInt32(6),
-                        };
-
-                        orderTables.Add(orderTable);
-                    }
-                    connection.Close();
-
-                    return orderTables;
-
+                        ID_Order = table.ID_Order,
+                        User_login = table.User_login,
+                        User_name = table.User_name,
+                        Subject_name = table.Subject_name,
+                        Group_name = table.Group_name,
+                        Group_number = table.Group_name,
+                        NumberLessons = table.NumberLessons
+                    };
+                    orderList.Add(orde);
                 }
-                else
-                {
-                    connection.Close();
-                    return null;
-                }
+                return orderList;
             }
         }
 
