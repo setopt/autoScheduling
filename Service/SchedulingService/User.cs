@@ -21,7 +21,5 @@ namespace SchedulingService
         public string Login { get; set; }
         public string Password { get; set; }
         public string Role { get; set; }
-        public bool error { get; set; }
-        public string error_message { get; set; }
     }
 }

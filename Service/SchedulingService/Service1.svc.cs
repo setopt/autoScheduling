@@ -580,13 +580,16 @@ namespace SchedulingService
         }
 
         //class Shedule
-        //public List<Shedule> SheduleTable()
-        //{
-        //    using (db_schedule db = new db_schedule())
-        //    {
+        public List<Shedule> SheduleTable()
+        {
+            using (db_schedule db = new db_schedule())
+            {
+                List<Shedule> shedule = db.Shedule.ToList();
+                return shedule;
+            }
+        }
 
-        //    }
-        //}
+
 
         public bool CheckLoginUser(string login)
         {
