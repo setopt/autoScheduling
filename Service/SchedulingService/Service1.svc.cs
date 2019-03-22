@@ -638,11 +638,7 @@ namespace SchedulingService
                 Shedule sh = db.Shedule
                     .Where(s => s.ID_Shedule == shedule.ID_Shedule)
                     .FirstOrDefault();
-                sh.DayOfWeek = shedule.DayOfWeek;
-                sh.Couple_ID = shedule.Couple_ID;
-                sh.NumDem = shedule.NumDem;
                 sh.Order_ID = shedule.Order_ID;
-                sh.Room_ID = shedule.Room_ID;
                 db.SaveChanges();
             }
         }
@@ -771,6 +767,21 @@ namespace SchedulingService
                     sh.NumDem = Building.Classes[i].NumDel;
                     sh.Order_ID = Building.Orders[j].ID_Order;
                     sh.Room_ID = Building.Classes[i].Room;
+                    using (db_schedule db = new db_schedule())
+                    {
+                        Shedule shedule = db.Shedule
+                            .Where(s => s.DayOfWeek == sh.DayOfWeek && s.Couple_ID == sh.Couple_ID && s.NumDem == sh.NumDem && s.Room_ID == sh.Room_ID)
+                            .FirstOrDefault();
+                        if (shedule == null)
+                        {
+                            AddShedule(sh);
+                        }
+                        else
+                        {
+                            UpdateShedule(sh);
+                        }
+                        db.SaveChanges();
+                    }
                     //AddShedule(sh);
                 }
         }
