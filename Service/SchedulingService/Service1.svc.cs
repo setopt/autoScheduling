@@ -368,23 +368,24 @@ namespace SchedulingService
         {
             using (db_schedule db = new db_schedule())
             {
-                var tables = (from order in db.Order
-                             join shedule in db.Shedule on order.ID_Order equals shedule.Order_ID
-                             join couple in db.Couple on shedule.Couple_ID equals couple.ID_Couple
-                             join room in db.Room on shedule.Couple_ID equals room.ID_Room
-                             join user in db.User on order.User_ID equals user.ID_User
-                             join gro in db.Group on order.Group_ID equals gro.ID_Group
-                             join subject in db.Subject on order.Subject_ID equals subject.ID_Subject
-                             select new
-                             {
-                                 order.ID_Order,
-                                 User_login = user.Login,
-                                 User_name = user.Name,
-                                 Subject_name = subject.Name,
-                                 Group_name = gro.Name,
-                                 Group_number = gro.Number,
-                                 order.NumberLessons
-                             });
+                var tables = (from Order in db.Order
+                              from Subject in db.Subject
+                              from Group in db.Group
+                              from User in db.User
+                              where
+                              Order.User_ID == User.ID_User &&
+                              Order.Group_ID == Group.ID_Group &&
+                              Order.Subject_ID == Subject.ID_Subject
+                              select new
+                              {
+                                  Order.ID_Order,
+                                  User_login = User.Login,
+                                  User_name = User.Name,
+                                  Subject_name = Subject.Name,
+                                  Group_name = Group.Name,
+                                  Group_number = Group.Number,
+                                  Order.NumberLessons
+                              });
                 List<OrderTable> orderList = new List<OrderTable>();
                 foreach(var table in tables)
                 {
