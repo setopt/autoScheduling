@@ -92,20 +92,20 @@ namespace SchedulingService
         Group FindByIDGroup(int id);
 
         //shedule
-        [OperationContract]
-        List<SheduleTable> SheduleTable();              
+        //[OperationContract]
+        //List<SheduleTable> SheduleTable();              
 
-        [OperationContract]
-        Shedule AddShedule(Shedule shedule);
+        //[OperationContract]
+        //Shedule AddShedule(Shedule shedule);
 
-        [OperationContract]
-        void UpdateShedule(Shedule shedule);
+        //[OperationContract]
+        //void UpdateShedule(Shedule shedule);
 
-        [OperationContract]
-        void DeleteShedule(int id);
+        //[OperationContract]
+        //void DeleteShedule(int id);
 
-        [OperationContract]
-        Shedule FindByIDShedule(int id);
+        //[OperationContract]
+        //Shedule FindByIDShedule(int id);
 
         //subject
         [OperationContract]

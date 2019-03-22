@@ -301,43 +301,10 @@ namespace SchedulingService
         //class Couple
         public List<Couple> SelectCouple()
         {
-            string sql = "SELECT ID_Couple as [ID]," +
-                            "[Start] as [Начало]," +
-                            "[End] as [Конец]" +
-                        "FROM [Couple]";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (db_schedule db = new db_schedule())
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
-
-                var reader = command.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    List<Couple> Couples = new List<Couple>();
-
-                    while (reader.Read())
-                    {
-                        Couple сouple = new Couple
-                        {
-                            ID_Couple = reader.GetInt32(0),
-                            Start = reader.GetTimeSpan(1),
-                            End = reader.GetTimeSpan(2),
-                        };
-
-                        Couples.Add(сouple);
-                    }
-                    connection.Close();
-
-                    return Couples;
-
-                }
-                else
-                {
-                    connection.Close();
-                    return null;
-                }
+                List<Couple> couples = db.Couple.ToList();
+                return couples;
             }
         }
 
@@ -345,60 +312,13 @@ namespace SchedulingService
 		{
 			if(couple.Start != null && couple.End != null)
 			{
-				string sql = "INSERT INTO [Couple]([Start], [End]) VALUES (@Start, @End)";
-				sql += ";SELECT SCOPE_IDENTITY();";
-				string sql_check_start = "SELECT COUNT(*) FROM [User] WHERE TIMESTAMPDIFF(HOUR, [Start], @start) = 0 AND TIMESTAMPDIFF(MINUTE, [Start], @start) = 0";
-				string sql_check_end = "SELECT COUNT(*) FROM [User] WHERE TIMESTAMPDIFF(HOUR, [End], @end) = 0 AND TIMESTAMPDIFF(MINUTE, [End], @end) = 0";
-				string sql_check_start1 = "SELECT COUNT(*) FROM [User] WHERE TIMESTAMPDIFF(HOUR, [Start], @end) = 0 AND TIMESTAMPDIFF(MINUTE, [Start], @end) = 0";
-				string sql_check_end1 = "SELECT COUNT(*) FROM [User] WHERE IMESTAMPDIFF(HOUR, [End], @start) = 0 AND TIMESTAMPDIFF(MINUTE, [End], @start) = 0";
-				using (SqlConnection connection = new SqlConnection(connectionString))
-				{
-					connection.Open();
-					SqlCommand command_check_start = new SqlCommand(sql_check_start, connection);
-					command_check_start.Parameters.AddWithValue("@start", couple.Start);
-					int count_start = (int)command_check_start.ExecuteScalar();
-					
-					SqlCommand command_check_end = new SqlCommand(sql_check_end, connection);
-					command_check_start.Parameters.AddWithValue("@end", couple.End);
-					int count_end = (int)command_check_end.ExecuteScalar();
-					
-					SqlCommand command_check_start1 = new SqlCommand(sql_check_start1, connection);
-					command_check_start.Parameters.AddWithValue("@end", couple.Start);
-					int count_start1 = (int)command_check_start.ExecuteScalar();
-					
-					SqlCommand command_check_end1 = new SqlCommand(sql_check_end1, connection);
-					command_check_start.Parameters.AddWithValue("@start", couple.End);
-					int count_end1 = (int)command_check_end.ExecuteScalar();
-						
-					if(count_end == 0 && count_start == 0 && count_end1 == 0 && count_start1 == 0)
-					{
-						SqlCommand command = new SqlCommand(sql, connection);
-
-						SqlParameter StartParam = new SqlParameter
-						{
-							ParameterName = "@Start",
-							Value = couple.Start
-						};
-						command.Parameters.Add(StartParam);
-
-						SqlParameter EndParam = new SqlParameter
-						{
-							ParameterName = "@End",
-							Value = couple.End
-						};
-						command.Parameters.Add(EndParam);
-
-						var result = command.ExecuteScalar();
-						connection.Close();
-						return couple;
-					}
-					else
-					{						
-						connection.Close();
-						return couple;
-					}					
-				}
-			}
+                using (db_schedule db = new db_schedule())
+                {
+                    db.Couple.Add(couple);
+                    db.SaveChanges();
+                    return couple;
+                }
+            }
 			else
 			{
 				return couple;
@@ -409,96 +329,37 @@ namespace SchedulingService
         {
 			if(couple.Start != null && couple.End != null)
 			{
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (db_schedule db = new db_schedule())
                 {
-                    string sql = "UPDATE [Couple] SET [Start] = @Start, [End]= @End WHERE [Couple].ID_Couple = @ID;";
-				
-					connection.Open();
-					SqlCommand command = new SqlCommand(sql, connection);
-
-					SqlParameter IDParam = new SqlParameter
-					{
-						ParameterName = "@ID",
-						Value = couple.ID_Couple
-					};
-					command.Parameters.Add(IDParam);
-
-					SqlParameter StartParam = new SqlParameter
-					{
-						ParameterName = "@Start",
-						Value = couple.Start
-					};
-					command.Parameters.Add(StartParam);
-
-					SqlParameter EndParam = new SqlParameter
-					{
-						ParameterName = "@End",
-						Value = couple.End
-					};
-					command.Parameters.Add(EndParam);
-
-					var result = command.ExecuteScalar();
-					connection.Close();
-				}				
-			}
+                    Couple c = db.Couple
+                        .Where(s => s.ID_Couple == couple.ID_Couple)
+                        .FirstOrDefault();
+                    c.Start = couple.Start;
+                    c.End = couple.End;
+                }
+            }
         }
 
         public void DeleteCouple(int id)
         {
-            string sql = "DELETE FROM [Couple] WHERE [Couple].ID_Couple = @ID";
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (db_schedule db = new db_schedule())
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
-
-                SqlParameter IDParam = new SqlParameter
-                {
-                    ParameterName = "@ID",
-                    Value = id
-                };
-                command.Parameters.Add(IDParam);
-
-                var result = command.ExecuteScalar();
-                connection.Close();
+                Couple couple = db.Couple
+                    .Where(s => s.ID_Couple == id)
+                    .FirstOrDefault();
+                db.Couple.Remove(couple);
+                db.SaveChanges();
             }
         }
 
         public Couple FindByIDCouple(int id)
         {
-            string sql = "SELECT * From [Couple] WHERE ID_Couple =@ID";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (db_schedule db = new db_schedule())
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
-
-                SqlParameter IDParam = new SqlParameter
-                {
-                    ParameterName = "@ID",
-                    Value = id
-                };
-                command.Parameters.Add(IDParam);
-
-                var reader = command.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    Couple couple = new Couple();
-                    while (reader.Read())
-                    {
-                        couple.ID_Couple = reader.GetInt32(0);
-                        couple.Start = reader.GetTimeSpan(1);
-                        couple.End = reader.GetTimeSpan(2);
-                    }
-                    connection.Close();
-
-                    return couple;
-                }
-                else
-                {
-                    connection.Close();
-                    return null;
-                }
+                Couple couple = db.Couple
+                    .Where(s => s.ID_Couple == id)
+                    .FirstOrDefault();
+                return couple;
             }
         }
 
@@ -719,234 +580,13 @@ namespace SchedulingService
         }
 
         //class Shedule
-        public List<SheduleTable> SheduleTable()
-        {
-            using (db_schedule db = new db_schedule())
-            {
-                var tables = (from shedule in db.Shedule
-                             join order in db.Order on shedule.Order_ID equals order.ID_Order
-                             join couple in db.Couple on shedule.Couple_ID equals couple.ID_Couple
-                             join room in db.Room on shedule.Couple_ID equals room.ID_Room
-                             join user in db.User on order.User_ID equals user.ID_User
-                             join gro in db.Group on order.Group_ID equals gro.ID_Group
-                             join subject in db.Subject on order.Subject_ID equals subject.ID_Subject
-                             select new
-                             {
-                                 shedule.ID_Shedule,
-                                 User_name = user.Name,
-                                 Room_number = room.Number,
-                                 Subject_name = subject.Name,
-                                 Group_name = gro.Name,
-                                 shedule.DayOfWeek,
-                                 shedule.NumDem
-                             });
-                List<SheduleTable> sheduleList = new List<SheduleTable>();
-                foreach(var table in tables)
-                {
-                    SheduleTable shed = new SheduleTable
-                    {
-                        ID_Shedule = table.ID_Shedule,
-                        User_name = table.User_name,
-                        Room_number = table.Room_number,
-                        Subject_name = table.Subject_name,
-                        Group_name = table.Group_name,
-                        DayOfWeek = table.DayOfWeek,
-                        NumDem = table.NumDem
-                    };
-                    sheduleList.Add(shed);
-                }
-                return sheduleList;
-            }
-        }
+        //public List<Shedule> SheduleTable()
+        //{
+        //    using (db_schedule db = new db_schedule())
+        //    {
 
-        public Shedule AddShedule(Shedule shedule)
-        {
-            string sql = "INSERT INTO [Shedule]" +
-                            "(Room_ID, Order_ID, Couple_ID, DayOfWeek, NumDem)" +
-                        "VALUES " +
-                            "(@Room_ID,@Order_ID,@Couple_ID,@DayOfWeeks,@NumDems)";
-            sql += ";SELECT SCOPE_IDENTITY();";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
-
-
-                SqlParameter Room_IDParam = new SqlParameter
-                {
-                    ParameterName = "@Room_ID",
-                    Value = shedule.Room_ID
-                };
-                command.Parameters.Add(Room_IDParam);
-
-                SqlParameter Order_IDParam = new SqlParameter
-                {
-                    ParameterName = "@Order_ID",
-                    Value = shedule.Order_ID
-                };
-                command.Parameters.Add(Order_IDParam);
-
-                SqlParameter Couple_IDParam = new SqlParameter
-                {
-                    ParameterName = "@Couple_ID",
-                    Value = shedule.Couple_ID
-                };
-                command.Parameters.Add(Couple_IDParam);
-
-                SqlParameter DayOfWeeksParam = new SqlParameter
-                {
-                    ParameterName = "@DayOfWeeks",
-                    Value = shedule.DayOfWeek
-                };
-                command.Parameters.Add(DayOfWeeksParam);
-
-                SqlParameter NumDemsParam = new SqlParameter
-                {
-                    ParameterName = "@NumDems",
-                    Value = shedule.NumDem
-                };
-                command.Parameters.Add(NumDemsParam);
-
-                int id = Convert.ToInt32(command.ExecuteScalar());
-                shedule.ID_Shedule = id;
-                
-                connection.Close();
-                return shedule;
-            }
-        }
-
-        public void UpdateShedule(Shedule shedule)
-        {
-            string sql = "UPDATE " +
-                            "[Shedule] " +
-                        "SET " +
-                            "Room_ID=@Room_ID," +
-                            "Order_ID=@Order_ID," +
-                            "Couple_ID=@Couple_ID," +
-                            "DayOfWeek=@DayOfWeeks," +
-                            "NumDem=@NumDems " +
-                        "WHERE " +
-                            "[Shedule].ID_Shedule = @ID";
-
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
-
-                SqlParameter IDParam = new SqlParameter
-                {
-                    ParameterName = "@ID",
-                    Value = shedule.ID_Shedule
-                };
-                command.Parameters.Add(IDParam);
-
-                SqlParameter Room_IDParam = new SqlParameter
-                {
-                    ParameterName = "@Room_ID",
-                    Value = shedule.Room_ID
-                };
-                command.Parameters.Add(Room_IDParam);
-
-                SqlParameter Order_IDParam = new SqlParameter
-                {
-                    ParameterName = "@Order_ID",
-                    Value = shedule.Order_ID
-                };
-                command.Parameters.Add(Order_IDParam);
-
-                SqlParameter Couple_IDParam = new SqlParameter
-                {
-                    ParameterName = "@Couple_ID",
-                    Value = shedule.Couple_ID
-                };
-                command.Parameters.Add(Couple_IDParam);
-
-                SqlParameter DayOfWeeksParam = new SqlParameter
-                {
-                    ParameterName = "@DayOfWeeks",
-                    Value = shedule.DayOfWeek
-                };
-                command.Parameters.Add(DayOfWeeksParam);
-
-                SqlParameter NumDemsParam = new SqlParameter
-                {
-                    ParameterName = "@NumDems",
-                    Value = shedule.NumDem
-                };
-                command.Parameters.Add(NumDemsParam);
-
-                var result = command.ExecuteScalar();
-                connection.Close();
-            }
-        }
-
-        public void DeleteShedule(int id)
-        {
-            string sql = "DELETE FROM " +
-                            "[Shedule] " +
-                        "WHERE " +
-                            "[Shedule].ID_Shedule = @ID";
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
-
-                SqlParameter IDParam = new SqlParameter
-                {
-                    ParameterName = "@ID",
-                    Value = id
-                };
-                command.Parameters.Add(IDParam);
-
-                var result = command.ExecuteScalar();
-                connection.Close();
-            }
-        }
-
-        public Shedule FindByIDShedule(int id)
-        {
-            string sql = "SELECT * FROM [Shedule] WHERE [Shedule].ID_Shedule = @ID";
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sql, connection);
-
-                SqlParameter IDParam = new SqlParameter
-                {
-                    ParameterName = "@ID",
-                    Value = id
-                };
-                command.Parameters.Add(IDParam);
-
-                var reader = command.ExecuteReader();
-
-                if (reader.HasRows)
-                {
-                    Shedule shedule = new Shedule();
-
-                    while (reader.Read())
-                    {
-                        shedule.ID_Shedule = (int)reader["ID_Shedule"];
-                        shedule.Room_ID = (int)reader["Room_ID"];
-                        shedule.Order_ID = (int)reader["Order_ID"];
-                        shedule.Couple_ID = (int)reader["Couple_ID"];
-                        shedule.DayOfWeek = (int)reader["DayOfWeek"];
-                        shedule.NumDem = (bool)reader["NumDem"];
-                    }
-                    connection.Close();
-
-                    return shedule;
-
-                }
-                else
-                {
-                    connection.Close();
-                    return null;
-                }
-            }
-        }
+        //    }
+        //}
 
         public bool CheckLoginUser(string login)
         {
@@ -1048,7 +688,7 @@ namespace SchedulingService
                     sh.NumDem = Building.Classes[i].NumDel;
                     sh.Order_ID = Building.Orders[j].ID_Order;
                     sh.Room_ID = Building.Classes[i].Room;
-                    AddShedule(sh);
+                    //AddShedule(sh);
                 }
         }
     }        
