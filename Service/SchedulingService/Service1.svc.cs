@@ -620,7 +620,56 @@ namespace SchedulingService
             }
         }
 
-        
+        public Shedule AddShedule(Shedule shedule)
+        {
+            using (db_schedule db = new db_schedule())
+            {
+                db.Shedule.Add(shedule);
+                db.SaveChanges();
+                return shedule;
+            }
+            
+        }
+
+        public void UpdateShedule(Shedule shedule)
+        {
+            using (db_schedule db = new db_schedule())
+            {
+                Shedule sh = db.Shedule
+                    .Where(s => s.ID_Shedule == shedule.ID_Shedule)
+                    .FirstOrDefault();
+                sh.DayOfWeek = shedule.DayOfWeek;
+                sh.Couple_ID = shedule.Couple_ID;
+                sh.NumDem = shedule.NumDem;
+                sh.Order_ID = shedule.Order_ID;
+                sh.Room_ID = shedule.Room_ID;
+                db.SaveChanges();
+            }
+        }
+
+        public void DeleteShedule(int id)
+        {
+            using (db_schedule db = new db_schedule())
+            {
+                Shedule shedule = db.Shedule
+                    .Where(s => s.ID_Shedule == id)
+                    .FirstOrDefault();
+                db.Shedule.Remove(shedule);
+                db.SaveChanges();
+            }
+        }
+
+        public Shedule FindByIDShedule(int id)
+        {
+            using (db_schedule db = new db_schedule())
+            {
+                Shedule shedule = db.Shedule
+                    .Where(s => s.ID_Shedule == id)
+                    .FirstOrDefault();
+                db.SaveChanges();
+                return shedule;
+            }
+        }
 
         public bool CheckLoginUser(string login)
         {
