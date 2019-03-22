@@ -580,13 +580,47 @@ namespace SchedulingService
         }
 
         //class Shedule
-        //public List<Shedule> SheduleTable()
-        //{
-        //    using (db_schedule db = new db_schedule())
-        //    {
+        public List<SheduleTable> SheduleTable()
+        {
+            using (db_schedule db = new db_schedule())
+            {
+                var tables = (from shedule in db.Shedule
+                              join order in db.Order on shedule.Order_ID equals order.ID_Order
+                              join couple in db.Couple on shedule.Couple_ID equals couple.ID_Couple
+                              join room in db.Room on shedule.Couple_ID equals room.ID_Room
+                              join user in db.User on order.User_ID equals user.ID_User
+                              join gro in db.Group on order.Group_ID equals gro.ID_Group
+                              join subject in db.Subject on order.Subject_ID equals subject.ID_Subject
+                              select new
+                              {
+                                  shedule.ID_Shedule,
+                                  User_name = user.Name,
+                                  Room_number = room.Number,
+                                  Subject_name = subject.Name,
+                                  Group_name = gro.Name,
+                                  shedule.DayOfWeek,
+                                  shedule.NumDem
+                              });
+                List<SheduleTable> sheduleList = new List<SheduleTable>();
+                foreach (var table in tables)
+                {
+                    SheduleTable shed = new SheduleTable
+                    {
+                        ID_Shedule = table.ID_Shedule,
+                        User_name = table.User_name,
+                        Room_number = table.Room_number,
+                        Subject_name = table.Subject_name,
+                        Group_name = table.Group_name,
+                        DayOfWeek = table.DayOfWeek,
+                        NumDem = table.NumDem
+                    };
+                    sheduleList.Add(shed);
+                }
+                return sheduleList;
+            }
+        }
 
-        //    }
-        //}
+        
 
         public bool CheckLoginUser(string login)
         {
